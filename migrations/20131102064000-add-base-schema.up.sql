@@ -1,0 +1,136 @@
+CREATE OR REPLACE FUNCTION Update_Last_Updated_Column()
+RETURNS TRIGGER AS '
+BEGIN
+   NEW.last_updated = now(); 
+   RETURN NEW;
+END; ' language 'plpgsql';
+
+CREATE TABLE IF NOT EXISTS Users (
+    username VARCHAR(512) NOT NULL,
+        CONSTRAINT Lowercase_Username
+        CHECK (LOWER(username) = username),
+    email VARCHAR(512) NOT NULL,
+        CONSTRAINT Lowercase_Email
+        CHECK (LOWER(email) = email),
+    password VARCHAR(512) NOT NULL,
+    mail_confirmed BOOLEAN DEFAULT false NOT NULL,
+    active BOOLEAN DEFAULT true NOT NULL,
+    date_created TIMESTAMP(2)
+        DEFAULT CURRENT_TIMESTAMP
+        NOT NULL,
+    last_updated TIMESTAMP(2)
+        DEFAULT CURRENT_TIMESTAMP
+        NOT NULL,
+    PRIMARY KEY (username),
+    CONSTRAINT Unique_Email 
+    UNIQUE (email)
+);
+
+DROP TRIGGER IF EXISTS Update_Users_Timestamp on Users;
+CREATE TRIGGER Update_Users_Timestamp BEFORE UPDATE ON Users 
+    FOR EACH ROW EXECUTE PROCEDURE
+    Update_Last_Updated_Column();
+
+CREATE TABLE IF NOT EXISTS Roles (
+    -- The role code should be a working name
+    -- for each role
+    role_code VARCHAR(64) NOT NULL,
+    description VARCHAR(1024) NOT NULL,
+    date_created TIMESTAMP(2)
+        DEFAULT CURRENT_TIMESTAMP
+        NOT NULL,
+    last_updated TIMESTAMP(2)
+        DEFAULT CURRENT_TIMESTAMP
+        NOT NULL,
+    PRIMARY KEY (role_code)
+);
+
+DROP TRIGGER IF EXISTS Update_Roles_Timestamp on Roles;
+CREATE TRIGGER Update_Roles_Timestamp BEFORE UPDATE ON Roles
+    FOR EACH ROW EXECUTE PROCEDURE
+    Update_Last_Updated_Column();
+
+CREATE TABLE IF NOT EXISTS Role_Assignments (
+    username VARCHAR(512) NOT NULL
+        REFERENCES Users (username)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    role_code VARCHAR(64) NOT NULL
+        REFERENCES Roles (role_code)
+        ON UPDATE CASCADE,
+    date_created TIMESTAMP(2)
+        DEFAULT CURRENT_TIMESTAMP
+        NOT NULL,
+    last_updated TIMESTAMP(2)
+        DEFAULT CURRENT_TIMESTAMP
+        NOT NULL,
+    PRIMARY KEY (username, role_code)
+);
+
+DROP TRIGGER IF EXISTS Update_Role_Assignments_Timestamp on Role_Assignments;
+CREATE TRIGGER Update_Role_Assignments_Timestamp BEFORE UPDATE ON Role_Assignments
+    FOR EACH ROW EXECUTE PROCEDURE
+    Update_Last_Updated_Column();
+
+CREATE TABLE IF NOT EXISTS Role_Permissions (
+    role_code VARCHAR(64) NOT NULL
+        REFERENCES Roles (role_code)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    permission VARCHAR(1024) NOT NULL,
+    PRIMARY KEY (role_code, permission)
+);
+
+CREATE TABLE IF NOT EXISTS Person_Permissions (
+    username VARCHAR(64) NOT NULL
+        REFERENCES Users (username)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    permission VARCHAR(1024) NOT NULL,
+    PRIMARY KEY (username, permission)
+);
+CREATE TABLE IF NOT EXISTS Error_Sources (
+    name VARCHAR(255) NOT NULL,
+    description VARCHAR(4096),
+    date_created TIMESTAMP(2)
+        DEFAULT CURRENT_TIMESTAMP
+        NOT NULL,
+    last_updated TIMESTAMP(2)
+        DEFAULT CURRENT_TIMESTAMP
+        NOT NULL,
+    PRIMARY KEY (name)
+);
+
+DROP TRIGGER IF EXISTS Update_Error_Sources_Timestamp on Error_Sources;
+CREATE TRIGGER Update_Error_Sources_Timestamp BEFORE UPDATE ON Error_Sources
+    FOR EACH ROW EXECUTE PROCEDURE
+    Update_Last_Updated_Column();
+
+CREATE UNLOGGED TABLE IF NOT EXISTS Errors (
+    error_sha1 VARCHAR(50) NOT NULL,
+    error_text TEXT NOT NULL,
+    error_source VARCHAR(255) NOT NULL
+        REFERENCES Error_Sources (name)
+        ON UPDATE RESTRICT
+        ON DELETE RESTRICT,
+    first_appearance TIMESTAMP(2)
+        DEFAULT CURRENT_TIMESTAMP
+        NOT NULL,
+    PRIMARY KEY (error_sha1)
+);
+
+CREATE UNLOGGED TABLE IF NOT EXISTS Error_Events (
+    error_sha1 VARCHAR(50) NOT NULL
+        REFERENCES Errors (error_sha1)
+        ON UPDATE RESTRICT
+        ON DELETE RESTRICT,
+    username VARCHAR(512) NOT NULL
+        REFERENCES Users (username)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    event_date TIMESTAMP(2)
+        DEFAULT CURRENT_TIMESTAMP
+        NOT NULL,
+    PRIMARY KEY (error_sha1, event_date, username)
+);
+
