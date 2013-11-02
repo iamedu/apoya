@@ -1,0 +1,6 @@
+{:http {:port 3000
+        :host "0.0.0.0"}
+ :https {:port 3443
+         :host "0.0.0.0"}
+ :logback-file "data/logback.xml"
+ :nrepl-port 7888}
