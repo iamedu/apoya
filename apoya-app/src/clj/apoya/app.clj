@@ -45,6 +45,7 @@
 (defroutes app-routes
   jclouds-resource
   fleet-resource
+  (GET "/" [] (fleet-resource {:uri "/index.html"}))
   (route/not-found "Not found"))
 
 (def app (middleware/app-handler
