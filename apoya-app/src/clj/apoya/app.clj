@@ -24,14 +24,24 @@
         (let [compile-fn (fleet [label] template {:escaping :xml})]
           {:body (.toString (compile-fn i18n/label))})))))
 
-(defn jclouds-resource [{:keys [uri]}]
+(defn jclouds-resource [{:keys [uri headers]}]
   (when (and (not (.endsWith uri "/"))
              (fs/site-blob-exists? uri))
     (let [mime-type (mime-type-of uri)
-          body (-> (fs/get-site-blob uri)
+          if-none-match (get headers "if-none-match")
+          res-blob (fs/get-site-blob uri)
+          etag (-> res-blob
+                   (.getMetadata)
+                   (.getETag))
+          body (-> res-blob
                    (.getPayload)
                    (.getInput))]
-      (response/content-type {:body body :status 200} mime-type))))
+      (if-not (= etag if-none-match)
+        (response/content-type {:body body
+                                :headers {"etag" etag}
+                                :status 200}
+                               mime-type)
+        {:status 304 :body "" :headers {"etag" etag}}))))
 
 (defn handle-errors [handler]
   (fn [request]
