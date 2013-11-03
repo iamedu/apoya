@@ -24,21 +24,21 @@
     (LessEngine. less-options (jclouds-loader))))
 
 (defn watch-folders [config]
-  (let [engine (build-engine)]
-    (doseq [{:keys [watch source target site]} config]
-      (letfn [(compile-less []
-                (binding [cfg/*current-site* site]
-                  (fs/put-site-blob
-                    target
-                    (.compile engine (File. source)))
-                  (log/info "Compiled into" target "for site" site)))]
-        (start-watch [{:path watch
-                       :event-types [:create :modify :delete]
-                       :bootstrap (fn [path]
-                                    (log/info "Starting to watch" path)
-                                    (compile-less))
-                       :callback (fn [event filename]
-                                   (log/info "Less file modification" event filename site)
-                                   (compile-less))
-                       :options {:recursive true}}])))))
-
+  (let [engine (build-engine)
+        watches (for [{:keys [watch source target site]} config]
+                  (letfn [(compile-less []
+                            (binding [cfg/*current-site* site]
+                              (fs/put-site-blob
+                                target
+                                (.compile engine (File. source)))
+                              (log/info "Compiled into" target "for site" site)))]
+                    {:path watch
+                     :event-types [:create :modify :delete]
+                     :bootstrap (fn [path]
+                                  (log/info "Starting to watch" path)
+                                  (compile-less))
+                     :callback (fn [event filename]
+                                 (log/info "Less file modification" event filename site)
+                                 (compile-less))
+                     :options {:recursive true}}))]
+    (start-watch watches)))

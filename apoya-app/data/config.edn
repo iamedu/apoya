@@ -12,5 +12,9 @@
  :less [{:site :default
          :watch "data/fs/sites/default/less"
          :source "/less/bootstrap.less"
+         :target "/css/bootstrap.css"}
+        {:site :test.sample.com
+         :watch "data/fs/sites/test.sample.com/less"
+         :source "/less/bootstrap.less"
          :target "/css/bootstrap.css"}]
  :nrepl-port 7888}
