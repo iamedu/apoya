@@ -1,0 +1,21 @@
+{
+  "name": "default",
+  "version": "0.0.0",
+  "dependencies": {
+    "html5shiv": "latest",
+    "respond": "latest"
+  },
+  "authors": [
+    "Eduardo Díaz <iamedu@gmail.com>"
+  ],
+  "description": "Dependencies for fortress sites",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
