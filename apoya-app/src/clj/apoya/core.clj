@@ -59,7 +59,7 @@
     (when nrepl-port
       (log/info "Starting nrepl server at port" nrepl-port)
       (nrepl/start-server :port nrepl-port))
-    (fortress/run-fortress app http)))
+    (fortress/run-fortress app fortress-config)))
 
 (defn -main [& args]
   (let [[options args banner] (cli args
