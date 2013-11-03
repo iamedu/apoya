@@ -23,6 +23,7 @@
                  [clj-time "0.6.0"]
                  [clj-pdf "1.11.6"
                   :exclusions [org.bouncycastle/bctsp-jdk14]]
+                 [com.asual.lesscss/lesscss-engine "1.4.2"] 
                  [org.clojars.ato/clojure-jsr223 "1.5.1"]
                  [org.codehaus.groovy/groovy "2.1.9"]
                  [org.codehaus.groovy/groovy-xml "2.1.9"]

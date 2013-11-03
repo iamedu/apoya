@@ -5,4 +5,10 @@
  :logback-file "data/logback.xml"
  :ssl {:crt-file "ssl/server.crt"
        :key-file "ssl/server.key"}
+ :system-properties {:jclouds.filesystem.basedir "data/fs"}
+ :blobstore {:blob-type "filesystem"
+             :account ""
+             :encoded-key ""}
+ :less [{:source "less/default/less.css"
+         :target "data/fs/sites/default/css/bootstrap.css"}]
  :nrepl-port 7888}
