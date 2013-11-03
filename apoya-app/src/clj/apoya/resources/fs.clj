@@ -1,4 +1,4 @@
-(ns apoya.fs
+(ns apoya.resources.fs
   (:require [apoya.config :as cfg])
   (:use org.jclouds.blobstore2))
 

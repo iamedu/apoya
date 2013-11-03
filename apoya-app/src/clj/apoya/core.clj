@@ -1,9 +1,9 @@
 (ns apoya.core
   (:use compojure.core)
   (:require [apoya.config :as cfg]
-            [apoya.fs :as fs]
-            [apoya.less :as less]
             [apoya.app :refer [app]]
+            [apoya.resources.less :as less]
+            [apoya.resources.fs :as fs]
             [clojure.tools.cli :refer [cli]] 
             [clojure.tools.logging :as log]
             [clojure.tools.nrepl.server :as nrepl]

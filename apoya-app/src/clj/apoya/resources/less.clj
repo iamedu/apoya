@@ -1,5 +1,5 @@
-(ns apoya.less
-  (:require [apoya.fs :as fs]
+(ns apoya.resources.less
+  (:require [apoya.resources.fs :as fs]
             [apoya.config :as cfg]
             [clojure.tools.logging :as log]
             [clojure-watch.core :refer  [start-watch]])

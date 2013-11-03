@@ -2,8 +2,8 @@
   (:use compojure.core
         fleet)
   (:require [apoya.config :as cfg]
-            [apoya.fs :as fs]
             [apoya.i18n :as i18n]
+            [apoya.resources.fs :as fs]
             [compojure.route :as route]
             [pantomime.mime :refer [mime-type-of]]
             [noir.util.middleware :as middleware]
