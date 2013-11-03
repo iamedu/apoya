@@ -1,11 +1,19 @@
-CREATE OR REPLACE FUNCTION Update_Last_Updated_Column()
+CREATE FUNCTION Update_Last_Updated_Column()
 RETURNS TRIGGER AS '
 BEGIN
    NEW.last_updated = now(); 
    RETURN NEW;
 END; ' language 'plpgsql';
 
-CREATE TABLE IF NOT EXISTS Users (
+CREATE TABLE Sites (
+    domain VARCHAR(100) NOT NULL,
+    description VARCHAR(4096),
+    PRIMARY KEY(domain)
+);
+
+CREATE TYPE User_Status AS ENUM ('not-entered', 'filling-profile', 'full-profile');
+
+CREATE TABLE Users (
     username VARCHAR(512) NOT NULL,
         CONSTRAINT Lowercase_Username
         CHECK (LOWER(username) = username),
@@ -14,6 +22,7 @@ CREATE TABLE IF NOT EXISTS Users (
         CHECK (LOWER(email) = email),
     password VARCHAR(512) NOT NULL,
     mail_confirmed BOOLEAN DEFAULT false NOT NULL,
+    status User_Status NOT NULL DEFAULT 'not-entered',
     active BOOLEAN DEFAULT true NOT NULL,
     date_created TIMESTAMP(2)
         DEFAULT CURRENT_TIMESTAMP
@@ -26,12 +35,11 @@ CREATE TABLE IF NOT EXISTS Users (
     UNIQUE (email)
 );
 
-DROP TRIGGER IF EXISTS Update_Users_Timestamp on Users;
 CREATE TRIGGER Update_Users_Timestamp BEFORE UPDATE ON Users 
     FOR EACH ROW EXECUTE PROCEDURE
     Update_Last_Updated_Column();
 
-CREATE TABLE IF NOT EXISTS Roles (
+CREATE TABLE Roles (
     -- The role code should be a working name
     -- for each role
     role_code VARCHAR(64) NOT NULL,
@@ -45,12 +53,11 @@ CREATE TABLE IF NOT EXISTS Roles (
     PRIMARY KEY (role_code)
 );
 
-DROP TRIGGER IF EXISTS Update_Roles_Timestamp on Roles;
 CREATE TRIGGER Update_Roles_Timestamp BEFORE UPDATE ON Roles
     FOR EACH ROW EXECUTE PROCEDURE
     Update_Last_Updated_Column();
 
-CREATE TABLE IF NOT EXISTS Role_Assignments (
+CREATE TABLE Role_Assignments (
     username VARCHAR(512) NOT NULL
         REFERENCES Users (username)
         ON UPDATE CASCADE
@@ -67,12 +74,11 @@ CREATE TABLE IF NOT EXISTS Role_Assignments (
     PRIMARY KEY (username, role_code)
 );
 
-DROP TRIGGER IF EXISTS Update_Role_Assignments_Timestamp on Role_Assignments;
 CREATE TRIGGER Update_Role_Assignments_Timestamp BEFORE UPDATE ON Role_Assignments
     FOR EACH ROW EXECUTE PROCEDURE
     Update_Last_Updated_Column();
 
-CREATE TABLE IF NOT EXISTS Role_Permissions (
+CREATE TABLE Role_Permissions (
     role_code VARCHAR(64) NOT NULL
         REFERENCES Roles (role_code)
         ON UPDATE CASCADE
@@ -81,7 +87,7 @@ CREATE TABLE IF NOT EXISTS Role_Permissions (
     PRIMARY KEY (role_code, permission)
 );
 
-CREATE TABLE IF NOT EXISTS Person_Permissions (
+CREATE TABLE Person_Permissions (
     username VARCHAR(64) NOT NULL
         REFERENCES Users (username)
         ON UPDATE CASCADE
@@ -89,8 +95,8 @@ CREATE TABLE IF NOT EXISTS Person_Permissions (
     permission VARCHAR(1024) NOT NULL,
     PRIMARY KEY (username, permission)
 );
-CREATE TABLE IF NOT EXISTS Error_Sources (
-    name VARCHAR(255) NOT NULL,
+CREATE TABLE Error_Sources (
+    name VARCHAR(50) NOT NULL,
     description VARCHAR(4096),
     date_created TIMESTAMP(2)
         DEFAULT CURRENT_TIMESTAMP
@@ -101,12 +107,11 @@ CREATE TABLE IF NOT EXISTS Error_Sources (
     PRIMARY KEY (name)
 );
 
-DROP TRIGGER IF EXISTS Update_Error_Sources_Timestamp on Error_Sources;
 CREATE TRIGGER Update_Error_Sources_Timestamp BEFORE UPDATE ON Error_Sources
     FOR EACH ROW EXECUTE PROCEDURE
     Update_Last_Updated_Column();
 
-CREATE UNLOGGED TABLE IF NOT EXISTS Errors (
+CREATE UNLOGGED TABLE Errors (
     error_sha1 VARCHAR(50) NOT NULL,
     error_text TEXT NOT NULL,
     error_source VARCHAR(255) NOT NULL
@@ -119,18 +124,44 @@ CREATE UNLOGGED TABLE IF NOT EXISTS Errors (
     PRIMARY KEY (error_sha1)
 );
 
-CREATE UNLOGGED TABLE IF NOT EXISTS Error_Events (
+CREATE TYPE Error_Severity AS ENUM ('INFO', 'WARNING', 'DANGER', 'FATAL');
+
+CREATE UNLOGGED TABLE Error_Events (
+    event_sha1 VARCHAR(50) NOT NULL,
     error_sha1 VARCHAR(50) NOT NULL
         REFERENCES Errors (error_sha1)
         ON UPDATE RESTRICT
         ON DELETE RESTRICT,
-    username VARCHAR(512) NOT NULL
+    username VARCHAR(512)
         REFERENCES Users (username)
         ON UPDATE CASCADE
         ON DELETE CASCADE,
+    domain VARCHAR(100)
+        REFERENCES Sites (domain)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    severity Error_Severity NOT NULL,
+    metadata xml,
     event_date TIMESTAMP(2)
         DEFAULT CURRENT_TIMESTAMP
         NOT NULL,
-    PRIMARY KEY (error_sha1, event_date, username)
+    PRIMARY KEY (event_sha1)
 );
+
+CREATE TABLE Labels (
+    label_key VARCHAR(120) NOT NULL,
+    domain VARCHAR(100) NOT NULL
+        REFERENCES Sites (domain)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    language VARCHAR(20) NOT NULL,
+    PRIMARY KEY(label_key, domain, language)
+);
+
+--- Data
+INSERT INTO Error_Sources(name, description) VALUES ('webapp', 'Something happened with the webapp, most errors should be related to this');
+INSERT INTO Error_Sources(name, description) VALUES ('mq', 'There was an error when processing a message in the messaging queue');
+INSERT INTO Error_Sources(name, description) VALUES ('netty', 'There was an error with fortress or the netty library');
+
+INSERT INTO Sites(domain, description) VALUES('default', 'Default website, when nobody else has entered!');
 

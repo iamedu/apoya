@@ -1,3 +1,4 @@
+DROP TABLE Labels;
 DROP TABLE Error_Events;
 DROP TABLE Errors;
 DROP TRIGGER Update_Error_Sources_Timestamp on Error_Sources;
@@ -10,5 +11,6 @@ DROP TRIGGER Update_Roles_Timestamp on Roles;
 DROP TABLE Roles;
 DROP TRIGGER Update_Users_Timestamp on Users;
 DROP TABLE Users;
+DROP TABLE Sites;
+DROP TYPE Error_Severity;
 DROP FUNCTION Update_Last_Updated_Column();
-
