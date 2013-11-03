@@ -3,9 +3,19 @@
   (:import [com.asual.lesscss LessOptions LessEngine]
            [java.io File]))
 
-(def engine (LessEngine.))
+(defn jclouds-loader []
+  (proxy [com.asual.lesscss.loader.ResourceLoader] []
+    (exists [path]
+      (fs/site-blob-exists? path))
+    (load [path charset]
+      (let [payload (-> (fs/get-site-blob path)
+                        (.getPayload))
+            text (slurp (.getInput payload))]
+        (.release payload)
+        text))))
 
-(defn compile-less [input output]
-  (let [in-file (File. input)
-        out-file (File. output)]
-    (.compile engine in-file out-file)))
+(defn build-engine []
+  (let [less-options (doto (LessOptions.)
+                       (.setCompress true)
+                       (.setOptimization (int 10)))]
+    (LessEngine. less-options (jclouds-loader))))
