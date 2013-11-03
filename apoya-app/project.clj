@@ -13,6 +13,7 @@
                  [fortress-ring-adapter "0.1.0-SNAPSHOT"]
                  [compojure "1.1.6"]
                  [lib-noir "0.7.4"]
+                 [bk/ring-gzip "0.1.1"]
                  [jarohen/nomad "0.5.1"]
                  [com.novemberain/pantomime "2.0.0"]
                  [ch.qos.logback/logback-core "1.0.13"]

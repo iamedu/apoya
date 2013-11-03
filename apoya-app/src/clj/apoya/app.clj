@@ -5,7 +5,10 @@
             [apoya.fs :as fs]
             [apoya.i18n :as i18n]
             [compojure.route :as route]
+            [pantomime.mime :refer [mime-type-of]]
             [noir.util.middleware :as middleware]
+            [ring.util.response :as response]
+            [ring.middleware.gzip :as gzip]
             [clojure.tools.logging :as log]
             [clojure.string :as s]))
 
@@ -24,9 +27,11 @@
 (defn jclouds-resource [{:keys [uri]}]
   (when (and (not (.endsWith uri "/"))
              (fs/site-blob-exists? uri))
-    {:body (-> (fs/get-site-blob uri)
-               (.getPayload)
-               (.getInput))}))
+    (let [mime-type (mime-type-of uri)
+          body (-> (fs/get-site-blob uri)
+                   (.getPayload)
+                   (.getInput))]
+      (response/content-type {:body body :status 200} mime-type))))
 
 (defn handle-errors [handler]
   (fn [request]
@@ -52,7 +57,8 @@
 (def app (middleware/app-handler
            [app-routes]
            :middleware [handle-errors
-                        site-chooser]
+                        site-chooser
+                        gzip/wrap-gzip]
            :access-rules []
            :formats [:edn]))
 
