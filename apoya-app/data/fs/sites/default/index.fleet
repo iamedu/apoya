@@ -16,17 +16,24 @@
     <![endif]-->
 </head>
 <body>
-<div class="container">
-    <h1><(label :hello :default "Hello world")></h1>
-    <form class="form-signin">
-        <h2 class="form-signin-heading">Please sign in</h2>
-        <input type="text" class="form-control" placeholder="Email address" required autofocus>
-        <input type="password" class="form-control" placeholder="Password" required>
-        <label class="checkbox">
-            <input type="checkbox" value="remember-me"> Remember me
-        </label>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-    </form>
-</div>
+    <div class="container">
+        <h1><(label :hello :default "Hello world")></h1>
+        <form class="form-signin">
+            <h2 class="form-signin-heading">Please sign in</h2>
+            <input type="text" class="form-control" placeholder="Email address" required autofocus>
+            <input type="password" class="form-control" placeholder="Password" required>
+            <label class="checkbox">
+                <input type="checkbox" value="remember-me"> Remember me
+            </label>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        </form>
+    </div>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="bower_components/jquery/jquery.min.js"><\/script>')</script>
+    <script>                                                                                                                                      
+        var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];                                                                               
+        (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];                                                                               g.src='//www.google-analytics.com/ga.js';                                                                                                 
+        s.parentNode.insertBefore(g,s)}(document,'script'));                                                                                      
+    </script>
 </body>
 </html>
