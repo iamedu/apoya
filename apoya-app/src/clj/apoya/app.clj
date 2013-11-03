@@ -36,7 +36,7 @@
           body (-> res-blob
                    (.getPayload)
                    (.getInput))]
-      (if-not (= etag if-none-match)
+      (if (or (nil? etag) (not= etag if-none-match))
         (response/content-type {:body body
                                 :headers {"etag" etag}
                                 :status 200}
