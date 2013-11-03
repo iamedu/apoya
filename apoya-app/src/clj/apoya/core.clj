@@ -10,7 +10,9 @@
             [fortress.util :as util]
             [compojure.route :as route]
             [nomad :refer [defconfig]])
-  (:import [ch.qos.logback.classic.joran JoranConfigurator]
+  (:import [java.awt GraphicsEnvironment]
+           [javax.swing JPasswordField JOptionPane]
+           [ch.qos.logback.classic.joran JoranConfigurator]
            [ch.qos.logback.core.util StatusPrinter]
            [org.slf4j LoggerFactory])
   (:gen-class))
@@ -31,6 +33,13 @@
 
 (defn read-password []
   (cond
+    (not (GraphicsEnvironment/isHeadless)) (let [pf (JPasswordField.)
+                                                 result (JOptionPane/showConfirmDialog nil pf
+                                                                                       "Fortress: Enter certificate password"
+                                                                                       JOptionPane/OK_CANCEL_OPTION
+                                                                                       JOptionPane/PLAIN_MESSAGE)]
+                                             (if (= result JOptionPane/OK_OPTION)
+                                               (.getPassword pf)))
     (not (nil? (System/console))) (.readPassword (System/console) "Private key password: " (object-array 0))))
 
 (defn build-ssl-context [key-file crt-file]
