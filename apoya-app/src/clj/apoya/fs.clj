@@ -23,3 +23,11 @@
                (str "/" path))]
     (some #(get-blob sites-base "sites" (str (name %) path)) [cfg/*current-site* :default])))
 
+(defn put-site-blob [path source]
+  (let [path (if (.startsWith path "/")
+               path
+               (str "/" path))
+        path (str (name cfg/*current-site*) path)
+        new-blob (blob path :payload (payload source))]
+    (put-blob sites-base "sites" new-blob)))
+

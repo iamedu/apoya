@@ -21,6 +21,7 @@
                  [org.postgresql/postgresql "9.2-1003-jdbc4"]
                  [ragtime "0.3.4"]
                  [clj-time "0.6.0"]
+                 [clojure-watch "LATEST"]
                  [clj-pdf "1.11.6"
                   :exclusions [org.bouncycastle/bctsp-jdk14]]
                  [com.asual.lesscss/lesscss-engine "1.4.2"] 

@@ -2,6 +2,7 @@
   (:use compojure.core)
   (:require [apoya.config :as cfg]
             [apoya.fs :as fs]
+            [apoya.less :as less]
             [clojure.tools.cli :refer [cli]] 
             [clojure.tools.logging :as log]
             [clojure.tools.nrepl.server :as nrepl]
@@ -39,6 +40,7 @@
       (log/info "Starting nrepl server at port" nrepl-port)
       (nrepl/start-server :port nrepl-port))
     (fs/setup-blobstore (get (cfg/apoya-config) :blobstore))
+    (less/watch-folders (get (cfg/apoya-config) :less))
     (fortress/run-fortress app fortress-config)))
 
 (defn -main [& args]
