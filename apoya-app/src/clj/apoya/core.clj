@@ -3,23 +3,18 @@
   (:require [apoya.config :as cfg]
             [apoya.fs :as fs]
             [apoya.less :as less]
+            [apoya.app :refer [app]]
             [clojure.tools.cli :refer [cli]] 
             [clojure.tools.logging :as log]
             [clojure.tools.nrepl.server :as nrepl]
             [fortress.ring.server :as fortress]
             [fortress.ssl.context :as ssl-ctx]
             [fortress.util :as util]
-            [compojure.route :as route]
             [nomad :refer [defconfig]])
   (:import [ch.qos.logback.classic.joran JoranConfigurator]
            [ch.qos.logback.core.util StatusPrinter]
            [org.slf4j LoggerFactory])
   (:gen-class))
-
-(defroutes app 
-  (GET "/"  [] "<h1>Hello World</h1>")
-  (GET "/adios" [] (/ 1 0))
-  (route/not-found "<h1>Page not found</h1>"))
 
 (defn load-logback [logback-file]
   (let [context (doto (LoggerFactory/getILoggerFactory)
@@ -40,8 +35,8 @@
       (log/info "Starting nrepl server at port" nrepl-port)
       (nrepl/start-server :port nrepl-port))
     (fs/setup-blobstore (get (cfg/apoya-config) :blobstore))
-    (less/watch-folders (get (cfg/apoya-config) :less))
-    (fortress/run-fortress app fortress-config)))
+    (fortress/run-fortress app fortress-config)
+    (less/watch-folders (get (cfg/apoya-config) :less))))
 
 (defn -main [& args]
   (let [[options args banner] (cli args

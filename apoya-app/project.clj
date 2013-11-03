@@ -22,6 +22,7 @@
                  [ragtime "0.3.4"]
                  [clj-time "0.6.0"]
                  [clojure-watch "LATEST"]
+                 [fleet "0.10.1"]
                  [clj-pdf "1.11.6"
                   :exclusions [org.bouncycastle/bctsp-jdk14]]
                  [com.asual.lesscss/lesscss-engine "1.4.2"] 
@@ -33,7 +34,7 @@
                  [org.bouncycastle/bcpkix-jdk15on "1.49"]
                  [org.bouncycastle/bcprov-jdk15on "1.49"]
                  [commons-codec "1.8"]]
-  :source-paths  ["src/clj"]
+  :source-paths ["src/clj"]
   :plugins [[lein-cljsbuild "0.3.4"]
             [ragtime/ragtime.lein "0.3.4"]]
   :cljsbuild {;;:crossovers [uxtweet.front]
