@@ -1,9 +1,9 @@
 (ns apoya.core
   (:use compojure.core)
-  (:require [clojure.tools.cli :refer [cli]] 
+  (:require [apoya.config :as cfg]
+            [clojure.tools.cli :refer [cli]] 
             [clojure.tools.logging :as log]
             [clojure.tools.nrepl.server :as nrepl]
-            [clojure.java.io :as io]
             [fortress.ring.server :as fortress]
             [fortress.ssl.context :as ssl-ctx]
             [fortress.util :as util]
@@ -13,8 +13,6 @@
            [ch.qos.logback.core.util StatusPrinter]
            [org.slf4j LoggerFactory])
   (:gen-class))
-
-(declare apoya-config)
 
 (defroutes app 
   (GET "/"  [] "<h1>Hello World</h1>")
@@ -30,7 +28,7 @@
     (StatusPrinter/printInCaseOfErrorsOrWarnings context)))
 
 (defn start-system []
-  (let [{:keys [nrepl-port http logback-file ssl]} (apoya-config)
+  (let [{:keys [nrepl-port http logback-file ssl]} (cfg/apoya-config)
         {:keys [key-file crt-file]} ssl
         fortress-config (assoc http
                                :ssl-context (ssl-ctx/build-ssl-context key-file crt-file util/read-password))]
@@ -49,6 +47,6 @@
     (when help
       (println banner)
       (System/exit 0))
-    (defconfig apoya-config (io/file config))
+    (cfg/load-config config)
     (start-system)))
 
