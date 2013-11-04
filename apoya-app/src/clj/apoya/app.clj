@@ -11,8 +11,18 @@
             [noir.util.middleware :as middleware]
             [ring.util.response :as response]
             [ring.middleware.gzip :as gzip]
+            [cemerick.friend :as friend]
+            (cemerick.friend [workflows :as workflows]
+                             [credentials :as creds])
             [clojure.tools.logging :as log]
             [clojure.string :as s]))
+
+(def users {"root" {:username "root"
+                    :password (creds/hash-bcrypt "admin_password")
+                    :roles #{::admin}}
+            "jane" {:username "jane"
+                    :password (creds/hash-bcrypt "user_password")
+                    :roles #{::user}}})
 
 (defn fleet-resource [{:keys [uri]}]
   (when (.endsWith uri ".html")
@@ -74,11 +84,21 @@
   fleet-resource
   (GET "/" [] (fleet-resource {:uri "/index.html"}))
   (GET "/hola" [] (/ 1 0))
+  (POST "/login" [])
+  (POST "/upload" request
+        (println request))
+  (GET "/adios" [] (friend/authorize #{::admin}
+                                     "Admin page"))
   (route/not-found (fn [_]
                      (fleet-resource {:uri "/404.html"}))))
 
+(def secured-routes
+  (-> app-routes
+      (friend/authenticate {:credential-fn (partial creds/bcrypt-credential-fn users)
+                            :workflows [(workflows/interactive-form)]})))
+
 (def app (middleware/app-handler
-           [app-routes]
+           [secured-routes]
            :middleware [handle-errors
                         language-chooser
                         site-chooser

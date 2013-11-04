@@ -18,14 +18,9 @@
 <body>
     <div class="container">
         <h1><(label :hello :default "Hello world")></h1>
-        <form class="form-signin" action="/login" method="POST">
-            <h2 class="form-signin-heading">Please sign in</h2>
-            <input name="username" type="text" class="form-control" placeholder="Email address" required autofocus>
-            <input name="password" type="password" class="form-control" placeholder="Password" required>
-            <label class="checkbox">
-                <input type="checkbox" value="remember-me"> Remember me
-            </label>
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <form class="form-signin" action="/upload" method="POST" enctype="multipart/form-data">
+            <input name="archivin" type="file" class="form-control" required>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Upload</button>
         </form>
     </div>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
@@ -37,3 +32,4 @@
     </script>
 </body>
 </html>
+

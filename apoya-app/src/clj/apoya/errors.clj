@@ -39,7 +39,7 @@
         json-meta (json/generate-string (dissoc request :body))
         {:keys [error_sha1]} (find-error error-string)
         event-sha1 (util/random-sha1)]
-    (log/warn cause "There was an unhandled error for url" (:uri request))
+    (log/warn cause "There was an unhandled error for site" cfg/*current-site* "and url" (:uri request))
     (write-error @cfg/database
                  {:metadata json-meta
                   :event_sha1 event-sha1
