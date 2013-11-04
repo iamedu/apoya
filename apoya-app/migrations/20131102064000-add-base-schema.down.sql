@@ -1,3 +1,4 @@
+DROP TRIGGER Update_Labels_Timestamp on Labels;
 DROP TABLE Labels;
 DROP TABLE Error_Events;
 DROP TABLE Errors;
@@ -11,6 +12,7 @@ DROP TRIGGER Update_Roles_Timestamp on Roles;
 DROP TABLE Roles;
 DROP TRIGGER Update_Users_Timestamp on Users;
 DROP TABLE Users;
+DROP TRIGGER Update_Sites_Timestamp on Sites;
 DROP TABLE Sites;
 DROP TABLE Languages;
 DROP TYPE Error_Severity;

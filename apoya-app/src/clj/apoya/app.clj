@@ -72,6 +72,7 @@
   jclouds-resource
   fleet-resource
   (GET "/" [] (fleet-resource {:uri "/index.html"}))
+  (GET "/hola" [] (/ 1 0))
   (route/not-found (fn [_]
                      (fleet-resource {:uri "/404.html"}))))
 

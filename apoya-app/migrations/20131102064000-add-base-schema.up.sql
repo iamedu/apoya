@@ -8,8 +8,18 @@ END; ' language 'plpgsql';
 CREATE TABLE Sites (
     domain VARCHAR(100) NOT NULL,
     description VARCHAR(4096),
+    date_created TIMESTAMP(2)
+        DEFAULT CURRENT_TIMESTAMP
+        NOT NULL,
+    last_updated TIMESTAMP(2)
+        DEFAULT CURRENT_TIMESTAMP
+        NOT NULL,
     PRIMARY KEY(domain)
 );
+
+CREATE TRIGGER Update_Sites_Timestamp BEFORE UPDATE ON Sites
+    FOR EACH ROW EXECUTE PROCEDURE
+    Update_Last_Updated_Column();
 
 CREATE TABLE Languages (
     language VARCHAR(20) NOT NULL,
@@ -119,10 +129,6 @@ CREATE TRIGGER Update_Error_Sources_Timestamp BEFORE UPDATE ON Error_Sources
 CREATE UNLOGGED TABLE Errors (
     error_sha1 VARCHAR(50) NOT NULL,
     error_text TEXT NOT NULL,
-    error_source VARCHAR(255) NOT NULL
-        REFERENCES Error_Sources (name)
-        ON UPDATE RESTRICT
-        ON DELETE RESTRICT,
     first_appearance TIMESTAMP(2)
         DEFAULT CURRENT_TIMESTAMP
         NOT NULL,
@@ -141,6 +147,10 @@ CREATE UNLOGGED TABLE Error_Events (
         REFERENCES Users (username)
         ON UPDATE CASCADE
         ON DELETE CASCADE,
+    error_source VARCHAR(255) NOT NULL
+        REFERENCES Error_Sources (name)
+        ON UPDATE RESTRICT
+        ON DELETE RESTRICT,
     domain VARCHAR(100)
         REFERENCES Sites (domain)
         ON UPDATE CASCADE
@@ -164,8 +174,18 @@ CREATE TABLE Labels (
         REFERENCES Languages (language)
         ON UPDATE CASCADE
         ON DELETE CASCADE,
+    date_created TIMESTAMP(2)
+        DEFAULT CURRENT_TIMESTAMP
+        NOT NULL,
+    last_updated TIMESTAMP(2)
+        DEFAULT CURRENT_TIMESTAMP
+        NOT NULL,
     PRIMARY KEY(label_key, domain, language)
 );
+
+CREATE TRIGGER Update_Labels_Timestamp BEFORE UPDATE ON Labels
+    FOR EACH ROW EXECUTE PROCEDURE
+    Update_Last_Updated_Column();
 
 --- Data
 INSERT INTO Error_Sources(name, description) VALUES ('webapp', 'Something happened with the webapp, most errors should be related to this');

@@ -2,6 +2,7 @@
   (:use compojure.core)
   (:require [apoya.config :as cfg]
             [apoya.app :refer [app]]
+            [apoya.errors :as errors]
             [apoya.data.schema :as schema]
             [apoya.resources.less :as less]
             [apoya.resources.fs :as fs]
@@ -29,6 +30,7 @@
   (let [{:keys [nrepl-port http logback-file ssl]} (cfg/apoya-config)
         {:keys [key-file crt-file]} ssl
         fortress-config (assoc http
+                               :error-fn #'errors/fortress-error
                                :ssl-context (ssl-ctx/build-ssl-context key-file crt-file util/read-password))]
     (when logback-file
       (load-logback logback-file))

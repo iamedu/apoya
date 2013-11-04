@@ -1,10 +1,23 @@
 (ns fortress.util
+  (:require [clojure.string :as s])
   (:import [java.awt GraphicsEnvironment]
            [javax.swing JPasswordField JOptionPane]
+           [java.security MessageDigest]  
            [java.util UUID]))
+
+(defn sha1
+  "Generates a SHA-1 hash of the given input plaintext."
+  [input]
+  (let [md  (MessageDigest/getInstance "SHA-1")]
+    (. md update (.getBytes input))
+    (let  [digest (.digest md)]
+      (s/join "" (map #(Integer/toHexString  (bit-and % 0xff)) digest)))))
 
 (defn random-uuid-str []
   (.toString (UUID/randomUUID)))
+
+(defn random-sha1 []
+  (sha1 (random-uuid-str)))
 
 (defn read-password []
   (cond
