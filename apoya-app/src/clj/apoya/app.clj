@@ -78,7 +78,7 @@
 
 (def app (middleware/app-handler
            [app-routes]
-           :middleware [handle-errors
+           :middleware [#_handle-errors
                         language-chooser
                         site-chooser
                         gzip/wrap-gzip]

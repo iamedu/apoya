@@ -13,6 +13,9 @@
     (.printStackTrace cause print-stream)
     (.toString output-stream)))
 
+(defmulti write-error (fn [database _]
+                        (get-in database [:options :subprotocol])))
+
 (defn find-error [error-string]
   (let [error-sha1 (util/sha1 error-string)]
     (or (first (select errors
@@ -21,14 +24,22 @@
                 (values {:error_sha1 error-sha1
                          :error_text error-string})))))
 
+(defmethod write-error "postgresql"
+  [_ {:keys [event_sha1 error_sha1 severity error_source]}]
+  (insert error-events
+          (values {:event_sha1 event_sha1
+                   :error_sha1 error_sha1
+                   :severity (enum-cast severity :Error_Severity)
+                   :error_source error_source})))
+
 (defn fortress-error [_ cause]
   (let [error-string (str-throwable cause)
         {:keys [error_sha1]} (find-error error-string)
         event-sha1 (util/random-sha1)]
     (log/fatal cause "An error wasn't handled by the webapp, check what's happening NOW.")
-    (insert error-events
-            (values {:event_sha1 event-sha1
-                     :error_sha1 error_sha1
-                     :severity (enum-cast :FATAL :Error_Severity)
-                     :error_source "netty"}))))
+    (write-error @cfg/database
+                 {:event_sha1 event-sha1
+                  :error_sha1 error_sha1
+                  :severity :FATAL
+                  :error_source "netty"})))
 

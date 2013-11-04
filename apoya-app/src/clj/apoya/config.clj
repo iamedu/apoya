@@ -6,6 +6,8 @@
 (def ^:dynamic *current-site* :default)
 (def ^:dynamic *language* :en)
 
+(defonce database (atom nil))
+
 (declare apoya-config)
 
 (defn load-config [config]

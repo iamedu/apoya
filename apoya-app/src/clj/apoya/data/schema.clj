@@ -1,5 +1,6 @@
 (ns apoya.data.schema
-  (:require [clojure.tools.logging :as log])
+  (:require [apoya.config :as cfg]
+            [clojure.tools.logging :as log])
   (:use korma.db
         korma.core))
 
@@ -26,4 +27,6 @@
 
 (defn setup-database [config]
   (log/info "Loading database config" (:db config))
-  (default-connection (create-db config)))
+  (let [db (create-db config)]
+    (reset! cfg/database db)
+    (default-connection db)))
