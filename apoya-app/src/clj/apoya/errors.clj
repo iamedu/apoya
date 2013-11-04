@@ -1,6 +1,7 @@
 (ns apoya.errors
   (:require [apoya.config :as cfg]
             [fortress.util :as util]
+            [cheshire.core :as json]
             [clojure.stacktrace :as sta]
             [clojure.tools.logging :as log])
   (:use korma.core
@@ -25,12 +26,26 @@
                          :error_text error-string})))))
 
 (defmethod write-error "postgresql"
-  [_ {:keys [event_sha1 error_sha1 severity error_source]}]
+  [_ {:keys [event_sha1 error_sha1 severity error_source metadata]}]
   (insert error-events
-          (values {:event_sha1 event_sha1
+          (values {:metadata (json-cast metadata)
+                   :event_sha1 event_sha1
                    :error_sha1 error_sha1
                    :severity (enum-cast severity :Error_Severity)
                    :error_source error_source})))
+
+(defn webapp-error [request cause]
+  (let [error-string (str-throwable cause)
+        json-meta (json/generate-string (dissoc request :body))
+        {:keys [error_sha1]} (find-error error-string)
+        event-sha1 (util/random-sha1)]
+    (log/warn cause "There was an unhandled error for url" (:uri request))
+    (write-error @cfg/database
+                 {:metadata json-meta
+                  :event_sha1 event-sha1
+                  :error_sha1 error_sha1
+                  :severity :DANGER
+                  :error_source "webapp"})))
 
 (defn fortress-error [_ cause]
   (let [error-string (str-throwable cause)

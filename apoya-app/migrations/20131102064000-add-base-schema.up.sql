@@ -156,7 +156,7 @@ CREATE UNLOGGED TABLE Error_Events (
         ON UPDATE CASCADE
         ON DELETE CASCADE,
     severity Error_Severity NOT NULL,
-    metadata xml,
+    metadata json,
     event_date TIMESTAMP(2)
         DEFAULT CURRENT_TIMESTAMP
         NOT NULL,

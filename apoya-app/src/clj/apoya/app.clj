@@ -3,6 +3,7 @@
         fleet)
   (:require [apoya.config :as cfg]
             [apoya.i18n :as i18n]
+            [apoya.errors :as errors]
             [apoya.resources.fs :as fs]
             [apoya.data.site :as site]
             [compojure.route :as route]
@@ -49,7 +50,7 @@
     (try
       (handler request)
       (catch Exception e
-        (log/fatal e "Cannot handle" request)
+        (errors/webapp-error request e)
         {:status 500
          :body "Error"}))))
 
@@ -78,7 +79,7 @@
 
 (def app (middleware/app-handler
            [app-routes]
-           :middleware [#_handle-errors
+           :middleware [handle-errors
                         language-chooser
                         site-chooser
                         gzip/wrap-gzip]
