@@ -17,4 +17,8 @@
          :watch "data/fs/sites/test.sample.com/less"
          :source "/less/bootstrap.less"
          :target "/css/bootstrap.css"}]
+ :db {:make-pool? true
+      :classname "org.postgresql.Driver"
+      :subprotocol "postgresql"
+      :subname "//localhost:5432/apoya"}
  :nrepl-port 7888}

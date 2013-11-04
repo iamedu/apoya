@@ -4,6 +4,7 @@
   (:require [apoya.config :as cfg]
             [apoya.i18n :as i18n]
             [apoya.resources.fs :as fs]
+            [apoya.data.site :as site]
             [compojure.route :as route]
             [pantomime.mime :refer [mime-type-of]]
             [noir.util.middleware :as middleware]
@@ -52,10 +53,20 @@
         {:status 500
          :body "Error"}))))
 
+(defn language-chooser [handler]
+  (fn [request]
+    (let [selected-language (i18n/find-supported-language request)]
+      (binding [cfg/*language* selected-language]
+        (handler request)))))
+
 (defn site-chooser [handler]
   (fn [request]
-    (binding [cfg/*current-site* (keyword (get-in request [:headers "host"]))]
-      (handler request))))
+    (let [prospected-site (keyword (get-in request [:headers "host"]))
+          correct-site (if (site/site-exists? prospected-site)
+                         prospected-site
+                         :default)]
+      (binding [cfg/*current-site* correct-site]
+        (handler request)))))
 
 (defroutes app-routes
   jclouds-resource
@@ -67,6 +78,7 @@
 (def app (middleware/app-handler
            [app-routes]
            :middleware [handle-errors
+                        language-chooser
                         site-chooser
                         gzip/wrap-gzip]
            :access-rules []

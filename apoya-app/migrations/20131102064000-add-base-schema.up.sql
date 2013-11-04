@@ -11,6 +11,11 @@ CREATE TABLE Sites (
     PRIMARY KEY(domain)
 );
 
+CREATE TABLE Languages (
+    language VARCHAR(20) NOT NULL,
+    PRIMARY KEY(language)
+);
+
 CREATE TYPE User_Status AS ENUM ('not-entered', 'filling-profile', 'full-profile');
 
 CREATE TABLE Users (
@@ -150,11 +155,15 @@ CREATE UNLOGGED TABLE Error_Events (
 
 CREATE TABLE Labels (
     label_key VARCHAR(120) NOT NULL,
+    label_text TEXT NOT NULL,
     domain VARCHAR(100) NOT NULL
         REFERENCES Sites (domain)
         ON UPDATE CASCADE
         ON DELETE CASCADE,
-    language VARCHAR(20) NOT NULL,
+    language VARCHAR(20) NOT NULL
+        REFERENCES Languages (language)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
     PRIMARY KEY(label_key, domain, language)
 );
 
@@ -163,5 +172,6 @@ INSERT INTO Error_Sources(name, description) VALUES ('webapp', 'Something happen
 INSERT INTO Error_Sources(name, description) VALUES ('mq', 'There was an error when processing a message in the messaging queue');
 INSERT INTO Error_Sources(name, description) VALUES ('netty', 'There was an error with fortress or the netty library');
 
+INSERT INTO Languages(language) VALUES ('en');
 INSERT INTO Sites(domain, description) VALUES('default', 'Default website, when nobody else has entered!');
 

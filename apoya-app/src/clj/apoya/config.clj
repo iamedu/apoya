@@ -4,6 +4,8 @@
             [clojure.java.io :as io]))
 
 (def ^:dynamic *current-site* :default)
+(def ^:dynamic *language* :en)
+
 (declare apoya-config)
 
 (defn load-config [config]

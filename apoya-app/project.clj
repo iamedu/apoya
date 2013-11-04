@@ -20,6 +20,7 @@
                  [ch.qos.logback/logback-classic "1.0.13"]
                  [org.jclouds/jclouds-allblobstore "1.6.0"]
                  [org.postgresql/postgresql "9.2-1003-jdbc4"]
+                 [korma "0.3.0-RC6"]
                  [ragtime "0.3.4"]
                  [clj-time "0.6.0"]
                  [clojure-watch "LATEST"]

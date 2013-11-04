@@ -12,5 +12,7 @@ DROP TABLE Roles;
 DROP TRIGGER Update_Users_Timestamp on Users;
 DROP TABLE Users;
 DROP TABLE Sites;
+DROP TABLE Languages;
 DROP TYPE Error_Severity;
+DROP TYPE User_Status;
 DROP FUNCTION Update_Last_Updated_Column();
