@@ -8,6 +8,7 @@
                  [org.clojure/tools.cli "0.2.4"]
                  [org.clojure/tools.logging "0.2.6"]
                  [org.clojure/tools.nrepl "0.2.3"]
+                 [org.clojure/java.jmx "0.2.0"]
                  [ring/ring-core "1.2.0"]
                  [ring/ring-devel "1.2.0"]
                  [fortress-ring-adapter "0.1.0-SNAPSHOT"]
