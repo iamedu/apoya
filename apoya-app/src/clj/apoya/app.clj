@@ -5,6 +5,7 @@
             [apoya.i18n :as i18n]
             [apoya.errors :as errors]
             [apoya.resources.fs :as fs]
+            [apoya.resources.optimize :as opt]
             [apoya.data.site :as site]
             [compojure.route :as route]
             [pantomime.mime :refer [mime-type-of]]
@@ -82,7 +83,9 @@
 (defroutes app-routes
   jclouds-resource
   fleet-resource
-  (GET "/" [] (fleet-resource {:uri "/index.html"}))
+  (GET "/" [] (opt/links (fleet-resource {:uri "/index.html"})
+                         [["css/bootstrap.css" :subresource]
+                          ["bower_components/store.js/store.min.js"]]))
   (GET "/hola" [] (/ 1 0))
   (POST "/login" [])
   (POST "/upload" request)
