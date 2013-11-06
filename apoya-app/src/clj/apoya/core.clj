@@ -27,9 +27,10 @@
     (StatusPrinter/printInCaseOfErrorsOrWarnings context)))
 
 (defn start-system []
-  (let [{:keys [nrepl-port http logback-file ssl]} (cfg/apoya-config)
+  (let [{:keys [nrepl-port http logback-file ssl temp-path]} (cfg/apoya-config)
         {:keys [key-file crt-file]} ssl
         fortress-config (assoc http
+                               :temp-path temp-path
                                :error-fn #'errors/fortress-error
                                :ssl-context (ssl-ctx/build-ssl-context key-file crt-file util/read-password))]
     (when logback-file

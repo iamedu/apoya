@@ -2,6 +2,7 @@
         :ssl-port 3443
         :ssl? true
         :host "0.0.0.0"}
+ :temp-path "tmp"
  :logback-file "data/logback.xml"
  :ssl {:crt-file "ssl/server.crt"
        :key-file "ssl/server.key"}
