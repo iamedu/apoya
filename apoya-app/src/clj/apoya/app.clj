@@ -85,8 +85,7 @@
   (GET "/" [] (fleet-resource {:uri "/index.html"}))
   (GET "/hola" [] (/ 1 0))
   (POST "/login" [])
-  (POST "/upload" request
-        (println request))
+  (POST "/upload" request)
   (GET "/adios" [] (friend/authorize #{::admin}
                                      "Admin page"))
   (route/not-found (fn [_]
@@ -103,6 +102,8 @@
                         language-chooser
                         site-chooser
                         gzip/wrap-gzip]
+           :multipart {:store (fn [{:keys [filename content-type stream]}]
+                                )}
            :access-rules []
            :formats [:edn]))
 
