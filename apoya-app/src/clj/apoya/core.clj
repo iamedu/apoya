@@ -6,6 +6,7 @@
             [apoya.data.schema :as schema]
             [apoya.resources.less :as less]
             [apoya.resources.fs :as fs]
+            [apoya.monitor.files :as files]
             [clojure.tools.cli :refer [cli]] 
             [clojure.tools.logging :as log]
             [clojure.tools.nrepl.server :as nrepl]
@@ -30,6 +31,7 @@
   (let [{:keys [nrepl-port http logback-file ssl temp-path]} (cfg/apoya-config)
         {:keys [key-file crt-file]} ssl
         fortress-config (assoc http
+                               :listener-builder files/build-upload-listener
                                :temp-path temp-path
                                :error-fn #'errors/fortress-error
                                :ssl-context (ssl-ctx/build-ssl-context key-file crt-file util/read-password))]
