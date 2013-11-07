@@ -7,23 +7,19 @@
             [apoya.resources.fs :as fs]
             [apoya.resources.optimize :as opt]
             [apoya.data.site :as site]
+            [apoya.data.auth :as auth-data]
             [apoya.security.workflows :as workflows]
+            [apoya.security.csrf :as csrf]
             [compojure.route :as route]
             [pantomime.mime :refer [mime-type-of]]
             [noir.util.middleware :as middleware]
             [ring.util.response :as response]
             [ring.middleware.gzip :as gzip]
+            [ring.middleware.anti-forgery :as af]
             [cemerick.friend :as friend]
             [cemerick.friend.credentials :as creds]
             [clojure.tools.logging :as log]
             [clojure.string :as s]))
-
-(def users {"iamedu" {:username "iamedu"
-                      :password (creds/hash-bcrypt "iamedu00")
-                      :roles #{::admin}}
-            "jane" {:username "jane"
-                    :password (creds/hash-bcrypt "user_password")
-                    :roles #{::user}}})
 
 (defn fleet-resource [{:keys [uri]}]
   (when (.endsWith uri ".html")
@@ -105,7 +101,7 @@
 
 (def secured-routes
   (-> app-routes
-      (friend/authenticate {:credential-fn (partial creds/bcrypt-credential-fn users)
+      (friend/authenticate {:credential-fn (partial creds/bcrypt-credential-fn auth-data/find-user)
                             :workflows [(workflows/edn-request :login-uri "/api/v1/auth/login.edn")]})))
 
 (def app (middleware/app-handler
@@ -113,6 +109,8 @@
            :middleware [handle-errors
                         language-chooser
                         site-chooser
+                        csrf/wrap-add-anti-forgery-cookie
+                        af/wrap-anti-forgery 
                         gzip/wrap-gzip]
            :access-rules []
            :formats [:edn]))

@@ -22,6 +22,9 @@
   (table :error_events)
   (pk :event_sha1))
 
+(defentity users
+  (pk :username))
+
 (defn enum-cast [x as]
   (raw (format "CAST('%s' AS %s)" (name x) (name as))))
 

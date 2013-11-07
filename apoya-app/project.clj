@@ -14,6 +14,7 @@
                  [compojure "1.1.6"]
                  [lib-noir "0.7.4"]
                  [bk/ring-gzip "0.1.1"]
+                 [ring-anti-forgery "0.3.0"]
                  [jarohen/nomad "0.5.1"]
                  [com.cemerick/friend "0.2.0"]
                  [org.clojure/core.cache "0.6.3"]

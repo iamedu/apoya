@@ -50,6 +50,7 @@ CREATE TABLE Users (
     UNIQUE (email)
 );
 
+
 CREATE TRIGGER Update_Users_Timestamp BEFORE UPDATE ON Users 
     FOR EACH ROW EXECUTE PROCEDURE
     Update_Last_Updated_Column();
@@ -191,6 +192,7 @@ CREATE TRIGGER Update_Labels_Timestamp BEFORE UPDATE ON Labels
 INSERT INTO Error_Sources(name, description) VALUES ('webapp', 'Something happened with the webapp, most errors should be related to this');
 INSERT INTO Error_Sources(name, description) VALUES ('mq', 'There was an error when processing a message in the messaging queue');
 INSERT INTO Error_Sources(name, description) VALUES ('netty', 'There was an error with fortress or the netty library');
+INSERT INTO Users(username, email, password) VALUES ('iamedu', 'iamedu@gmail.com', '$2a$10$I8IVBVBHmC.Yhn14kjbi0uL91J6YCv.lYG1/XrxHAKj/WyrQXXj3.');
 
 INSERT INTO Languages(language) VALUES ('en');
 INSERT INTO Sites(domain, description) VALUES('default', 'Default website, when nobody else has entered!');

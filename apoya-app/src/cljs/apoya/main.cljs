@@ -5,4 +5,4 @@
 
 (r/request [:post "/api/v1/auth/login.edn"]
            :content {:username "iamedu"
-                     :password "iamedu00"})
+                     :password "password"})
