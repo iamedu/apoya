@@ -3,8 +3,7 @@
   (:use korma.core
         apoya.data.schema))
 
-(defn find-user [username]
+(defn find-user [& {:as criteria}]
   (first (select users
-                 (where {:username username
-                         :active true})
+                 (where (merge criteria {:active true}))
                  (limit 1))))

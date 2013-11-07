@@ -103,7 +103,8 @@
 
 (def secured-routes
   (-> app-routes
-      (friend/authenticate {:credential-fn (partial creds/bcrypt-credential-fn auth-data/find-user)
+      (friend/authenticate {:credential-fn (partial creds/bcrypt-credential-fn
+                                                    (partial auth-data/find-user :username))
                             :workflows [(workflows/edn-workflow :login-uri "/api/public/v1/auth/login.edn")
                                         (workflows/persona-workflow :login-uri "/api/public/v1/auth/persona-login.edn")]})))
 
