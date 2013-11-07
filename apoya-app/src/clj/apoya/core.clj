@@ -28,7 +28,7 @@
     (StatusPrinter/printInCaseOfErrorsOrWarnings context)))
 
 (defn start-system []
-  (let [{:keys [nrepl-port http logback-file ssl temp-path]} (cfg/apoya-config)
+  (let [{:keys [nrepl-port cljs-nrepl-port http logback-file ssl temp-path]} (cfg/apoya-config)
         {:keys [key-file crt-file]} ssl
         fortress-config (assoc http
                                :listener-builder files/build-upload-listener
@@ -45,6 +45,9 @@
       (nrepl/start-server :port nrepl-port) 
       (.mkdirs (java.io.File. "target/repl"))
       (spit "target/repl/repl-port" nrepl-port))
+    (when cljs-nrepl-port
+      (log/info "Starting cljs nrepl server at port" cljs-nrepl-port)
+      (nrepl/start-server :port cljs-nrepl-port))
     (less/watch-folders (get (cfg/apoya-config) :less))))
 
 (defn -main [& args]

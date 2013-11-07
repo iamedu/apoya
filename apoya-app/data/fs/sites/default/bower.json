@@ -6,7 +6,9 @@
     "respond": "latest",
     "jquery": "~1.10",
     "store.js": "latest",
-    "angular" :"latest"
+    "angular" :"latest",
+    "angular-spinner": "latest",
+    "nprogress": "latest"
   },
   "authors": [
     "Eduardo Díaz <iamedu@gmail.com>"
