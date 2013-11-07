@@ -93,6 +93,9 @@
   (POST "/api/v1/auth/login.edn" request
         (-> (response/response (pr-str (friend/identity request)))
             (response/content-type "application/edn; charset=utf-8")))
+  (POST "/api/v1/auth/persona-login.edn" request
+        (-> (response/response (pr-str (friend/identity request)))
+            (response/content-type "application/edn; charset=utf-8")))
   (GET "/hola" [] (/ 1 0))
   (POST "/upload" request)
   (GET "/adios" [] (friend/authorize #{::admin}
@@ -102,7 +105,8 @@
 (def secured-routes
   (-> app-routes
       (friend/authenticate {:credential-fn (partial creds/bcrypt-credential-fn auth-data/find-user)
-                            :workflows [(workflows/edn-request :login-uri "/api/v1/auth/login.edn")]})))
+                            :workflows [(workflows/edn-workflow :login-uri "/api/v1/auth/login.edn")
+                                        (workflows/persona-workflow :login-uri "/api/v1/auth/persona-login.edn")]})))
 
 (def app (middleware/app-handler
            [secured-routes]
@@ -111,6 +115,7 @@
                         site-chooser
                         csrf/wrap-add-anti-forgery-cookie
                         af/wrap-anti-forgery 
+                        opt/wrap-modern-ie
                         gzip/wrap-gzip]
            :access-rules []
            :formats [:edn]))

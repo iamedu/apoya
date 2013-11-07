@@ -31,6 +31,7 @@
                  [fleet "0.10.1"]
                  [clj-pdf "1.11.6"
                   :exclusions [org.bouncycastle/bctsp-jdk14]]
+                 [clj-http "0.7.7"]
                  [com.asual.lesscss/lesscss-engine "1.4.2"] 
                  [org.clojars.ato/clojure-jsr223 "1.5.1"]
                  [org.codehaus.groovy/groovy "2.1.9"]
@@ -52,7 +53,8 @@
               :crossover-path "src/crossover-cljs"
               :builds {:main {:source-paths ["src/cljs"]
                               :compiler {:output-to "data/fs/sites/default/js/main.js"
-                                         :externs  ["externs/angular.js"]
+                                         :externs  ["externs/angular.js"
+                                                    "externs/persona.js"]
                                          :optimizations :advanced
                                          :pretty-print false}}}}
   :ragtime  {:migrations ragtime.sql.files/migrations
