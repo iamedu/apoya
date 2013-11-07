@@ -37,12 +37,14 @@
                                :ssl-context (ssl-ctx/build-ssl-context key-file crt-file util/read-password))]
     (when logback-file
       (load-logback logback-file))
-    (when nrepl-port
-      (log/info "Starting nrepl server at port" nrepl-port)
-      (nrepl/start-server :port nrepl-port))
     (fs/setup-blobstore (get (cfg/apoya-config) :blobstore))
     (schema/setup-database (get (cfg/apoya-config) :db))
-    (fortress/run-fortress app fortress-config)
+    (fortress/run-fortress #'app fortress-config)
+    (when nrepl-port
+      (log/info "Starting nrepl server at port" nrepl-port)
+      (nrepl/start-server :port nrepl-port) 
+      (.mkdirs (java.io.File. "target/repl"))
+      (spit "target/repl/repl-port" nrepl-port))
     (less/watch-folders (get (cfg/apoya-config) :less))))
 
 (defn -main [& args]

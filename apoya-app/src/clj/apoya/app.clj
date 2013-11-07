@@ -7,20 +7,20 @@
             [apoya.resources.fs :as fs]
             [apoya.resources.optimize :as opt]
             [apoya.data.site :as site]
+            [apoya.security.workflows :as workflows]
             [compojure.route :as route]
             [pantomime.mime :refer [mime-type-of]]
             [noir.util.middleware :as middleware]
             [ring.util.response :as response]
             [ring.middleware.gzip :as gzip]
             [cemerick.friend :as friend]
-            (cemerick.friend [workflows :as workflows]
-                             [credentials :as creds])
+            [cemerick.friend.credentials :as creds]
             [clojure.tools.logging :as log]
             [clojure.string :as s]))
 
-(def users {"root" {:username "root"
-                    :password (creds/hash-bcrypt "admin_password")
-                    :roles #{::admin}}
+(def users {"iamedu" {:username "iamedu"
+                      :password (creds/hash-bcrypt "iamedu00")
+                      :roles #{::admin}}
             "jane" {:username "jane"
                     :password (creds/hash-bcrypt "user_password")
                     :roles #{::user}}})
@@ -62,8 +62,12 @@
       (handler request)
       (catch Exception e
         (errors/webapp-error request e)
-        {:status 500
-         :body "Error"}))))
+        (let [accepts (get-in request [:headers "accept"])
+              accepts-html (and accepts
+                                (.contains accepts "text/html"))
+              body (if accepts-html
+                     (fleet-resource {:uri "/500.html"}))]
+          (merge body {:status 500}))))))
 
 (defn language-chooser [handler]
   (fn [request]
@@ -84,20 +88,25 @@
   jclouds-resource
   fleet-resource
   (GET "/" [] (opt/links (fleet-resource {:uri "/index.html"})
-                         [["css/bootstrap.css" :subresource]
-                          ["bower_components/store.js/store.min.js"]]))
+                         ["css/bootstrap.css" :subresource]
+                         ["bower_components/jquery/jquery.min.js" :subresource]
+                         ["bower_components/jquery/jquery.min.map" :subresource]
+                         ["bower_components/angular/angular.min.js" :subresource]
+                         ["bower_components/store.js/store.min.js" :subresource]  
+                         ["js/main.js" :subresource]))
+  (POST "/api/v1/auth/login.edn" request
+        (-> (response/response (pr-str (friend/identity request)))
+            (response/content-type "application/edn; charset=utf-8")))
   (GET "/hola" [] (/ 1 0))
-  (POST "/login" [])
   (POST "/upload" request)
   (GET "/adios" [] (friend/authorize #{::admin}
                                      "Admin page"))
-  (route/not-found (fn [_]
-                     (fleet-resource {:uri "/404.html"}))))
+  (route/not-found (fn [_] (fleet-resource {:uri "/404.html"}))))
 
 (def secured-routes
   (-> app-routes
       (friend/authenticate {:credential-fn (partial creds/bcrypt-credential-fn users)
-                            :workflows [(workflows/interactive-form)]})))
+                            :workflows [(workflows/edn-request :login-uri "/api/v1/auth/login.edn")]})))
 
 (def app (middleware/app-handler
            [secured-routes]
@@ -105,8 +114,6 @@
                         language-chooser
                         site-chooser
                         gzip/wrap-gzip]
-           :multipart {:store (fn [{:keys [filename content-type stream]}]
-                                )}
            :access-rules []
            :formats [:edn]))
 
