@@ -45,7 +45,8 @@
                   :event_sha1 event-sha1
                   :error_sha1 error_sha1
                   :severity :DANGER
-                  :error_source "webapp"})))
+                  :error_source "webapp"})
+    event-sha1))
 
 (defn fortress-error [_ cause]
   (let [error-string (str-throwable cause)

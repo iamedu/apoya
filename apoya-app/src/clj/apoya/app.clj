@@ -4,18 +4,21 @@
   (:require [apoya.config :as cfg]
             [apoya.i18n :as i18n]
             [apoya.errors :as errors]
+            [apoya.response :as r]
             [apoya.resources.fs :as fs]
             [apoya.resources.optimize :as opt]
             [apoya.data.site :as site]
             [apoya.data.auth :as auth-data]
             [apoya.security.workflows :as workflows]
             [apoya.security.csrf :as csrf]
+            [apoya.routes.auth :refer [auth-routes]]
             [compojure.route :as route]
             [pantomime.mime :refer [mime-type-of]]
             [noir.util.middleware :as middleware]
             [ring.util.response :as response]
             [ring.middleware.gzip :as gzip]
             [ring.middleware.anti-forgery :as af]
+            [ring.middleware.head :as head]
             [cemerick.friend :as friend]
             [cemerick.friend.credentials :as creds]
             [clojure.tools.logging :as log]
@@ -57,12 +60,13 @@
     (try
       (handler request)
       (catch Exception e
-        (errors/webapp-error request e)
-        (let [accepts (get-in request [:headers "accept"])
+        (let [error-id (errors/webapp-error request e)
+              accepts (get-in request [:headers "accept"])
               accepts-html (and accepts
                                 (.contains accepts "text/html"))
               body (if accepts-html
-                     (fleet-resource {:uri "/500.html"}))]
+                     (fleet-resource {:uri "/500.html"})
+                     (r/edn-response {:error-id error-id}))]
           (merge body {:status 500}))))))
 
 (defn language-chooser [handler]
@@ -90,12 +94,7 @@
                          ["bower_components/angular/angular.min.js" :subresource]
                          ["bower_components/store.js/store.min.js" :subresource]  
                          ["js/main.js" :subresource]))
-  (POST "/api/v1/auth/login.edn" request
-        (-> (response/response (pr-str (friend/identity request)))
-            (response/content-type "application/edn; charset=utf-8")))
-  (POST "/api/v1/auth/persona-login.edn" request
-        (-> (response/response (pr-str (friend/identity request)))
-            (response/content-type "application/edn; charset=utf-8")))
+  (context "/api/public/v1/auth" [] auth-routes)
   (GET "/hola" [] (/ 1 0))
   (POST "/upload" request)
   (GET "/adios" [] (friend/authorize #{::admin}
@@ -105,8 +104,8 @@
 (def secured-routes
   (-> app-routes
       (friend/authenticate {:credential-fn (partial creds/bcrypt-credential-fn auth-data/find-user)
-                            :workflows [(workflows/edn-workflow :login-uri "/api/v1/auth/login.edn")
-                                        (workflows/persona-workflow :login-uri "/api/v1/auth/persona-login.edn")]})))
+                            :workflows [(workflows/edn-workflow :login-uri "/api/public/v1/auth/login.edn")
+                                        (workflows/persona-workflow :login-uri "/api/public/v1/auth/persona-login.edn")]})))
 
 (def app (middleware/app-handler
            [secured-routes]
@@ -116,6 +115,7 @@
                         csrf/wrap-add-anti-forgery-cookie
                         af/wrap-anti-forgery 
                         opt/wrap-modern-ie
+                        head/wrap-head
                         gzip/wrap-gzip]
            :access-rules []
            :formats [:edn]))

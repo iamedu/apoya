@@ -9,20 +9,19 @@
                  [org.clojure/tools.logging "0.2.6"]
                  [org.clojure/tools.nrepl "0.2.3"]
                  [org.clojure/java.jmx "0.2.0"]
+                 ;; Ring libs
                  [ring/ring-core "1.2.0"]
                  [org.clojars.iamedu/fortress-ring-adapter "0.1.0-SNAPSHOT"]
                  [compojure "1.1.6"]
                  [lib-noir "0.7.4"]
                  [bk/ring-gzip "0.1.1"]
                  [ring-anti-forgery "0.3.0"]
-                 [jarohen/nomad "0.5.1"]
                  [com.cemerick/friend "0.2.0"]
+                 [liberator "0.9.0"]
+                 ;; Clojure libs
                  [org.clojure/core.cache "0.6.3"]
                  [com.novemberain/pantomime "2.0.0"]
-                 [ch.qos.logback/logback-core "1.0.13"]
-                 [ch.qos.logback/logback-classic "1.0.13"]
-                 [org.jclouds/jclouds-allblobstore "1.6.0"]
-                 [org.postgresql/postgresql "9.2-1003-jdbc4"]
+                 [jarohen/nomad "0.5.1"]
                  [korma "0.3.0-RC6"]
                  [cheshire "5.2.0"]
                  [ragtime "0.3.4"]
@@ -32,6 +31,11 @@
                  [clj-pdf "1.11.6"
                   :exclusions [org.bouncycastle/bctsp-jdk14]]
                  [clj-http "0.7.7"]
+                 ;; Java libs
+                 [ch.qos.logback/logback-core "1.0.13"]
+                 [ch.qos.logback/logback-classic "1.0.13"]
+                 [org.jclouds/jclouds-allblobstore "1.6.0"]
+                 [org.postgresql/postgresql "9.2-1003-jdbc4"]
                  [com.asual.lesscss/lesscss-engine "1.4.2"] 
                  [org.clojars.ato/clojure-jsr223 "1.5.1"]
                  [org.codehaus.groovy/groovy "2.1.9"]
@@ -43,7 +47,7 @@
                  [com.google.inject/guice "3.0"]
                  [commons-codec "1.8"]
                  [org.clojure/tools.reader "0.7.10"]
-                 ;;Clojurescript
+                 ;;Clojurescript libs
                  [shoreleave/shoreleave-remote "0.3.0"]
                  [clavatar "0.2.1"]]
   :source-paths ["src/clj"]
