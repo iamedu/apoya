@@ -11,7 +11,7 @@
                  [org.clojure/java.jmx "0.2.0"]
                  [ring/ring-core "1.2.0"]
                  [ring/ring-devel "1.2.0"]
-                 [fortress-ring-adapter "0.1.0-SNAPSHOT"]
+                 [org.clojars.iamedu/fortress-ring-adapter "0.1.0-SNAPSHOT"]
                  [compojure "1.1.6"]
                  [lib-noir "0.7.4"]
                  [bk/ring-gzip "0.1.1"]
