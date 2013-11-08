@@ -1,5 +1,6 @@
 (ns apoya.main
-  (:require [shoreleave.remote :as r]))
+  (:require [apoya.repl :refer [bind-repl]]
+            [shoreleave.remote :as r]))
 
 (.log js/console "Hola mundo")
 
@@ -19,5 +20,4 @@
            :content {:username "iamedu"
                      :password "password"})
 
-(.log js/console "Bueno mundo")
-
+(bind-repl)

@@ -34,11 +34,6 @@
     <script src="bower_components/store.js/store.min.js"></script>
     <script src="https://login.persona.org/include.js"></script>
     <script src="js/main.js"></script>
-    <script src="repl/out/goog/base.js"></script>
-    <script src="repl/piggieback_browser.js"></script>
-    <script>
-        goog.require('piggieback_browser');
-    </script>
     <script>                                                                                                                                      
         var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];                                                                               
         (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];                                                                               g.src='//www.google-analytics.com/ga.js';                                                                                                 
