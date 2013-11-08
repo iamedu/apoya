@@ -50,6 +50,7 @@
                  [com.google.inject/guice "3.0"]
                  [commons-codec "1.8"]
                  [org.clojure/tools.reader "0.7.10"]
+                 [org.apache.activemq/activemq-broker "5.9.0"]
                  ;;Clojurescript libs
                  [shoreleave/shoreleave-remote "0.3.0"]
                  [clavatar "0.2.1"]]
