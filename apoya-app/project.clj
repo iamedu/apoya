@@ -66,7 +66,7 @@
                                          :externs  ["externs/angular.js"
                                                     "externs/persona.js"]
                                          :optimizations :advanced
-                                         :pretty-print true}}}}
+                                         :pretty-print false}}}}
   :ragtime  {:migrations ragtime.sql.files/migrations
              :database "jdbc:postgresql:apoya"}
   :main ^:skip-aot apoya.core

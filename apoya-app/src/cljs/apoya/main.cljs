@@ -18,3 +18,4 @@
            :content {:username "iamedu"
                      :password "password"})
 
+(.log js/console "Bueno mundo")
