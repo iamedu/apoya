@@ -13,6 +13,7 @@
             [fortress.ring.server :as fortress]
             [fortress.ssl.context :as ssl-ctx]
             [fortress.util :as util]
+            [cemerick.piggieback :as pback]
             [nomad :refer [defconfig]])
   (:import [ch.qos.logback.classic.joran JoranConfigurator]
            [ch.qos.logback.core.util StatusPrinter]
@@ -42,7 +43,8 @@
     (fortress/run-fortress #'app fortress-config)
     (when nrepl-port
       (log/info "Starting nrepl server at port" nrepl-port)
-      (nrepl/start-server :port nrepl-port)
+      (nrepl/start-server :port nrepl-port
+                          :handler (nrepl/default-handler #'pback/wrap-cljs-repl))
       (.mkdirs (java.io.File. "target/repl"))
       (spit "target/repl/repl-port" nrepl-port))
     (less/watch-folders (get (cfg/apoya-config) :less))))
