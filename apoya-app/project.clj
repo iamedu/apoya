@@ -5,11 +5,12 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [org.clojure/clojurescript "0.0-2014"]
+                 [org.clojure/core.async "0.1.242.0-44b1e3-alpha"]
                  [org.clojure/tools.cli "0.2.4"]
                  [org.clojure/tools.logging "0.2.6"]
                  [org.clojure/tools.nrepl "0.2.3"]
                  [org.clojure/java.jmx "0.2.0"]
-                 [com.cemerick/piggieback "0.1.1"]
+                 [com.cemerick/piggieback "0.1.2"]
                  ;; Ring libs
                  [ring/ring-core "1.2.0"]
                  [org.clojars.iamedu/fortress-ring-adapter "0.1.0-SNAPSHOT"]
@@ -52,7 +53,7 @@
                  [shoreleave/shoreleave-remote "0.3.0"]
                  [clavatar "0.2.1"]]
   :source-paths ["src/clj"]
-  :plugins [[lein-cljsbuild "1.0.0-alpha1"]
+  :plugins [[lein-cljsbuild "1.0.0-alpha2"]
             [ragtime/ragtime.lein "0.3.4"]]
   :cljsbuild {;;:crossovers [uxtweet.front]
               :crossover-path "src/crossover-cljs"
