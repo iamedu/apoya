@@ -42,12 +42,9 @@
     (fortress/run-fortress #'app fortress-config)
     (when nrepl-port
       (log/info "Starting nrepl server at port" nrepl-port)
-      (nrepl/start-server :port nrepl-port) 
+      (nrepl/start-server :port nrepl-port)
       (.mkdirs (java.io.File. "target/repl"))
       (spit "target/repl/repl-port" nrepl-port))
-    (when cljs-nrepl-port
-      (log/info "Starting cljs nrepl server at port" cljs-nrepl-port)
-      (nrepl/start-server :port cljs-nrepl-port))
     (less/watch-folders (get (cfg/apoya-config) :less))))
 
 (defn -main [& args]

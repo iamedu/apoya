@@ -11,10 +11,12 @@
             [apoya.data.auth :as auth-data]
             [apoya.security.workflows :as workflows]
             [apoya.security.csrf :as csrf]
+            [apoya.security.rules :as rules]
             [apoya.routes.auth :refer [auth-routes]]
             [compojure.route :as route]
             [pantomime.mime :refer [mime-type-of]]
             [noir.util.middleware :as middleware]
+            [noir.util.route :refer [restricted]]
             [ring.util.response :as response]
             [ring.middleware.gzip :as gzip]
             [ring.middleware.anti-forgery :as af]
@@ -95,7 +97,7 @@
                          ["bower_components/store.js/store.min.js" :subresource]  
                          ["js/main.js" :subresource]))
   (context "/api/public/v1/auth" [] auth-routes)
-  (GET "/hola" [] (/ 1 0))
+  (GET "/hola" [] (restricted (/ 1 0)))
   (POST "/upload" request)
   (GET "/adios" [] (friend/authorize #{::admin}
                                      "Admin page"))
@@ -118,6 +120,7 @@
                         opt/wrap-modern-ie
                         head/wrap-head
                         gzip/wrap-gzip]
-           :access-rules []
+           :access-rules [{:rule #'rules/check-access
+                           :on-fail #'rules/access-forbidden}]
            :formats [:edn]))
 

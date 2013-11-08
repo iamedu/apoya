@@ -36,7 +36,7 @@
 
 (defn webapp-error [request cause]
   (let [error-string (str-throwable cause)
-        json-meta (json/generate-string (dissoc request :body))
+        json-meta (json/generate-string (dissoc request :flash :session :body :access-rules))
         {:keys [error_sha1]} (find-error error-string)
         event-sha1 (util/random-sha1)]
     (log/warn cause "There was an unhandled error for site" cfg/*current-site* "and url" (:uri request))

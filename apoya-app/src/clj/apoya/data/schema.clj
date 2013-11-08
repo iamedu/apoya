@@ -29,9 +29,8 @@
   (raw (format "CAST('%s' AS %s)" (name x) (name as))))
 
 (defn json-cast [x]
-  (if x (raw (format "'%s'::json" (.replaceAll x "'" "''")))
-    (println "OTRO")
-    ))
+  (if x
+    (raw (format "'%s'::json" (.replaceAll x "'" "''")))))
 
 (defn setup-database [config]
   (log/info "Loading database config" (:db config))

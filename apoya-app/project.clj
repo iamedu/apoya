@@ -5,6 +5,7 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [org.clojure/clojurescript "0.0-2014"]
+                 [org.clojure/core.cache "0.6.3"]
                  [org.clojure/core.async "0.1.242.0-44b1e3-alpha"]
                  [org.clojure/tools.cli "0.2.4"]
                  [org.clojure/tools.logging "0.2.6"]
@@ -15,13 +16,12 @@
                  [ring/ring-core "1.2.0"]
                  [org.clojars.iamedu/fortress-ring-adapter "0.1.0-SNAPSHOT"]
                  [compojure "1.1.6"]
-                 [lib-noir "0.7.4"]
+                 [lib-noir "0.7.5"]
                  [bk/ring-gzip "0.1.1"]
                  [ring-anti-forgery "0.3.0"]
                  [com.cemerick/friend "0.2.0"]
                  [liberator "0.9.0"]
                  ;; Clojure libs
-                 [org.clojure/core.cache "0.6.3"]
                  [com.novemberain/pantomime "2.0.0"]
                  [jarohen/nomad "0.5.1"]
                  [korma "0.3.0-RC6"]
@@ -33,6 +33,7 @@
                  [clj-pdf "1.11.6"
                   :exclusions [org.bouncycastle/bctsp-jdk14]]
                  [clj-http "0.7.7"]
+                 [clojurewerkz/elastisch "1.3.0-beta5"]
                  ;; Java libs
                  [ch.qos.logback/logback-core "1.0.13"]
                  [ch.qos.logback/logback-classic "1.0.13"]
@@ -53,7 +54,9 @@
                  [shoreleave/shoreleave-remote "0.3.0"]
                  [clavatar "0.2.1"]]
   :source-paths ["src/clj"]
+  :libdir-path "deps"
   :plugins [[lein-cljsbuild "1.0.0-alpha2"]
+            [lein-libdir "0.1.1"]
             [ragtime/ragtime.lein "0.3.4"]]
   :cljsbuild {;;:crossovers [uxtweet.front]
               :crossover-path "src/crossover-cljs"
@@ -62,7 +65,7 @@
                                          :externs  ["externs/angular.js"
                                                     "externs/persona.js"]
                                          :optimizations :advanced
-                                         :pretty-print false}}}}
+                                         :pretty-print true}}}}
   :ragtime  {:migrations ragtime.sql.files/migrations
              :database "jdbc:postgresql:apoya"}
   :main ^:skip-aot apoya.core
