@@ -94,12 +94,51 @@ CREATE TRIGGER Update_Role_Assignments_Timestamp BEFORE UPDATE ON Role_Assignmen
     FOR EACH ROW EXECUTE PROCEDURE
     Update_Last_Updated_Column();
 
+CREATE TABLE Restricted_Urls (
+    url VARCHAR(1024) NOT NULL,
+    description TEXT,
+    PRIMARY KEY (url)
+);
+
+CREATE TABLE Role_Urls (
+    role_code VARCHAR(64) NOT NULL
+        REFERENCES Roles (role_code)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    url VARCHAR(1024) NOT NULL
+        REFERENCES Restricted_Urls(url)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    PRIMARY KEY (role_code, url)
+);
+
+CREATE TABLE Person_Urls (
+    username VARCHAR(64) NOT NULL
+        REFERENCES Users (username)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    url VARCHAR(1024) NOT NULL
+        REFERENCES Restricted_Urls(url)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    PRIMARY KEY (username, url)
+);
+
+CREATE TABLE Permissions (
+    permission VARCHAR(1024) NOT NULL,
+    description TEXT,
+    PRIMARY KEY (permission)
+);
+
 CREATE TABLE Role_Permissions (
     role_code VARCHAR(64) NOT NULL
         REFERENCES Roles (role_code)
         ON UPDATE CASCADE
         ON DELETE CASCADE,
-    permission VARCHAR(1024) NOT NULL,
+    permission VARCHAR(1024) NOT NULL
+        REFERENCES Permissions(permission)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
     PRIMARY KEY (role_code, permission)
 );
 
@@ -108,9 +147,13 @@ CREATE TABLE Person_Permissions (
         REFERENCES Users (username)
         ON UPDATE CASCADE
         ON DELETE CASCADE,
-    permission VARCHAR(1024) NOT NULL,
+    permission VARCHAR(1024) NOT NULL
+        REFERENCES Permissions(permission)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
     PRIMARY KEY (username, permission)
 );
+
 CREATE TABLE Error_Sources (
     name VARCHAR(50) NOT NULL,
     description VARCHAR(4096),
