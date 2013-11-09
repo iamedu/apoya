@@ -11,3 +11,4 @@ bootstrap.css
 deps
 .repl
 out
+meta.edn
