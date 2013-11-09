@@ -7,6 +7,7 @@
             [apoya.resources.less :as less]
             [apoya.resources.fs :as fs]
             [apoya.monitor.files :as files]
+            [apoya.util.classloader :refer [with-classloader]]
             [clojure.tools.cli :refer [cli]] 
             [clojure.tools.logging :as log]
             [clojure.tools.nrepl.server :as nrepl]
@@ -15,7 +16,8 @@
             [fortress.util :as util]
             [cemerick.piggieback :as pback]
             [nomad :refer [defconfig]])
-  (:import [ch.qos.logback.classic.joran JoranConfigurator]
+  (:import [apoya.classloader JCloudsClassLoader]
+           [ch.qos.logback.classic.joran JoranConfigurator]
            [ch.qos.logback.core.util StatusPrinter]
            [org.slf4j LoggerFactory])
   (:gen-class))
@@ -27,6 +29,17 @@
                        (.setContext context))]
     (.doConfigure configurator logback-file)
     (StatusPrinter/printInCaseOfErrorsOrWarnings context)))
+
+(defn preload-app []
+  (with-classloader (JCloudsClassLoader.)
+    (try 
+      (when-let [routes (-> "apoya/routes.clj"
+                          (clojure.java.io/resource)
+                          (slurp))]
+        (load-string routes)
+        (log/info "Preloaded app from apoya/routes.clj")) 
+      (catch Exception _
+        (log/info "App (apoya/routes.clj) not found yet in classloader")))))
 
 (defn start-system []
   (let [{:keys [nrepl-port cljs-nrepl-port http logback-file ssl temp-path]} (cfg/apoya-config)
@@ -40,6 +53,7 @@
       (load-logback logback-file))
     (fs/setup-blobstore (get (cfg/apoya-config) :blobstore))
     (schema/setup-database (get (cfg/apoya-config) :db))
+    (preload-app)
     (fortress/run-fortress #'app fortress-config)
     (when nrepl-port
       (log/info "Starting nrepl server at port" nrepl-port)

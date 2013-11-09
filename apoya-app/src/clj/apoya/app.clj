@@ -9,6 +9,7 @@
             [apoya.resources.optimize :as opt]
             [apoya.data.site :as site]
             [apoya.data.auth :as auth-data]
+            [apoya.util.classloader :refer [with-classloader]]
             [apoya.security.workflows :as workflows]
             [apoya.security.csrf :as csrf]
             [apoya.security.rules :as rules]
@@ -24,7 +25,8 @@
             [cemerick.friend :as friend]
             [cemerick.friend.credentials :as creds]
             [clojure.tools.logging :as log]
-            [clojure.string :as s]))
+            [clojure.string :as s])
+  (:import [apoya.classloader JCloudsClassLoader]))
 
 (defn fleet-resource [{:keys [uri]}]
   (when (.endsWith uri ".html")
@@ -98,6 +100,17 @@
       (assoc (r/edn-response {:error :forbidden :cause :no-permission}) :status 403)
       (assoc (fleet-resource {:uri "/403.html"}) :status 403))))
 
+(defn find-more-routes []
+  (fn [request]
+    (try 
+      (require 'apoya.routes)
+      (if-let [handler (-> "apoya.routes/app-routes" symbol resolve)]
+        (handler request)
+        (log/info "File apoya/routes.clj was found but app-routes is not defined, check your code version"))  
+      (catch Exception ex
+        (log/info ex "File apoya/routes.clj does not exist on jclouds or normal classpath, please load an app before using apoya"))) 
+    ))
+
 (defroutes app-routes
   jclouds-resource
   fleet-resource
@@ -120,11 +133,7 @@
                          ["bower_components/angular-ui-select2/src/select2.js" :subresource]
                          ["js/main.js" :subresource]))
   (context "/api/public/v1/auth" [] auth-routes)
-  (POST "/hola/:id.edn" [id hola]
-        (r/edn-response {:id id :hola hola}))
-  (POST "/upload" request)
-  (GET "/adios" [] (friend/authorize #{::admin}
-                                     "Admin page"))
+  (find-more-routes)
   (route/not-found (fn [_] (fleet-resource {:uri "/404.html"}))))
 
 (def secured-routes
@@ -146,6 +155,11 @@
                         {:error-response invalid-csrf-response
                          :read-token read-csrf-token}))
 
+(defn wrap-classloader [handler]
+  (fn [request]
+    (with-classloader (JCloudsClassLoader.)
+      (handler request))))
+
 (def app (middleware/app-handler
            [secured-routes]
            :middleware [handle-errors
@@ -155,7 +169,8 @@
                         wrap-anti-forgery
                         opt/wrap-modern-ie
                         head/wrap-head
-                        gzip/wrap-gzip]
+                        gzip/wrap-gzip
+                        wrap-classloader]
            :access-rules [{:rule #'rules/check-access
                            :on-fail #'access-forbidden}]
            :formats [:edn]))
