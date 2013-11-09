@@ -38,7 +38,7 @@
                  [ch.qos.logback/logback-core "1.0.13"]
                  [ch.qos.logback/logback-classic "1.0.13"]
                  [org.jclouds/jclouds-allblobstore "1.6.0"]
-                 [org.postgresql/postgresql "9.2-1003-jdbc4"]
+                 [org.postgresql/postgresql "9.3-1100-jdbc41"]
                  [com.asual.lesscss/lesscss-engine "1.4.2"] 
                  [org.clojars.ato/clojure-jsr223 "1.5.1"]
                  [org.codehaus.groovy/groovy "2.1.9"]
