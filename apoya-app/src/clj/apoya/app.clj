@@ -89,7 +89,7 @@
 (defn access-forbidden [request]
   (let [accept (get-in request [:headers "accept"])]
     (if (and accept (.contains accept "application/edn"))
-      (assoc (r/edn-response {:error :forbidden}) :status 403)
+      (assoc (r/edn-response {:error :forbidden :cause :no-permission}) :status 403)
       (assoc (fleet-resource {:uri "/403.html"}) :status 403))))
 
 (defroutes app-routes
@@ -103,7 +103,8 @@
                          ["bower_components/store.js/store.min.js" :subresource]  
                          ["js/main.js" :subresource]))
   (context "/api/public/v1/auth" [] auth-routes)
-  (GET "/hola.edn" [] (restricted (/ 1 0)))
+  (POST "/hola/:id.edn" [id hola]
+        (r/edn-response {:id id :hola hola}))
   (POST "/upload" request)
   (GET "/adios" [] (friend/authorize #{::admin}
                                      "Admin page"))
@@ -116,13 +117,25 @@
                             :workflows [(workflows/edn-workflow :login-uri "/api/public/v1/auth/login.edn")
                                         (workflows/persona-workflow :login-uri "/api/public/v1/auth/persona-login.edn")]})))
 
+(defn read-csrf-token [request]
+  (get-in request [:params :__anti-forgery-token]))
+
+(def invalid-csrf-response
+  (assoc (r/edn-response {:error :forbidden :cause :invalid-csrf-token})
+         :status 403))
+
+(defn wrap-anti-forgery [handler]
+  (af/wrap-anti-forgery handler
+                        {:error-response invalid-csrf-response
+                         :read-token read-csrf-token}))
+
 (def app (middleware/app-handler
            [secured-routes]
            :middleware [handle-errors
                         language-chooser
                         site-chooser
                         csrf/wrap-add-anti-forgery-cookie
-                        af/wrap-anti-forgery 
+                        wrap-anti-forgery
                         opt/wrap-modern-ie
                         head/wrap-head
                         gzip/wrap-gzip]

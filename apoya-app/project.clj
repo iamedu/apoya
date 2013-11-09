@@ -53,6 +53,7 @@
                  [org.apache.activemq/activemq-broker "5.9.0"]
                  ;;Clojurescript libs
                  [shoreleave/shoreleave-remote "0.3.0"]
+                 [shoreleave/shoreleave-pubsub "0.3.0"]
                  [clavatar "0.2.1"]]
   :source-paths ["src/clj"]
   :libdir-path "deps"

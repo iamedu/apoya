@@ -34,10 +34,10 @@
                                   ::friend/redirect-on-auth? false}))))))
 
 (defn edn-workflow [& {:keys [login-uri] :as edn-config}]
-  (fn [{:keys [request-method params form-params] :as request}]
+  (fn [{:keys [request-method params body-params] :as request}]
     (when (and (= (gets :login-uri edn-config (::friend/auth-config request)) (req/path-info request))
                (= :post request-method))
-      (let [creds {:username (get form-params "username" "")
+      (let [creds {:username (get body-params :username "")
                    :password (:password params)}
             {:keys [username password]} creds
             credential-fn (gets :credential-fn edn-config (::friend/auth-config request))]

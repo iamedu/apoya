@@ -1,4 +1,4 @@
-(ns apoya.repl)
+(ns apoya.devel.repl)
 
 (defn bind-repl []
   (.write js/document "<script src=\"repl/out/goog/base.js\"></script>")

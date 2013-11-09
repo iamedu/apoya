@@ -1,6 +1,5 @@
 (ns apoya.main
-  (:require [apoya.repl :refer [bind-repl]]
-            [shoreleave.remote :as r]))
+  (:require [apoya.remote.request :as r]))
 
 (.log js/console "Hola mundo")
 
@@ -8,20 +7,23 @@
   (let [button (js/jQuery "#persona")]
     (-> js/navigator .-id
         (.watch (clj->js {:onlogin (fn [assertion]
-                                     (r/request [:post "/api/public/v1/auth/persona-login.edn"]
-                                                :content {:assertion assertion}))
+                                     (r/edn [:post "/api/public/v1/auth/persona-login.edn"]
+                                            :content {:assertion assertion}))
                           :onlogout (fn [])})))
     (.click button
             (fn []
               (.log js/console "Button clicked")
               (-> js/navigator .-id .request)))))
 
-;; (r/request [:post "/api/public/v1/auth/login.edn"]
-;;            :content {:username "iamedu"
-;;                      :password "password"})
-(r/request [:get "/hola.edn"]
-           :content {:username "iamedu"
-                     :password "password"}
-           :headers {"Accept" "application/edn; charset=utf-8"})
+(r/edn [:post "/api/public/v1/auth/login.edn"]
+       :content {:username "iamedu"
+                 :password "password"})
 
-(bind-repl)
+(r/edn [:post "/hola/pruebas.edn"]
+       :content {:hola "adios"}
+       :on-success (fn [result]
+                     (.log js/console (clj->js result)))
+       :on-error (fn [result]
+                   (.log js/console (clj->js result))))
+
+(bind-persona)
