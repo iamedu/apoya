@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="">
-<meta name="author" content="">
-<!-- Bootstrap core CSS -->
-<link href="css/bootstrap.css" rel="stylesheet">
-<title>Fortress</title>
-<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-<!--[if lt IE 9]>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="bower_components/nprogress/nprogress.css" rel="stylesheet">
+    <title>Fortress</title>
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
       <script src="bower_components/html5shiv/dist/html5shiv.js"></script>
       <script src="bower_components/respond/respond.min.js"></script>
     <![endif]-->
@@ -29,10 +29,12 @@
             <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
         </form>
     </div>
-    <script src="bower_components/jquery/jquery.min.js"></script>
-    <script src="bower_components/angular/angular.min.js"></script>
-    <script src="bower_components/store.js/store.min.js"></script>
-    <script src="https://login.persona.org/include.js"></script>
+    <script>
+        document.apoya_locales={
+            angular:'<(label :angular-i18n :default "bower_components/angular-i18n/angular-locale_en.js")>',
+            select2:'<(label :select2-i18n :default "js/select2_locale_en.js")>'
+        }
+    </script>
     <script src="js/main.js"></script>
     <script>                                                                                                                                      
         var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];                                                                               

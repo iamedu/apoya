@@ -65,7 +65,8 @@
               :builds {:main {:source-paths ["src/cljs"]
                               :compiler {:output-to "data/fs/sites/default/js/main.js"
                                          :externs  ["externs/angular.js"
-                                                    "externs/persona.js"]
+                                                    "externs/persona.js"
+                                                    "externs/nprogress.js"]
                                          :optimizations :advanced
                                          :pretty-print false}}}}
   :ragtime  {:migrations ragtime.sql.files/migrations

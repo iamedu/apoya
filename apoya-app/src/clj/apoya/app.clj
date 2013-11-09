@@ -36,12 +36,16 @@
                             (slurp)))]
       (when template
         (let [compile-fn (fleet [label] template {:escaping :xml})]
-          {:body (.toString (compile-fn i18n/label))})))))
+          {:body (.toString (compile-fn i18n/label))
+           :headers {"Content-Type" "text/html; charset=UTF-8"}})))))
 
 (defn jclouds-resource [{:keys [uri headers]}]
   (when (and (not (.endsWith uri "/"))
              (fs/site-blob-exists? uri))
-    (let [mime-type (mime-type-of uri)
+    (let [max-age (if (= uri "/js/main.js")
+                    (* 30 60)
+                    (* 5 24 60 60))
+          mime-type (mime-type-of uri)
           if-none-match (get headers "if-none-match")
           res-blob (fs/get-site-blob uri)
           etag (-> res-blob
@@ -55,7 +59,8 @@
                                 :headers {"etag" etag}
                                 :status 200}
                                mime-type)
-        {:status 304 :body "" :headers {"etag" etag}}))))
+        {:status 304 :body "" :headers {"etag" etag
+                                        "cache-control" (str "max-age=" max-age)}}))))
 
 (defn handle-errors [handler]
   (fn [request]
@@ -96,11 +101,22 @@
   jclouds-resource
   fleet-resource
   (GET "/" [] (opt/links (fleet-resource {:uri "/index.html"})
-                         ["css/bootstrap.css" :subresource]
                          ["bower_components/jquery/jquery.min.js" :subresource]
                          ["bower_components/jquery/jquery.min.map" :subresource]
+                         ["bower_components/nprogress/nprogress.js" :subresource]
+                         ["bower_components/nprogress/nprogress.css" :subresource]
+                         ["css/bootstrap.css" :subresource]
+                         ["bower_components/store.js/store.min.js" :subresource]
+                         ["bower_components/spin.js/spin.js" :subresource]
+                         ["bower_components/select2/select2.min.js" :subresource]
+                         ["bower_components/codemirror/lib/codemirror.js" :subresource]
+                         ["bower_components/underscore/underscore-min.js" :subresource]
+                         ["bower_components/Eventable/eventable.js" :subresource]
+                         ["bower_components/sir-trevor-js/sir-trevor.min.js" :subresource]
                          ["bower_components/angular/angular.min.js" :subresource]
-                         ["bower_components/store.js/store.min.js" :subresource]  
+                         ["bower_components/angular-spinner/angular-spinner.min.js" :subresource]
+                         ["bower_components/angular-ui-bootstrap-bower/ui-bootstrap-tpls.min.js" :subresource]
+                         ["bower_components/angular-ui-select2/src/select2.js" :subresource]
                          ["js/main.js" :subresource]))
   (context "/api/public/v1/auth" [] auth-routes)
   (POST "/hola/:id.edn" [id hola]
