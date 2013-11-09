@@ -6,8 +6,13 @@
     "respond": "latest",
     "jquery": "~1.10",
     "store.js": "latest",
-    "angular" :"latest",
+    "angular": "latest",
+    "angular-i18n": "latest",
     "angular-spinner": "latest",
+    "angular-ui-bootstrap-bower": "latest",
+    "angular-ui-codemirror": "latest",
+    "angular-ui-select2": "latest",
+    "sir-trevor-js": "latest",
     "nprogress": "latest"
   },
   "authors": [
@@ -22,5 +27,8 @@
     "bower_components",
     "test",
     "tests"
-  ]
+  ],
+  "resolutions": {
+    "jquery": "~1.10"
+  }
 }
