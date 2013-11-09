@@ -51,6 +51,7 @@
                  [commons-codec "1.8"]
                  [org.clojure/tools.reader "0.7.10"]
                  [org.apache.activemq/activemq-broker "5.9.0"]
+                 [net.sf.ehcache/ehcache "2.7.4"]
                  ;;Clojurescript libs
                  [shoreleave/shoreleave-remote "0.3.0"]
                  [shoreleave/shoreleave-pubsub "0.3.0"]
@@ -71,6 +72,8 @@
                                          :pretty-print false}}}}
   :ragtime  {:migrations ragtime.sql.files/migrations
              :database "jdbc:postgresql:apoya"}
+  :aot [sun.net.www.protocol.jclouds.connection 
+        sun.net.www.protocol.jclouds.handler]
   :main ^:skip-aot apoya.core
   :target-path "target/%s"
   :jvm-opts ["-Xbootclasspath/p:lib/npn-boot-1.1.6.v20130911.jar"]
