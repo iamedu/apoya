@@ -16,8 +16,12 @@
               (.log js/console "Button clicked")
               (-> js/navigator .-id .request)))))
 
-(r/request [:post "/api/public/v1/auth/login.edn"]
+;; (r/request [:post "/api/public/v1/auth/login.edn"]
+;;            :content {:username "iamedu"
+;;                      :password "password"})
+(r/request [:get "/hola.edn"]
            :content {:username "iamedu"
-                     :password "password"})
+                     :password "password"}
+           :headers {"Accept" "application/edn; charset=utf-8"})
 
 (bind-repl)

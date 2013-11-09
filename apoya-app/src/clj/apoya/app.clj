@@ -68,7 +68,7 @@
                                 (.contains accepts "text/html"))
               body (if accepts-html
                      (fleet-resource {:uri "/500.html"})
-                     (r/edn-response {:error-id error-id}))]
+                     (r/edn-response {:error-id error-id :error :internal-server-error}))]
           (merge body {:status 500}))))))
 
 (defn language-chooser [handler]
@@ -103,7 +103,7 @@
                          ["bower_components/store.js/store.min.js" :subresource]  
                          ["js/main.js" :subresource]))
   (context "/api/public/v1/auth" [] auth-routes)
-  (GET "/hola.html" [] (restricted (/ 1 0)))
+  (GET "/hola.edn" [] (restricted (/ 1 0)))
   (POST "/upload" request)
   (GET "/adios" [] (friend/authorize #{::admin}
                                      "Admin page"))
