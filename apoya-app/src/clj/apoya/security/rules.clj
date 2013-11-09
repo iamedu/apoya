@@ -7,8 +7,11 @@
   (let [uri (:uri request)
         id (:current (friend/identity request))
         urls (auth/find-user-urls :username id)
+        accept (get-in request [:headers "accept"])
         access? (boolean (some #(re-matches % uri) urls))]
-    (if (and (not access?)
+    (if (and accept
+             (.contains accept "application/edn")
+             (not access?)
              (not (site/url-exists? uri)))
       (site/create-url {:url uri}))
     access?))
