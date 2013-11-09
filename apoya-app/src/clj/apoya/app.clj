@@ -56,7 +56,8 @@
                    (.getInput))]
       (if (or (nil? etag) (not= etag if-none-match))
         (response/content-type {:body body
-                                :headers {"etag" etag}
+                                :headers {"etag" etag
+                                          "cache-control" (str "max-age=" max-age)}
                                 :status 200}
                                mime-type)
         {:status 304 :body "" :headers {"etag" etag
