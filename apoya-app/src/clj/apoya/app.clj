@@ -46,7 +46,7 @@
              (fs/site-blob-exists? uri))
     (let [max-age (if (= uri "/js/main.js")
                     (* 30 60)
-                    (* 5 24 60 60))
+                    (* 7 24 60 60))
           mime-type (mime-type-of uri)
           if-none-match (get headers "if-none-match")
           res-blob (fs/get-site-blob uri)
