@@ -235,7 +235,15 @@ CREATE TRIGGER Update_Labels_Timestamp BEFORE UPDATE ON Labels
 INSERT INTO Error_Sources(name, description) VALUES ('webapp', 'Something happened with the webapp, most errors should be related to this');
 INSERT INTO Error_Sources(name, description) VALUES ('mq', 'There was an error when processing a message in the messaging queue');
 INSERT INTO Error_Sources(name, description) VALUES ('netty', 'There was an error with fortress or the netty library');
+
 INSERT INTO Users(username, email, password) VALUES ('iamedu', 'iamedu@gmail.com', '$2a$10$I8IVBVBHmC.Yhn14kjbi0uL91J6YCv.lYG1/XrxHAKj/WyrQXXj3.');
+INSERT INTO Roles(role_code, description) VALUES ('admin', 'User that can do anything');
+INSERT INTO Role_Assignments(username, role_code) VALUES ('iamedu', 'admin');
+
+INSERT INTO Permissions(permission, description) VALUES ('*:*', 'Permission to do anything');
+INSERT INTO Permissions(permission, description) VALUES ('sample:*', 'Can do anything for the sample module');
+INSERT INTO Role_Permissions(role_code, permission) VALUES ('admin', '*:*');
+INSERT INTO Person_Permissions(username, permission) VALUES ('iamedu', 'sample:*');
 
 INSERT INTO Languages(language) VALUES ('en');
 INSERT INTO Sites(domain, description) VALUES('default', 'Default website, when nobody else has entered!');

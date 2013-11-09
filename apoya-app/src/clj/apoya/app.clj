@@ -86,6 +86,12 @@
       (binding [cfg/*current-site* correct-site]
         (handler request)))))
 
+(defn access-forbidden [request]
+  (let [accept (get-in request [:headers "accept"])]
+    (if (and accept (.contains accept "application/edn"))
+      (assoc (r/edn-response {:error :forbidden}) :status 403)
+      (assoc (fleet-resource {:uri "/403.html"}) :status 403))))
+
 (defroutes app-routes
   jclouds-resource
   fleet-resource
@@ -97,7 +103,7 @@
                          ["bower_components/store.js/store.min.js" :subresource]  
                          ["js/main.js" :subresource]))
   (context "/api/public/v1/auth" [] auth-routes)
-  (GET "/hola" [] (restricted (/ 1 0)))
+  (GET "/hola.html" [] (restricted (/ 1 0)))
   (POST "/upload" request)
   (GET "/adios" [] (friend/authorize #{::admin}
                                      "Admin page"))
@@ -121,6 +127,6 @@
                         head/wrap-head
                         gzip/wrap-gzip]
            :access-rules [{:rule #'rules/check-access
-                           :on-fail #'rules/access-forbidden}]
+                           :on-fail #'access-forbidden}]
            :formats [:edn]))
 

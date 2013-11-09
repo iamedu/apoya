@@ -10,3 +10,15 @@
                        (first)
                        (:cnt))]
     (> site-count 0)))
+
+(defn url-exists? [url]
+  (let [url-count (-> (select restricted_urls
+                              (aggregate (count :*) :cnt)
+                              (where {:url url}))
+                      (first)
+                      (:cnt))]
+    (> url-count 0)))
+
+(defn create-url [data]
+  (insert restricted_urls (values data)))
+
