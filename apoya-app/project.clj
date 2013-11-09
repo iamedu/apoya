@@ -61,7 +61,7 @@
   :plugins [[lein-cljsbuild "1.0.0-alpha2"]
             [lein-libdir "0.1.1"]
             [ragtime/ragtime.lein "0.3.4"]]
-  :cljsbuild {;;:crossovers [uxtweet.front]
+  :cljsbuild {:crossovers [apoya.angular]
               :crossover-path "src/crossover-cljs"
               :builds {:main {:source-paths ["src/cljs"]
                               :compiler {:output-to "data/fs/sites/default/js/main.js"
