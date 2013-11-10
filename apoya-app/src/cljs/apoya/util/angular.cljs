@@ -33,4 +33,9 @@
 
 (defn oset! [obj & kvs]
   (doseq [[k v] (partition 2 kvs)]
-    (aset obj (name k) (clj->js v))))
+    (aset obj (name k) (clj->js v)))
+  (when (and (not (aget obj "$$phase"))
+             (not (-> obj (aget "$root") (aget "$$phase"))))
+    (.$digest obj)))
+
+

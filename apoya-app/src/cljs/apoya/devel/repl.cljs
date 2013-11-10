@@ -1,5 +1,4 @@
-(ns apoya.devel.repl
-  (:require [apoya.util.resources :as r]))
+(ns apoya.devel.repl)
 
 (defn bind-repl []
   (.write js/document "<script src=\"repl/out/goog/base.js\"></script>")

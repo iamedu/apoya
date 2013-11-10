@@ -128,6 +128,7 @@
                          ["bower_components/Eventable/eventable.js" :subresource]
                          ["bower_components/sir-trevor-js/sir-trevor.min.js" :subresource]
                          ["bower_components/angular/angular.min.js" :subresource]
+                         ["bower_components/angular-route/angular-route.min.js" :subresource]
                          ["bower_components/angular-spinner/angular-spinner.min.js" :subresource]
                          ["bower_components/angular-ui-bootstrap-bower/ui-bootstrap-tpls.min.js" :subresource]
                          ["bower_components/angular-ui-select2/src/select2.js" :subresource]

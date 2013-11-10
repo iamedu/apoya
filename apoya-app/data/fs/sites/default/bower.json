@@ -8,12 +8,14 @@
     "store.js": "latest",
     "angular": "1.2.0",
     "angular-i18n": "latest",
+    "angular-route": "latest",
     "angular-spinner": "latest",
     "angular-ui-bootstrap-bower": "latest",
     "angular-ui-select2": "latest",
     "sir-trevor-js": "latest",
     "nprogress": "latest",
-    "codemirror": "latest"
+    "codemirror": "latest",
+    "font-awesome": "latest"
   },
   "authors": [
     "Eduardo Díaz <iamedu@gmail.com>"

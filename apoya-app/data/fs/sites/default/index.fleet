@@ -8,6 +8,7 @@
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="bower_components/nprogress/nprogress.css" rel="stylesheet">
+    <link href="bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <title>Fortress</title>
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -15,28 +16,31 @@
       <script src="bower_components/respond/respond.min.js"></script>
     <![endif]-->
 </head>
-<body>
-    <div class="container">
-        <h1><(label :hello :default "Hello world")></h1>
-        <button id="persona" class="btn btn-lg btn-primary btn-block" type="button">Login with persona</button>
-        <form class="form-signin" action="/login" method="POST">
-            <h2 class="form-signin-heading"><(label :sign-in :default "Please sign in")></h2>
-            <input name="username" type="text" class="form-control" placeholder="Email address" required autofocus>
-            <input name="password" type="password" class="form-control" placeholder="Password" required>
-            <label class="checkbox">
-                <input type="checkbox" value="remember-me"> <(label :feliz :default "Feliz")>
-            </label>
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-        </form>
-    </div>
+<body ng-app="apoyaApp">
+    <div class="container mainContainer" ng-view></div>
+    <script src="bower_components/jquery/jquery.min.js"></script>
+    <script src="bower_components/nprogress/nprogress.js"></script>
+    <script>NProgress.start();</script>
+    <script src="bower_components/store.js/store.min.js"></script>
+    <!-- Angular -->
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="<(label :angular-i18n :default "bower_components/angular-i18n/angular-locale_en.js")>"></script>
+    <script src="bower_components/angular-route/angular-route.min.js"></script>
+    <script src="bower_components/angular-ui-bootstrap-bower/ui-bootstrap.min.js"></script>
+    <script src="bower_components/select2/select2.min.js"></script>
+    <script src="<(label :select2-i18n :default "js/select2_locale_en.js")>"></script>
+    <script src="bower_components/angular-ui-select2/src/select2.js"></script>
+    <script src="bower_components/spin.js/dist/spin.min.js"></script>
+    <script src="bower_components/angular-spinner/angular-spinner.min.js"></script>
+    <!-- Codemirror -->
+    <script src="bower_components/codemirror/lib/codemirror.js"></script>
+    <!-- Sir trevor -->
+    <script src="bower_components/underscore/underscore-min.js"></script>
+    <script src="bower_components/Eventable/eventable.js"></script>
+    <script src="bower_components/sir-trevor-js/sir-trevor.min.js"></script>
+    <script src="js/main.js"></script>
+    <script>NProgress.done();</script>
     <script>
-        document.apoya_locales={
-            angular:'<(label :angular-i18n :default "bower_components/angular-i18n/angular-locale_en.js")>',
-            select2:'<(label :select2-i18n :default "js/select2_locale_en.js")>'
-        }
-    </script>
-    <script async src="js/main.js"></script>
-    <script>                                                                                                                                      
         var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];                                                                               
         (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];                                                                               g.src='//www.google-analytics.com/ga.js';                                                                                                 
         s.parentNode.insertBefore(g,s)}(document,'script'));                                                                                      

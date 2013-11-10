@@ -1,10 +1,20 @@
 (ns apoya.main
   (:require-macros [apoya.angular :refer [defcontroller]])
-  (:require [apoya.remote.request :as r]
-            [apoya.util.resources :refer [load-base load-piggie-repl]]
-            [apoya.util.log :as log]))
+  (:require [apoya.util.log :as log]))
 
 (def *default-output* (log/console-output))
 (log/start-display *default-output*)
 
-(load-base #(log/info "Done loading"))
+(def app (.module js/angular "apoyaApp" (array "ngRoute")))
+
+(defn config-app [$routeProvider $httpProvider]
+  (doto $routeProvider
+    (.when "/" (clj->js {:templateUrl "views/main.html"
+                         :controller :MainCtrl}))))
+
+(-> app
+    (.config (array "$routeProvider" "$httpProvider" config-app)))
+
+
+(defn app-started []
+  (log/info "Resources have been loaded"))
