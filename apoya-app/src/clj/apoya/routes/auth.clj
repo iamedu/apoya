@@ -10,5 +10,6 @@
 
 (defroutes auth-routes
   (POST "/login.edn" request (identity-response request))
-  (POST "/persona-login.edn" request (identity-response request)))
+  (POST "/persona-login.edn" request (identity-response request))
+  (POST "/identity.edn" request (identity-response request)))
 

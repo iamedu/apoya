@@ -34,6 +34,7 @@
                   :exclusions [org.bouncycastle/bctsp-jdk14]]
                  [clj-http "0.7.7"]
                  [clojurewerkz/elastisch "1.3.0-beta5"]
+                 [pallet-fsm "0.2.0"]
                  ;; Java libs
                  [ch.qos.logback/logback-core "1.0.13"]
                  [ch.qos.logback/logback-classic "1.0.13"]
