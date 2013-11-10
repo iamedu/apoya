@@ -1,17 +1,11 @@
 <div class="container">
-    <div class="header" style="margin-bottom: 30px">
-        <ul class="nav nav-pills pull-right">
-            <li class="active"><a href="#/">Home</a></li>
-            <li><a href>Login</a></li>
-        </ul>
-        <h3 class="text-muted">Apoya</h3>
-    </div>
+    <ng-include src="'views/menubar.html'"></ng-include>
     <div class="jumbotron" style="text-align: center">
         <p class="lead">Apoya is a platform to get you up and running with your webapps, try it</p>
     </div>
     <div class="section" style="text-align: center">
         <p ng-show="unknownUser">
-        <a class="btn btn-xlg btn-success" href role="button">Sign up today</a>
+            <a class="btn btn-xlg btn-success" href="#/signup" role="button">Sign up today</a>
         </p>
     </div>
 </div>

@@ -15,7 +15,11 @@
     "sir-trevor-js": "latest",
     "nprogress": "latest",
     "codemirror": "latest",
-    "font-awesome": "latest"
+    "font-awesome": "latest",
+    "modernizr": "latest",
+    "FileAPI": "latest",
+    "H5F": "latest",
+    "tourist": "latest"
   },
   "authors": [
     "Eduardo Díaz <iamedu@gmail.com>"
