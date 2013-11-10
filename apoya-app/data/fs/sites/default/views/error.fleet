@@ -1,0 +1,37 @@
+<div class="container">
+    <ng-include src="'views/menubar.html'"></ng-include>
+    <div class="row">
+        <div class="page-header">
+            <h1>Sorry :( something failed <small>Please help us solve it!</small></h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <h3>We need your help</h3>
+            <p>
+                Something unexpected just happened, and we have to apologize for it.
+                We are also going to ask for a little help, if it's alright with you.
+                If you fill the bug report on the right our engineers are going to be able
+                to fix it faster.
+            </p>
+            <h4>You'd rather call for help?</h4>
+            <p>
+                If you'd rather call for help, you can call <strong>1-800-HELP</strong> during office hours.
+                Try to have your account details with you so we can give you a better service.
+            </p>
+            <h4>Thank you very much</h4>
+            <p>
+                You can go back to what you were doing with this button.
+            </p>
+            <a class="btn btn-lg btn-default">Go back</a>
+        </div>
+        <div class="col-sm-6">
+            <h4>Bug report</h4>
+            <dl ng-show="errorId">
+                <dt>Error Id</dt>
+                <dd>{{errorId}}</dd>
+            </dl>
+        </div>
+    </div>
+</div>
+

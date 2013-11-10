@@ -12,11 +12,15 @@
 (defn find-current-user []
   (r/edn [:post "/api/public/v1/auth/identity.edn"]))
 
+(defn login [user]
+  (r/edn [:post "/api/public/v1/auth/login.edn"]
+         :content user))
+
 (defn check-user []
   (go
     (let [{:keys [outcome body]} (<! (find-current-user))]
+      (t/publish :ready true) 
       (when body
-        (reset! user body)
         (t/publish :identity body))
       (when (and (nil? body)
                  (not (nil? @user)))

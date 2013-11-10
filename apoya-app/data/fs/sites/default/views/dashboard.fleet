@@ -1,0 +1,4 @@
+<div class="container">
+    <ng-include src="'views/menubar.html'"></ng-include>
+</div>
+

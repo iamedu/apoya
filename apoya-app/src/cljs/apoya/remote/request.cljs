@@ -1,5 +1,6 @@
 (ns apoya.remote.request
-  (:require [cljs.reader :as reader]
+  (:require [apoya.topics :as t]
+            [cljs.reader :as reader]
             [clojure.browser.event :as event]
             [cljs.core.async :as async :refer [chan close! put!]]
             [goog.net.XhrManager :as manager]
@@ -39,9 +40,10 @@
                            (update-in result [:body] cljs.reader/read-string)
                            #(close! rc)))
         on-error (fn [error]
-                   (put! rc
-                         (update-in error [:body] cljs.reader/read-string)
-                         #(close! rc)))
+                   (let [error (update-in error [:body] cljs.reader/read-string)]
+                     (t/publish :error error)
+                     (put! rc
+                           #(close! rc))))
         [method uri] (common/parse-route route)]
     (try
       (add-responders id on-success on-error)

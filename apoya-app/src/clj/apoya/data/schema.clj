@@ -2,6 +2,7 @@
   (:require [apoya.config :as cfg]
             [clojure.tools.logging :as log]
             [korma.sql.engine :refer [infix]])
+  (:import [org.postgresql.util PGobject])
   (:use korma.db
         korma.core))
 
@@ -41,7 +42,8 @@
 (defentity users
   (pk :username)
   (transform (fn [{status :status :as v}]
-               (if status
+               (if (and status
+                        (instance? PGobject status))
                  (assoc v :status (.getValue status))
                  v)))
   (many-to-many roles :role_assignments
