@@ -1,4 +1,77 @@
 <div class="container">
     <ng-include src="'views/menubar.html'"></ng-include>
+    <div class="section">
+        <div class="row">
+            <div class="col-sm-8">
+                <div class="thumbnail">
+                    <div class="box box-warning box-lg">Common errors over the last 48 hours</div>
+                    <div class="caption">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>User</th>
+                                    <th>Exception</th>
+                                    <th>Date</th>
+                                    <th>Detail</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <td><a href>iamedu</a></td>
+                                <td>java.fool.WhateverException</td>
+                                <td>01/01/2014</td>
+                                <td><a href>Detail</a></td>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="thumbnail">
+                    <div class="box box-danger box-lg">Most affected users over the last 48 hours</div>
+                    <div class="caption">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>User</th>
+                                    <th>Error count</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <td><a href>iamedu</a></td>
+                                <td><strong>987 errors</strong></td>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="thumbnail">
+                    <div class="box box-danger box-lg">300 exceptions today :(</div>
+                    <div class="caption">
+                        <h3>Error count</h3>
+                        <dl>
+                            <dt>Total error count</dt>
+                            <dd>96746 exceptions</dd>
+                            <dt>Errors in last 24 hours</dt>
+                            <dd>450 exceptions</dd>
+                        </dl>
+                    </div>
+                </div>
+                <div class="thumbnail">
+                    <div class="box box-info box-lg">Next mails</div>
+                    <div class="caption">
+                        <table class="table">
+                            <thead>
+                                <th>Subject</th>
+                                <th>Next send date</th>
+                            </thead>
+                            <tbody>
+                                <td>Evaluation status report</td>
+                                <td>01:23 pm</td>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 

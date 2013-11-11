@@ -1,3 +1,44 @@
+//mixins
+
+.box-variant(@color; @background; @border) {
+  color: @color;
+  background-color: @background;
+  border-color: @border;
+
+  &:hover,
+  &:focus,
+  &:active,
+  &.active,
+  .open .dropdown-toggle& {
+    color: @color;
+    background-color: darken(@background, 8%);
+        border-color: darken(@border, 12%);
+  }
+  &:active,
+  &.active,
+  .open .dropdown-toggle& {
+    background-image: none;
+  }
+  &.disabled,
+  &[disabled] {
+    &,
+    &:hover,
+    &:focus,
+    &:active,
+    &.active {
+      background-color: @background;
+          border-color: @border;
+    }
+  }
+}
+
+.box-size(@padding-vertical; @padding-horizontal; @font-size; @line-height; @border-radius) {
+  padding: @padding-vertical @padding-horizontal;
+  font-size: @font-size;
+  line-height: @line-height;
+}
+
+//Otherwise
 .btn-xlg {
   // line-height: ensure even-numbered height of button next to large input
   .button-size(35px; 90px; 28px; @line-height-large; @border-radius-large);
@@ -17,5 +58,69 @@
 .modal-header:after {
   display: table;
   content: " ";
+}
+
+.box {
+  display: inline-block;
+  font-weight: @btn-font-weight;
+  text-align: center;
+  vertical-align: middle;
+  background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
+  border: 1px solid transparent;
+  white-space: nowrap;
+  width: 100%;
+  .button-size(@padding-base-vertical; @padding-base-horizontal; @font-size-base; @line-height-base; @border-radius-base);
+  .user-select(none);
+
+  &:focus {
+    .tab-focus();
+  }
+
+  &:hover,
+  &:focus {
+    color: @btn-default-color;
+    text-decoration: none;
+  }
+
+  &:active,
+  &.active {
+    outline: 0;
+    background-image: none;
+  }
+
+  &.disabled,
+  &[disabled] {
+    pointer-events: none; // Future-proof disabling of clicks
+    .opacity(.65);
+    .box-shadow(none);
+  }
+}
+
+.box-default {
+  .box-variant(@btn-default-color; @btn-default-bg; @btn-default-border);
+}
+
+.box-primary {
+  .box-variant(@btn-primary-color; @btn-primary-bg; @btn-primary-border);
+}
+
+.box-success {
+  .box-variant(@btn-success-color; @btn-success-bg; @btn-success-border);
+}
+
+.box-warning {
+  .box-variant(@btn-warning-color; @btn-warning-bg; @btn-warning-border);
+}
+
+.box-danger {
+  .box-variant(@btn-danger-color; @btn-danger-bg; @btn-danger-border);
+}
+
+.box-info {
+  .box-variant(@btn-info-color; @btn-info-bg; @btn-info-border);
+}
+
+.box-lg {
+  .box-size(@padding-large-vertical * 1.5; @padding-large-horizontal; @font-size-large; @line-height-large; @border-radius-large);
 }
 
