@@ -5,6 +5,7 @@
     "html5shiv": "latest",
     "respond": "latest",
     "jquery": "~1.10",
+    "bootstrap": "latest",
     "store.js": "latest",
     "angular": "1.2.0",
     "angular-i18n": "latest",

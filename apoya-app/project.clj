@@ -57,7 +57,7 @@
                  ;;Clojurescript libs
                  [shoreleave/shoreleave-remote "0.3.0"]
                  [shoreleave/shoreleave-pubsub "0.3.0"]
-                 [clavatar "0.2.1"]]
+                 [clavatar-js "0.1.0-SNAPSHOT"]]
   :source-paths ["src/clj"]
   :libdir-path "deps"
   :plugins [[lein-cljsbuild "1.0.0-alpha2"]
@@ -69,6 +69,7 @@
                               :compiler {:output-to "data/fs/sites/default/js/main.js"
                                          :externs  ["externs/angular.js"
                                                     "externs/persona.js"
+                                                    "externs/jquery.js"
                                                     "externs/nprogress.js"]
                                          :optimizations :advanced
                                          :pretty-print false}}}}

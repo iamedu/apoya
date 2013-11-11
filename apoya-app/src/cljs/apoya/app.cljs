@@ -1,5 +1,4 @@
 (ns apoya.main
-  (:require-macros [apoya.angular :refer [defcontroller]])
   (:require [apoya.util.log :as log]
             [apoya.util.angular :refer [oset!]]
             [apoya.topics :as t]
@@ -9,41 +8,49 @@
 (def *default-output* (log/console-output))
 (log/start-display *default-output*)
 
-(def app (.module js/angular "apoyaApp" (array "ngRoute")))
+(def app (.module js/angular "apoyaApp" (array "ngRoute" "ui.bootstrap")))
 
 (defn config-app [$routeProvider $httpProvider]
   (doto $routeProvider
     (.when "/" (clj->js {:templateUrl "views/main.html"
                          :controller :MainCtrl}))
     (.when "/error/:errorId" (clj->js {:templateUrl "views/error.html"
-                              :controller :ErrorCtrl}))
+                                       :controller :ErrorCtrl}))
     (.when "/login" (clj->js {:templateUrl "views/login.html"
                               :controller :LoginCtrl}))
     (.when "/signup" (clj->js {:templateUrl "views/signup.html"}))
     (.when "/dashboard" (clj->js {:templateUrl "views/dashboard.html"}))))
 
-(defn handle-error [$location $rootScope {:keys [outcome status body]}]
+(defn handle-forbidden [m]
+  (log/info (str "Forbidden request" m)))
+
+(defn handle-error [$location $rootScope {:keys [outcome status body] :as m}]
   (let [{error-id :error-id} body
         current-location (.path $location)]
-    (when-not (gstring/startsWith current-location "/error")
-      (.path $location (str "/error/" error-id))
-      (.$apply $rootScope))))
+    (if (not= status 403)
+      (when-not (gstring/startsWith current-location "/error")
+        (.path $location (str "/error/" error-id))
+        (.$apply $rootScope))
+      (handle-forbidden m))))
 
-(defn handle-identity [$location $rootScope id]
+(defn handle-identity [$location $rootScope $modal id]
   (when (nil? @auth/user)
     (.path $location "/dashboard")
+    (doto $modal
+      (.open (clj->js {:templateUrl "views/modals/roles.html"
+                       :controller "RoleModalCtrl"})))
     (.$apply $rootScope))
   (reset! auth/user id))
 
-(defn run-app [$location $rootScope]
+(defn run-app [$location $rootScope $modal]
   (t/subscribe :error (partial handle-error $location $rootScope))
   (t/subscribe :ready (fn [_] (oset! $rootScope :ready true)))
-  (t/subscribe :identity (partial handle-identity $location $rootScope))
+  (t/subscribe :identity (partial handle-identity $location $rootScope $modal))
   (auth/check-user))
 
 (-> app
     (.config (array "$routeProvider" "$httpProvider" config-app))
-    (.run (array "$location" "$rootScope" run-app)))
+    (.run (array "$location" "$rootScope" "$modal" run-app)))
 
 (defn app-started []
   (log/info "Resources have been loaded"))

@@ -1,7 +1,30 @@
 <div class="header" style="margin-bottom: 30px" ng-controller="MenuBarCtrl">
-    <ul class="nav nav-pills pull-right">
+    <ul class="nav nav-pills pull-right" ng-show="ready && !identity">
         <li ng-class="{active:location=='/'}"><a href="#/">Home</a></li>
         <li ng-class="{active:location=='/login'}"><a href="#/login">Login</a></li>
+    </ul>
+    <ul class="nav nav-pills pull-right" ng-show="ready && identity">
+        <li ng-class="{active:location=='/dashboard'}"><a href="#/dashboard">Home</a></li>
+        <li class="dropdown">
+            <a class="dropdown-toggle" href="#">
+                iamedu <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                    <a href>
+                      <img ng-src="{{gravatar}}" />
+                      <span>
+                          Edit profile
+                      </span>
+                    </a>
+                </li>
+                <li class="divider"></li>
+                <li><a>Convert to user</a></li>
+                <li><a>Change site</a></li>
+                <li class="divider"></li>
+                <li><a>Logout</a></li>
+            </ul>
+        </li>
     </ul>
     <h3 class="text-muted">Apoya</h3>
 </div>
