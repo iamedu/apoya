@@ -8,7 +8,11 @@
 (def *default-output* (log/console-output))
 (log/start-display *default-output*)
 
+;; Global modals
+(def roles-opened (atom false))
+
 (def app (.module js/angular "apoyaApp" (array "ngRoute" "ui.bootstrap")))
+(def public-urls #{"/", "/login", "/signup"})
 
 (defn config-app [$routeProvider $httpProvider]
   (doto $routeProvider
@@ -19,7 +23,8 @@
     (.when "/login" (clj->js {:templateUrl "views/login.html"
                               :controller :LoginCtrl}))
     (.when "/signup" (clj->js {:templateUrl "views/signup.html"}))
-    (.when "/dashboard" (clj->js {:templateUrl "views/dashboard.html"}))))
+    (.when "/dashboard" (clj->js {:templateUrl "views/dashboard.html"}))
+    (.otherwise (clj->js {:templateUrl "views/otherwise.html"}))))
 
 (defn handle-forbidden [m]
   (log/info (str "Forbidden request" m)))
@@ -33,20 +38,69 @@
         (.$apply $rootScope))
       (handle-forbidden m))))
 
+(defn show-roles [$rootScope $modal roles]
+  (when-not @roles-opened
+    (reset! roles-opened true)
+    (-> $modal
+        (.open (clj->js {:templateUrl "views/modals/roles.html"
+                         :controller "RoleModalCtrl"
+                         :keyboard false
+                         :backdrop "static"
+                         :resolve {:roles (fn [] roles)}}))
+        (.-result)
+        (.then (fn [selection]
+                 (reset! auth/role selection)
+                 (reset! roles-opened false)
+                 (t/publish :role selection))))))
+
 (defn handle-identity [$location $rootScope $modal id]
-  (when (nil? @auth/user)
-    (.path $location "/dashboard")
-    (doto $modal
-      (.open (clj->js {:templateUrl "views/modals/roles.html"
-                       :controller "RoleModalCtrl"})))
-    (.$apply $rootScope))
-  (reset! auth/user id))
+  (let [was-nil? (nil? @auth/user)
+        {:keys [current authentications]} id
+        current-authentication (get authentications current)
+        {:keys [roles current-role]} current-authentication
+        location (.path $location)]
+    (reset! auth/user id) 
+    (t/clear-topic :role)
+    (when-not (nil? current-role)
+      (reset! auth/role current-role)
+      (t/publish :role current-role))
+    (when (nil? current-role)
+      (show-roles $rootScope $modal roles)
+      (.$apply $rootScope))
+    (when (and was-nil?
+               (public-urls location))
+      (.path $location "/dashboard")
+      (.$apply $rootScope))))
+
+(defn handle-logout [$location $rootScope _]
+  (reset! auth/user nil)
+  (reset! auth/role nil)
+  (when-not (public-urls (.path $location))
+    (.path $location "/")
+    (.$apply $rootScope)))
+
+(defn finished-loading [$location $rootScope]
+  (let [location (.path $location)]
+    (when (and (nil? @auth/user)
+               (not (public-urls location)))
+      (.path $location "/")
+      (.$apply $rootScope)))
+  (.done js/NProgress))
 
 (defn run-app [$location $rootScope $modal]
   (t/subscribe :error (partial handle-error $location $rootScope))
   (t/subscribe :ready (fn [_] (oset! $rootScope :ready true)))
   (t/subscribe :identity (partial handle-identity $location $rootScope $modal))
-  (auth/check-user))
+  (t/subscribe :logout (partial handle-logout $location $rootScope))
+  (.$on $rootScope "$locationChangeStart"
+        (fn [event next-location current-location]
+          (let [reg #"https?://[\w\.:\-]+/#(/[\w\.\-\#\/]*)"
+                [[_ location]] (re-seq reg next-location)]
+            (if (and @auth/started
+                     (nil? @auth/user)
+                     (not (public-urls location)))
+              (.preventDefault event)))))
+  (auth/check-user (partial finished-loading $location $rootScope)))
 
 (-> app
     (.config (array "$routeProvider" "$httpProvider" config-app))

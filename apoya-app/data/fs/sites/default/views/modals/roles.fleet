@@ -1,19 +1,15 @@
 <div class="modal-dialog">
-  <div class="modal-content">
-    <div class="modal-header">
-      <button type="button" class="close" ng-click="cancel()">&times;</button>
-      <h4 class="modal-title">I'm a modal!</h4>
-    </div>
-    <div class="modal-body">
-      <ul>
-        <li ng-repeat="item in items">
-          <a ng-click="selected.item = item"> {{ item }}</a>
-        </li>
-      </ul>
-      Selected: <b>{{ selected.item }}</b>
-    </div>
-    <div class="modal-footer">
-      <button class="btn btn-primary" ng-click="ok()">OK</button>
-    </div>
-  </div>        
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">Select your role</h4>
+        </div>
+        <div class="modal-body">
+            <p>Looks like you have more than one role, please select one in order to work with the application</p>
+            <div class="list-group">
+                <a href ng-click="ok(role)" class="list-group-item" ng-repeat="role in roles">
+                    <strong>{{role.role_code}}</strong> {{role.description}}
+                </a>
+            </div>
+        </div>
+    </div>        
 </div>

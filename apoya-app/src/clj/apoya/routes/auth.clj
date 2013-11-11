@@ -16,3 +16,21 @@
                       (assoc (r/edn-response nil)
                              :session nil))))
 
+(defn merge-role [response session role]
+  (let [{current :current} (:cemerick.friend/identity session)
+        session (update-in session [:cemerick.friend/identity :authentications current]
+                           assoc :current-role role)]
+    (assoc response :session session)))
+
+(defroutes private-auth-routes
+  (POST "/select-role.edn" request
+        (let [{:keys [role_code description]} (:params request)
+              id (friend/current-authentication request)
+              roles (set (map :role_code (:roles id)))
+              session (:session request)
+              role {:role_code role_code :description description}]
+          (if (roles role_code)
+            (merge-role (r/edn-response {:role role}) session role) 
+            (assoc (r/edn-response {:cause :role-not-available})
+                   :status 403)))))
+

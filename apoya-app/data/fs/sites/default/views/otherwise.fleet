@@ -1,0 +1,12 @@
+<div class="container">
+    <ng-include src="'views/menubar.html'"></ng-include>
+    <div class="section">
+        <div class="page-header">
+            <h1>Page not found</h1>
+        </div>
+        <p>
+            We were not able to find that page :(
+        </p>
+    </div>
+</div>
+

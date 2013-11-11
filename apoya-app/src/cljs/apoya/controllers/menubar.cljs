@@ -19,17 +19,24 @@
                        (gravatar email :size 45))
            :identity (clj->js id))))
 
-(defn handle-logout [$scope]
+(defn handle-role [$scope role]
+  (oset! $scope
+         :role role))
+
+(defn logout [$scope]
   (go
-    (<! (auth/logout))))
+    (<! (auth/logout))
+    (t/publish :logout true)))
 
 (defcontroller app MenuBarCtrl [$scope $location]
   (.dropdown (js/jQuery ".dropdown-toggle"))
+  (t/subscribe :role (partial handle-role $scope))
   (when-not @initialized
     (t/subscribe :identity (partial handle-identity $scope))
     (reset! initialized true))
   (handle-identity $scope @auth/user)
+  (handle-role $scope @auth/role)
   (oset! $scope
          :location (.path $location)
-         :logout (partial handle-logout $scope)))
+         :logout (partial logout $scope)))
 

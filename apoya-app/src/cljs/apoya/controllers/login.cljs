@@ -16,7 +16,13 @@
         (when-not (nil? body)
           (t/publish :identity body))
         (when (nil? body)
-          (log/info "User or password incorrect")))
+          (oset! $scope
+                 :loginError true
+                 :user {})
+          (.setTimeout js/window
+                       (fn []
+                         (oset! $scope :loginError false))
+                       (* 10 1000))))
       (oset! $scope
              :tryingLogin false))))
 

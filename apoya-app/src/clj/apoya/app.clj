@@ -13,7 +13,7 @@
             [apoya.security.workflows :as workflows]
             [apoya.security.csrf :as csrf]
             [apoya.security.rules :as rules]
-            [apoya.routes.auth :refer [auth-routes]]
+            [apoya.routes.auth :refer [auth-routes private-auth-routes]]
             [compojure.route :as route]
             [pantomime.mime :refer [mime-type-of]]
             [noir.util.middleware :as middleware]
@@ -134,6 +134,7 @@
                          ["bower_components/angular-ui-select2/src/select2.js" :subresource]
                          ["js/main.js" :subresource]))
   (context "/api/public/v1/auth" [] auth-routes)
+  (context "/api/v1/auth" [] private-auth-routes)
   (find-more-routes)
   (route/not-found (fn [_] (fleet-resource {:uri "/404.html"}))))
 

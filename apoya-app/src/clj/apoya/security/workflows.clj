@@ -28,7 +28,7 @@
         (-> request
             :params
             :assertion
-            (persona/verify-assertion "https://localhost:3443")
+            (persona/verify-assertion possible-audience)
             persona-credential-fn
             (workflows/make-auth {::friend/workflow :edn-request
                                   ::friend/redirect-on-auth? false}))))))
