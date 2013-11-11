@@ -20,14 +20,12 @@
                 </li>
                 <li class="divider"></li>
                 <li><a href>Convert to user</a></li>
-                <li><a href>Change role</a></li>
                 <li><a href>Change site</a></li>
                 <li class="divider"></li>
                 <li><a href ng-click="logout()">Logout</a></li>
             </ul>
         </li>
     </ul>
-    <div class="pull-right" style="padding: 10px 15px">{{role.role_code}}</div>
     <h3 class="text-muted">Apoya</h3>
 </div>
 

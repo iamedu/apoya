@@ -38,35 +38,10 @@
         (.$apply $rootScope))
       (handle-forbidden m))))
 
-(defn show-roles [$rootScope $modal roles]
-  (when-not @roles-opened
-    (reset! roles-opened true)
-    (-> $modal
-        (.open (clj->js {:templateUrl "views/modals/roles.html"
-                         :controller "RoleModalCtrl"
-                         :keyboard false
-                         :backdrop "static"
-                         :resolve {:roles (fn [] roles)}}))
-        (.-result)
-        (.then (fn [selection]
-                 (reset! auth/role selection)
-                 (reset! roles-opened false)
-                 (t/publish :role selection))))))
-
 (defn handle-identity [$location $rootScope $modal id]
   (let [was-nil? (nil? @auth/user)
-        {:keys [current authentications]} id
-        current-authentication (get authentications current)
-        {:keys [roles current-role]} current-authentication
         location (.path $location)]
     (reset! auth/user id) 
-    (t/clear-topic :role)
-    (when-not (nil? current-role)
-      (reset! auth/role current-role)
-      (t/publish :role current-role))
-    (when (nil? current-role)
-      (show-roles $rootScope $modal roles)
-      (.$apply $rootScope))
     (when (and was-nil?
                (public-urls location))
       (.path $location "/dashboard")

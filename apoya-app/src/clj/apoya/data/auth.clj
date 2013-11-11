@@ -4,15 +4,11 @@
         apoya.data.schema))
 
 (defn find-user [& {:as criteria}]
-  (let [user (first (select users
-                            (with roles
-                              (fields :role_code :description))
-                            (where (merge criteria {:active true}))
-                            (limit 1)))
-        roles (:roles user)]
-    (if (= (count roles) 1)
-      (assoc user :current-role (-> roles first))
-      user)))
+  (first (select users
+                 (with roles
+                   (fields :role_code :description))
+                 (where (merge criteria {:active true}))
+                 (limit 1))))
 
 (defn find-user-roles [& {:as criteria}]
   (set (map #(keyword (:role_code %))
