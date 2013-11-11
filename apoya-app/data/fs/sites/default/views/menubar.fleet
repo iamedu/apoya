@@ -19,10 +19,10 @@
                     </a>
                 </li>
                 <li class="divider"></li>
-                <li><a>Convert to user</a></li>
-                <li><a>Change site</a></li>
+                <li><a href>Convert to user</a></li>
+                <li><a href>Change site</a></li>
                 <li class="divider"></li>
-                <li><a>Logout</a></li>
+                <li><a href ng-click="logout()">Logout</a></li>
             </ul>
         </li>
     </ul>

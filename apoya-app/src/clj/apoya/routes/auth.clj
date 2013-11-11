@@ -11,5 +11,8 @@
 (defroutes auth-routes
   (POST "/login.edn" request (identity-response request))
   (POST "/persona-login.edn" request (identity-response request))
-  (POST "/identity.edn" request (identity-response request)))
+  (POST "/identity.edn" request (identity-response request))
+  (friend/logout (ANY "/logout.edn" request
+                      (assoc (r/edn-response nil)
+                             :session nil))))
 

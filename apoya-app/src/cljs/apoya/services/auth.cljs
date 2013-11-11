@@ -16,6 +16,9 @@
   (r/edn [:post "/api/public/v1/auth/login.edn"]
          :content user))
 
+(defn logout []
+  (r/edn [:post "/api/public/v1/auth/logout.edn"]))
+
 (defn check-user []
   (go
     (let [{:keys [outcome body]} (<! (find-current-user))]

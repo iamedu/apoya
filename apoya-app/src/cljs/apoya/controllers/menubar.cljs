@@ -19,6 +19,10 @@
                        (gravatar email :size 45))
            :identity (clj->js id))))
 
+(defn handle-logout [$scope]
+  (go
+    (<! (auth/logout))))
+
 (defcontroller app MenuBarCtrl [$scope $location]
   (.dropdown (js/jQuery ".dropdown-toggle"))
   (when-not @initialized
@@ -26,5 +30,6 @@
     (reset! initialized true))
   (handle-identity $scope @auth/user)
   (oset! $scope
-         :location (.path $location)))
+         :location (.path $location)
+         :logout (partial handle-logout $scope)))
 
