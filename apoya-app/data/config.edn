@@ -21,5 +21,7 @@
  :db {:make-pool? true
       :classname "org.postgresql.Driver"
       :subprotocol "postgresql"
+      :user "iamedu"
+      :password ""
       :subname "//localhost:5432/apoya"}
  :nrepl-port 7888}

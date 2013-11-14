@@ -7,6 +7,7 @@
             [apoya.resources.less :as less]
             [apoya.resources.fs :as fs]
             [apoya.monitor.files :as files]
+            [apoya.services.schedule :as schedule]
             [apoya.util.classloader :refer [with-classloader]]
             [clojure.tools.cli :refer [cli]] 
             [clojure.tools.logging :as log]
@@ -53,6 +54,7 @@
       (load-logback logback-file))
     (fs/setup-blobstore (get (cfg/apoya-config) :blobstore))
     (schema/setup-database (get (cfg/apoya-config) :db))
+    (schedule/setup-scheduler (get (cfg/apoya-config) :db))
     (preload-app)
     (fortress/run-fortress #'app fortress-config)
     (when nrepl-port
