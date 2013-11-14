@@ -12,7 +12,7 @@
 (def roles-opened (atom false))
 
 (def app (.module js/angular "apoyaApp" (array "ngRoute" "ui.bootstrap")))
-(def public-urls #{"/", "/login", "/signup"})
+(def public-urls #{"/", "/login", "/signup", "/error"})
 
 (defn config-app [$routeProvider $httpProvider]
   (doto $routeProvider
@@ -36,6 +36,7 @@
         current-location (.path $location)]
     (if (not= status 403)
       (when-not (gstring/startsWith current-location "/error")
+        (log/info "Ocurrio un error")
         (.path $location (str "/error/" error-id))
         (.$apply $rootScope))
       (handle-forbidden m))))
@@ -59,7 +60,8 @@
 (defn finished-loading [$location $rootScope]
   (let [location (.path $location)]
     (when (and (nil? @auth/user)
-               (not (public-urls location)))
+               (not (or (public-urls location)
+                        (gstring/startsWith location "/error"))))
       (.path $location "/")
       (.$apply $rootScope)))
   (.done js/NProgress))

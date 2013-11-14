@@ -13,7 +13,6 @@
     (swap! responders assoc id {:success success :error error})))
 
 (extend-type goog.net.XhrManager
-
   event/EventType
   (event-types [this]
     (into {}
