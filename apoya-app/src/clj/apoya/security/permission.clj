@@ -17,3 +17,7 @@
   (let [permission-alts (permission-alternatives permission)
         criteria (-> criteria seq flatten)]
     (apply auth/has-any-permission? permission-alts criteria)))
+
+(defn has-any-permission? [permissions & {:as criteria}]
+  (let [criteria (-> criteria seq flatten)]
+    (boolean (some #(apply has-permission? % criteria) permissions))))
