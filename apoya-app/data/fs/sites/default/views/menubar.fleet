@@ -1,7 +1,7 @@
 <div class="header" style="margin-bottom: 30px" ng-controller="MenuBarCtrl">
     <ul class="nav nav-pills pull-right" ng-show="ready && !identity">
-        <li ng-class="{active:location=='/'}"><a href="#/">Home</a></li>
-        <li ng-class="{active:location=='/login'}"><a href="#/login">Login</a></li>
+        <li ng-class="{active:location==null}"><a href="#/">Home</a></li>
+        <li ng-class="{active:location=='login'}"><a href="#/login">Login</a></li>
     </ul>
     <ul class="nav nav-pills pull-right" ng-show="ready && identity">
         <li ng-class="{active:location == 'dashboard'}"><a href="#/dashboard">Dashboard</a></li>
