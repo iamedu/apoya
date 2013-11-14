@@ -16,7 +16,7 @@
         {:keys [email]} (get authentications current)]
     (oset! $scope
            :gravatar (if email
-                       (gravatar email :size 45))
+                       (gravatar email :rating :g :default :identicon))
            :identity (clj->js id))))
 
 (defn logout [$scope]
@@ -30,7 +30,12 @@
     (t/subscribe :identity (partial handle-identity $scope))
     (reset! initialized true))
   (handle-identity $scope @auth/user)
-  (oset! $scope
-         :location (.path $location)
-         :logout (partial logout $scope)))
+
+  (let [not-empty? (complement empty?)
+        location-parts (-> (.path $location) (.split "/"))
+        location-parts (filter not-empty? location-parts)
+        location (first location-parts)]
+    (oset! $scope
+           :location location
+           :logout (partial logout $scope))))
 

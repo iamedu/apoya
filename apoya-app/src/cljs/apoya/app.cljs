@@ -24,7 +24,7 @@
                               :controller :LoginCtrl}))
     (.when "/signup" (clj->js {:templateUrl "views/signup.html"}))
     (.when "/dashboard" (clj->js {:templateUrl "views/dashboard.html"}))
-    (.when "/command" (clj->js {:templateUrl "views/command.html"}))
+    (.when "/command/:section" (clj->js {:templateUrl "views/command.html"}))
     (.otherwise (clj->js {:templateUrl "views/otherwise.html"}))))
 
 (defn handle-forbidden [m]

@@ -4,8 +4,8 @@
         <li ng-class="{active:location=='/login'}"><a href="#/login">Login</a></li>
     </ul>
     <ul class="nav nav-pills pull-right" ng-show="ready && identity">
-        <li ng-class="{active:location=='/dashboard'}"><a href="#/dashboard">Dashboard</a></li>
-        <li ng-class="{active:location=='/command'}"><a href="#/command">Command center</a></li>
+        <li ng-class="{active:location == 'dashboard'}"><a href="#/dashboard">Dashboard</a></li>
+        <li ng-class="{active:location == 'command'}"><a href="#/command/main">Command center</a></li>
         <li class="dropdown">
             <a class="dropdown-toggle" href="#">
                 iamedu <span class="caret"></span>

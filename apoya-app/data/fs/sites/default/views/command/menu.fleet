@@ -1,0 +1,13 @@
+<ul class="nav nav-pills nav-stacked">
+    <li class="active"><a href>Main</a></li>
+    <li><a href>Users, roles and permissions</a></li>
+    <li><a href>Application</a></li>
+    <li><a href>Run Scripts</a></li>
+    <li><a href>Catalogs</a></li>
+    <li><a href>Errors</a></li>
+    <li><a href>SQL Database</a></li>
+    <li><a href>Clojure REPL</a></li>
+    <li><a href>Online Scripting</a></li>
+    <li><a href>Scheduled tasks</a></li>
+</ul>
+

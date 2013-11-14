@@ -14,7 +14,7 @@
         <div class="col-md-8">
         </div>
         <div class="col-md-4">
-            <form role="form" class="text-right" name="loginForm">
+            <form role="form" class="text-right" name="loginForm" ng-init="tryingLogin=false">
                 <div class="form-group">
                     <label for="username">Username</label>
                     <input type="text" class="form-control" name="username" ng-model="user.username" id="username" placeholder="Enter username" required>
