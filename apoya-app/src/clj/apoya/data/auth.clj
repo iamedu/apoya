@@ -56,3 +56,24 @@
     (->> permissions
          (map :permission)
          (set))))
+
+(defn has-any-permission? [permissions & {:as criteria}]
+  (let [user-criteria (assoc criteria
+                             :person_permissions.permission ['in permissions])
+        not-empty? (complement empty?)]
+    (-> (union*)
+        (queries (subselect users
+                            (fields :person_permissions.permission)
+                            (join :person_permissions (= :person_permissions.username :username))
+                            (where user-criteria))
+                 (subselect roles
+                            (fields :role_permissions.permission)
+                            (join :role_assignments (= :role_assignments.role_code :role_code))
+                            (join :role_permissions (= :role_permissions.role_code :role_code))
+                            (where {:role_assignments.username [in (subselect users
+                                                                              (fields :username)
+                                                                              (where criteria))]
+                                    :role_permissions.permission [in permissions]})))
+        (exec)
+        (not-empty?))))
+
