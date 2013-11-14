@@ -35,6 +35,9 @@
     <script src="bower_components/angular-spinner/angular-spinner.min.js"></script>
     <!-- Codemirror -->
     <script src="bower_components/codemirror/lib/codemirror.js"></script>
+    <script src="bower_components/codemirror/mode/sql/sql.js"></script>
+    <script src="bower_components/codemirror/mode/clojure/clojure.js"></script>
+    <script src="bower_components/codemirror/addon/edit/matchbrackets.js"></script>
     <!-- Sir trevor -->
     <script src="bower_components/underscore/underscore-min.js"></script>
     <script src="bower_components/Eventable/eventable.js"></script>

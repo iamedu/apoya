@@ -15,6 +15,7 @@
   (let [{:keys [current authentications]} id
         {:keys [email]} (get authentications current)]
     (oset! $scope
+           :username current
            :gravatar (if email
                        (gravatar email :rating :g :default :identicon))
            :identity (clj->js id))))
