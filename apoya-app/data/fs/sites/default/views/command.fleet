@@ -6,12 +6,7 @@
         </div>
         <div class="row">
             <div class="col-sm-10">
-                <dl>
-                    <dt>Current app version</dt>
-                    <dd>49bbc27fdb3eb58c1bc11e2d56f69edf45fc3334</dd>
-                    <dt>Current database migration</dt>
-                    <dd>20131102064000-add-base-schema</dd>
-                </dl>
+                <ng-include src="'views/command/' + section + '.html'"></ng-include>
             </div>
             <div class="col-sm-2">
                 <ng-include src="'views/command/menu.html'"></ng-include>
