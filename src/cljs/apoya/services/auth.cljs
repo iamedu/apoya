@@ -36,4 +36,4 @@
                  (not (nil? @user)))
         (t/publish :logout true))
       (if callback (callback))
-      (.start (goog.async.Delay. check-user (* 10 1000))))))
+      (.start (goog.async.Delay. check-user (* 60 1000))))))
