@@ -234,6 +234,7 @@ CREATE TRIGGER Update_Labels_Timestamp BEFORE UPDATE ON Labels
 --- Data
 INSERT INTO Error_Sources(name, description) VALUES ('webapp', 'Something happened with the webapp, most errors should be related to this');
 INSERT INTO Error_Sources(name, description) VALUES ('mq', 'There was an error when processing a message in the messaging queue');
+INSERT INTO Error_Sources(name, description) VALUES ('quartz', 'There was a problem while running a cron job');
 INSERT INTO Error_Sources(name, description) VALUES ('netty', 'There was an error with fortress or the netty library');
 
 INSERT INTO Users(username, email, password) VALUES ('iamedu', 'iamedu@gmail.com', '$2a$10$I8IVBVBHmC.Yhn14kjbi0uL91J6YCv.lYG1/XrxHAKj/WyrQXXj3.');

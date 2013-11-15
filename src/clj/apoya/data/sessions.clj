@@ -50,7 +50,7 @@
         statement (.createStatement conn)
         result-set? (.execute statement sql)
         result-set (.getResultSet statement)
-        rset-seq (if result-set?  (jdbc/resultset-seq (.getResultSet statement)))]
+        rset-seq (if result-set? (jdbc/resultset-seq (.getResultSet statement)))]
     (close-rset uuid)
     (swap! sessions assoc-in [uuid :text] sql)
     (swap! sessions assoc-in [uuid :rset] rset-seq)
@@ -92,6 +92,7 @@
 (defn close-session [uuid]
   (let [{conn :conn} (get @sessions uuid)]
     (close-rset uuid)
+    (rollback-session uuid)
     (.close conn)
     (swap! sessions dissoc uuid)))
 

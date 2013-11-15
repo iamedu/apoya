@@ -33,7 +33,7 @@
     (let [results (-> (<! (command/stream-results uuid *size*)) :body :result)
           result-set (js->clj (:resultSet $scope))
           total-results (concat result-set results)]
-      (oset! $scope :resultSet total-results :headers (-> total-results first keys)))))
+      (oset! $scope :resultSet total-results :headers (filter #(not= % "$$hashKey") (-> total-results first keys))))))
 
 (defn execute-sql [$scope uuid sql]
   (go
