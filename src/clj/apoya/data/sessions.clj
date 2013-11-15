@@ -41,6 +41,7 @@
   (let [{:keys [conn]} (get @sessions uuid)
         statement (.createStatement conn)
         result-set? (.execute statement sql)]
+    (swap! sessions assoc-in [uuid :text] sql)
     (touch-session uuid)
     (if result-set?
       {:result-set (jdbc/resultset-seq (.getResultSet statement)) :type :result-set}

@@ -8,20 +8,22 @@
             <div class="col-sm-10">
                 <h4>SQL Database</h4>
                 <ul class="nav nav-pills">
-                    <li ng-repeat="session in sessions"><a href>ade3cf70-4e56-45d8-8fd8-b226fec650f0 @iamedu</a></li>
+                    <li ng-repeat="s in sessions" ng-class="{active:s.uuid == session.uuid}">
+                        <a href ng-click="selectSession(s)">{{s.uuid}}</a>
+                    </li>
                 </ul>
 
                 <hr>
 
                 <div class="btn-toolbar" role="toolbar">
                     <div class="btn-group">
-                        <a class="btn btn-primary" href><i class="fa fa-plus-circle"></i> Create session</a>
-                        <a class="btn btn-danger" href ng-disabled="true"><i class="fa fa-trash-o"></i> Delete current session</a>
+                        <a class="btn btn-primary" href ng-click="createSession()"><i class="fa fa-plus-circle"></i> Create session</a>
+                        <a class="btn btn-danger" href ng-click="destroySession(session)" ng-disabled="!session"><i class="fa fa-trash-o"></i> Delete current session</a>
                     </div>
                     <div class="btn-group">
-                        <a class="btn btn-success" href ng-disabled="true"><i class="fa fa-check"></i> Commit</a>
-                        <a class="btn btn-warning" href ng-disabled="true"><i class="fa fa-times"></i> Rollback</a>
-                        <a class="btn btn-default" href ng-disabled="true"><i class="fa fa-play"></i> Execute</a>
+                        <a class="btn btn-success" href ng-click="commitSession(session.uuid)" ng-disabled="!session"><i class="fa fa-check"></i> Commit</a>
+                        <a class="btn btn-warning" href ng-click="rollbackSession(session.uuid)" ng-disabled="!session"><i class="fa fa-times"></i> Rollback</a>
+                        <a class="btn btn-default" href ng-click="executeSql(session.uuid, sqlCode)" ng-disabled="!session"><i class="fa fa-play"></i> Execute</a>
                     </div>
                     <div class="btn-group">
                         <select ng-init="showSessions='mine'" ng-model="showSessions" class="form-control">
@@ -33,9 +35,36 @@
 
                 <hr>
 
-                <div>
+                <div ng-show="session">
                     <textarea ui-codemirror="sqlOptions" ng-model="sqlCode"></textarea>
                 </div>
+                <div ng-show="session && currentDate">
+                    Last database response <strong>{{currentDate}}</strong>
+                    <span ng-show="session && commit">
+                        Commit successful
+                    </span>
+                    <span ng-show="session && rollback">
+                        Rollback successful
+                    </span>
+                </div>
+                <div ng-show="updateCount && session">
+                    There have been <strong>{{updateCount}}</strong> rows affected
+                </div>
+                <div ng-show="resultSet && session" style="overflow-x: auto">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th ng-repeat="header in headers">{{header}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="row in resultSet">
+                                <td ng-repeat="column in headers">{{row[column]}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <br>
             </div>
             <div class="col-sm-2">
                 <ng-include src="'views/command/menu.html'"></ng-include>
