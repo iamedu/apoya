@@ -11,5 +11,10 @@
 (defcontroller app CommandCtrl [$scope $routeParams]
   (let [{section "section"} $routeParams]
     (oset! $scope
-           :section section)))
+           :section section
+           :sqlOptions {:mode "text/x-plsql"
+                        :matchBrackets true
+                        :autofocus true
+                        :lineWrapping true
+                        :lineNumbers true})))
 
