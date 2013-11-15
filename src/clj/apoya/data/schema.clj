@@ -22,7 +22,14 @@
 
 (defentity error-events
   (table :error_events)
-  (pk :event_sha1))
+  (pk :event_sha1)
+  (belongs-to errors {:fk :error_sha1})
+  (belongs-to error-sources {:fk :error_source})
+  (transform (fn [{metadata :metadata :as v}]
+               (if (and metadata
+                        (instance? PGobject metadata))
+                 (assoc v :metadata (.getValue metadata))
+                 v))))
 
 (defentity restricted_urls
   (pk :url))

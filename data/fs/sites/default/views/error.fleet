@@ -1,11 +1,11 @@
 <div class="container">
     <ng-include src="'views/menubar.html'"></ng-include>
-    <div class="row">
+    <div class="row" ng-show="!isAdmin">
         <div class="page-header">
             <h1>Sorry :( something failed <small>Please help us solve it!</small></h1>
         </div>
     </div>
-    <div class="row">
+    <div class="row" ng-show="!isAdmin">
         <div class="col-sm-6">
             <h3>We need your help</h3>
             <p>
@@ -31,6 +31,152 @@
                 <dt>Error Id</dt>
                 <dd>{{errorId}}</dd>
             </dl>
+        </div>
+    </div>
+    <div class="row" ng-show="isAdmin">
+        <div class="page-header">
+            <h1>Something failed :'( <small>We are waiting for you to fix it</small></h1>
+        </div>
+    </div>
+    <div class="row" ng-show="isAdmin">
+        <div class="col-sm-8">
+            <div>
+                <h3>Stacktrace</h3>
+                <div style="white-space: pre">{{errorDetails.error_text}}</div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <h2>Summary</h2>
+            <dl>
+                <dt>Severity</dt>
+                <dd ng-switch="errorDetails.severity">
+                    <div ng-switch-default>{{errorDetails.severity}}</div>
+                </dd>
+                <dt>Failure date</dt>
+                <dd>{{errorDetails.event_date}}</dd>
+                <dt>First appearance</dt>
+                <dd>{{errorDetails.first_appearance}}</dd>
+                <dt>Source</dt>
+                <dd>{{errorDetails.error_source}} - {{errorDetails.description}}</dd>
+                <dt>Error event key</dt>
+                <dd>{{errorDetails.error_sha1}}</dd>
+                <dt ng-show="errorDetails.domain">Domain</dt>
+                <dd ng-show="errorDetails.domain">{{errorDetails.domain}}</dd>
+                <dt ng-show="errorDetails.username">User</dt>
+                <dd ng-show="errorDetails.username">{{errorDetails.username}}</dd>
+            </dl>
+        </div>
+    </div>
+    <div class="row" ng-show="isAdmin">
+        <div class="col-sm-12">
+            <div>
+                <h3>Request metadata</h3>
+                <h4>General data</h4>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="(k, v) in metadata">
+                            <td>{{k}}</td>
+                            <td>{{v}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h4>Headers</h4>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Header</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="(k, v) in fullMetadata['headers']">
+                            <td>{{k}}</td>
+                            <td>{{v}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h4>Params</h4>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="(k, v) in fullMetadata['params']">
+                            <td>{{k}}</td>
+                            <td>{{v}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h4>Cookies</h4>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Cookie
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="(k, v) in fullMetadata['cookies']">
+                            <td>{{k}}</td>
+                            <td>{{v.value}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h4>Body Params</h4>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="(k, v) in fullMetadata['body-params']">
+                            <td>{{k}}</td>
+                            <td>{{v}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h4>Multipart params</h4>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="(k, v) in fullMetadata['multipart-params']">
+                            <td>{{k}}</td>
+                            <td>{{v}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h4>Query params</h4>
+                <table class="table table-striped" ng-show="fullMetadata['query-params']">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="(k, v) in fullMetadata['query-params']">
+                            <td>{{k}}</td>
+                            <td>{{v}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

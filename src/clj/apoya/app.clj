@@ -15,6 +15,7 @@
             [apoya.security.rules :as rules]
             [apoya.routes.auth :refer [auth-routes private-auth-routes]]
             [apoya.routes.command :refer [command-routes]]
+            [apoya.routes.error :refer [error-routes]]
             [compojure.route :as route]
             [pantomime.mime :refer [mime-type-of]]
             [noir.util.middleware :as middleware]
@@ -137,6 +138,7 @@
   (context "/api/public/v1/auth" [] auth-routes)
   (context "/api/v1/auth" [] private-auth-routes)
   (context "/api/v1/command" [] command-routes)
+  (context "/api/v1/error" [] error-routes)
   (find-more-routes)
   (route/not-found (fn [_] (fleet-resource {:uri "/404.html"}))))
 

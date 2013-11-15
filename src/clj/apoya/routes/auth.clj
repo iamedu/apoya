@@ -1,7 +1,9 @@
 (ns apoya.routes.auth
   (:use compojure.core)
   (:require [cemerick.friend :as friend]
-            [apoya.response :as r]))
+            [apoya.security.permission :as perm]
+            [apoya.response :as r]
+            [clojure.tools.logging :as log]))
 
 (defn- identity-response [request]
   (let [session (:session request)]
@@ -16,4 +18,12 @@
                       (assoc (r/edn-response nil)
                              :session nil))))
 
-(defroutes private-auth-routes)
+(defroutes private-auth-routes
+  (POST "/has-permissions.edn" {session :session params :params}
+        (let [{permissions :permissions} params
+              permissions (if (instance? String permissions)
+                            [permissions]
+                            permissions)
+              username (get-in session [:cemerick.friend/identity :current])
+              has-permissions (map #(perm/has-permission? % :username username) permissions)]
+          (r/edn-response (zipmap permissions has-permissions)))))
