@@ -67,7 +67,7 @@
             </dl>
         </div>
     </div>
-    <div class="row" ng-show="isAdmin">
+    <div class="row" ng-show="isAdmin && errorDetails.error_source == 'webapp'">
         <div class="col-sm-12">
             <div>
                 <h3>Request metadata</h3>
