@@ -34,6 +34,9 @@
       (swap! sessions assoc (:uuid session) session)
       session)))
 
+(defn touch-session [uuid]
+  (swap! sessions assoc-in [uuid :last-used] (Date.)))
+
 (defn exec-sql [uuid sql]
   (let [{:keys [conn]} (get @sessions uuid)
         statement (.createStatement conn)
@@ -43,8 +46,6 @@
       {:result-set (jdbc/resultset-seq (.getResultSet statement)) :type :result-set}
       {:update-count (.getUpdateCount statement) :type :update-count})))
 
-(defn touch-session [uuid]
-  (swap! sessions assoc-in [uuid :last-used] (Date.)))
 
 (defn commit-session [uuid]
   (let [{conn :conn} (get @sessions uuid)]
@@ -56,15 +57,15 @@
     (touch-session uuid)
     (.rollback conn)))
 
+(defn close-session [uuid]
+  (let [{conn :conn} (get @sessions uuid)]
+    (.close conn)
+    (swap! sessions dissoc uuid)))
+
 (defn close-old-sessions [date seconds]
   (let [old-session? #(> (- (.getTime date) (.getTime (:last-used %))) (* seconds 1000))
         sessions @sessions]
     (doseq [[_ session] sessions]
       (if (old-session? session)
         (close-session (:uuid session))))))
-
-(defn close-session [uuid]
-  (let [{conn :conn} (get @sessions uuid)]
-    (.close conn)
-    (swap! sessions dissoc uuid)))
 

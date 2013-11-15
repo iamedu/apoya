@@ -1,24 +1,46 @@
-<h4>SQL Database</h4>
-<ul class="nav nav-pills">
-    <li class="active"><a href="#">ade3cf70-4e56-45d8-8fd8-b226fec650f0 @iamedu</a></li>
-    <li><a href="#">ade3cf70-4e56-45d8-8fd8-b226fec650f0 @iamedu</a></li>
-</ul>
+<div class="container" ng-show="ready">
+    <ng-include src="'views/menubar.html'"></ng-include>
+    <div class="section">
+        <div class="page-header">
+            <h1>Command Center</h1>
+        </div>
+        <div class="row">
+            <div class="col-sm-10">
+                <h4>SQL Database</h4>
+                <ul class="nav nav-pills">
+                    <li ng-repeat="session in sessions"><a href>ade3cf70-4e56-45d8-8fd8-b226fec650f0 @iamedu</a></li>
+                </ul>
 
-<hr>
+                <hr>
 
-<div class="btn-toolbar" role="toolbar">
-    <div class="btn-group">
-        <a class="btn btn-primary" href="#"><i class="fa fa-plus-circle"></i> Create session</a>
-        <a class="btn btn-danger" href="#"><i class="fa fa-trash-o"></i> Delete current session</a>
-    </div>
-    <div class="btn-group">
-        <a class="btn btn-success" href="#"><i class="fa fa-check"></i> Commit</a>
-        <a class="btn btn-warning" href="#"><i class="fa fa-times"></i> Rollback</a>
+                <div class="btn-toolbar" role="toolbar">
+                    <div class="btn-group">
+                        <a class="btn btn-primary" href><i class="fa fa-plus-circle"></i> Create session</a>
+                        <a class="btn btn-danger" href ng-disabled="true"><i class="fa fa-trash-o"></i> Delete current session</a>
+                    </div>
+                    <div class="btn-group">
+                        <a class="btn btn-success" href ng-disabled="true"><i class="fa fa-check"></i> Commit</a>
+                        <a class="btn btn-warning" href ng-disabled="true"><i class="fa fa-times"></i> Rollback</a>
+                        <a class="btn btn-default" href ng-disabled="true"><i class="fa fa-play"></i> Execute</a>
+                    </div>
+                    <div class="btn-group">
+                        <select ng-init="showSessions='mine'" ng-model="showSessions" class="form-control">
+                            <option value="mine">Show only my sessions</option>
+                            <option value="all">Show all sessions</option>
+                        </select>
+                    </div>
+                </div>
+
+                <hr>
+
+                <div>
+                    <textarea ui-codemirror="sqlOptions" ng-model="sqlCode"></textarea>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <ng-include src="'views/command/menu.html'"></ng-include>
+            </div>
+        </div>
     </div>
 </div>
 
-<hr>
-
-<div>
-    <textarea ui-codemirror="sqlOptions" ng-model="sqlCode"></textarea>
-</div>

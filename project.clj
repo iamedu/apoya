@@ -73,6 +73,7 @@
                                          :externs  ["externs/angular.js"
                                                     "externs/persona.js"
                                                     "externs/jquery.js"
+                                                    "externs/codemirror.js"
                                                     "externs/nprogress.js"]
                                          :optimizations :advanced
                                          :pretty-print false}}}}
