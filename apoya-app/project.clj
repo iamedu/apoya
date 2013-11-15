@@ -78,7 +78,8 @@
              :database "jdbc:postgresql:apoya"}
   :aot [sun.net.www.protocol.jclouds.connection 
         sun.net.www.protocol.jclouds.handler
-        apoya.util.classloader]
+        apoya.util.classloader
+        apoya.services.schedule]
   :main ^:skip-aot apoya.core
   :target-path "target/%s"
   :jvm-opts ["-Xbootclasspath/p:lib/npn-boot-1.1.6.v20130911.jar"]

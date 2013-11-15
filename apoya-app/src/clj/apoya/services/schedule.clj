@@ -1,21 +1,50 @@
 (ns apoya.services.schedule
-  (:require [clojurewerkz.quartzite.scheduler :as sch]
+  (:require [clojurewerkz.quartzite.scheduler :as qs]
+            [clojurewerkz.quartzite.triggers :as t]
+            [clojurewerkz.quartzite.jobs :refer [defjob] :as j] 
+            [clojurewerkz.quartzite.schedule.cron :refer [schedule cron-schedule]]
             [clojure.tools.logging :as log])
   (:import [org.quartz.impl StdSchedulerFactory]
            [java.util Properties]))
 
 (defonce scheduler (atom nil))
 
+
+(defjob CloseTransactionsJob
+  [ctx]
+  (log/info "Closing transactions not used in 30 minutes")
+  )
+
+(def job-types
+  {:close-transactions CloseTransactionsJob})
+
+(defn schedule-job [k job-type cron & ctx]
+  (let [job-type (job-type job-types)
+        jk (j/key (str k ".job"))
+        job (j/build
+              (j/of-type job-type)
+              (j/with-identity jk))
+        tk (t/key k)
+        trigger (t/build
+                  (t/with-identity tk)
+                  (t/start-now)
+                  (t/with-schedule (schedule
+                                     (cron-schedule cron))))]
+    (qs/schedule job trigger)))
+
+(defn unschedule-job [k]
+  (qs/unschedule-job (t/key k)))
+
 (defn setup-scheduler [cfg]
   (log/info "Setting up quartz scheduler")
-  (let [{:keys [classname subprotocol subname user password]} cfg
+  (let [{:keys [classname subprotocol subname user password quartz-delegate]} cfg
         user (or user "")
         password (or password "")
         url (str "jdbc:" subprotocol ":" subname)
         props (doto (Properties.)
                 (.setProperty "org.quartz.jobStore.class" "org.quartz.impl.jdbcjobstore.JobStoreTX")
                 (.setProperty "org.quartz.jobStore.tablePrefix" "QRTZ_")
-                (.setProperty "org.quartz.jobStore.driverDelegateClass" "org.quartz.impl.jdbcjobstore.StdJDBCDelegate")
+                (.setProperty "org.quartz.jobStore.driverDelegateClass" quartz-delegate)
                 (.setProperty "org.quartz.jobStore.dataSource" "quartzDataSource")
                 (.setProperty "org.quartz.dataSource.quartzDataSource.driver" classname)
                 (.setProperty "org.quartz.dataSource.quartzDataSource.URL" url)
@@ -26,6 +55,6 @@
         factory (doto (StdSchedulerFactory. props)
                   (.initialize))
         instance (.getScheduler factory)]
-    (reset! scheduler (sch/initialize instance))
-    (sch/start)))
+    (reset! scheduler (qs/initialize instance))
+    (qs/start)))
 

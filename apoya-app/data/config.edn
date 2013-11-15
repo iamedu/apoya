@@ -23,5 +23,6 @@
       :subprotocol "postgresql"
       :user "iamedu"
       :password ""
-      :subname "//localhost:5432/apoya"}
+      :subname "//localhost:5432/apoya"
+      :quartz-delegate "org.quartz.impl.jdbcjobstore.PostgreSQLDelegate"}
  :nrepl-port 7888}
