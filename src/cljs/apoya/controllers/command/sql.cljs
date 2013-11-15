@@ -8,6 +8,8 @@
             [apoya.util.angular :refer [oset!]]
             [cljs.core.async :refer [<!]]))
 
+(def *size* 20)
+
 (defn list-sessions [$scope]
   (go
     (let [sessions (:body (<! (command/list-sessions)))]
@@ -26,12 +28,21 @@
       (oset! $scope :session nil :commit nil :rollback nil)
       (list-sessions $scope))))
 
+(defn stream-results [$scope uuid]
+  (go
+    (let [results (-> (<! (command/stream-results uuid *size*)) :body :result)
+          result-set (js->clj (:resultSet $scope))
+          total-results (concat result-set results)]
+      (oset! $scope :resultSet total-results :headers (-> total-results first keys)))))
+
 (defn execute-sql [$scope uuid sql]
   (go
     (let [{:keys [result-set type update-count error]} (:body (<! (command/exec-sql uuid sql)))]
       (oset! $scope :currentDate (js/Date.) :commit nil :rollback nil)
       (condp = type
-        :result-set (oset! $scope :resultSet result-set :updateCount nil :error nil :headers (-> result-set first keys))
+        :result-set (do
+                      (oset! $scope :resultSet [])
+                      (stream-results $scope uuid))
         :update-count (oset! $scope :resultSet nil :updateCount update-count :error nil)
         :error (oset! $scope :resultSet nil :updateCount nil :error error)))))
 

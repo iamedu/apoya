@@ -12,6 +12,9 @@
   (POST "/exec-sql.edn" [uuid sql]
         (let [result (sess/exec-sql uuid sql)]
           (r/edn-response result)))
+  (POST "/stream-results.edn" [uuid size]
+        (let [result (sess/stream-results uuid size)]
+          (r/edn-response result)))
   (POST "/commit.edn" [uuid]
         (sess/commit-session uuid)
         (r/edn-response true))

@@ -37,16 +37,36 @@
 (defn touch-session [uuid]
   (swap! sessions assoc-in [uuid :last-used] (Date.)))
 
+(defn close-rset [uuid]
+  (let [{:keys [result-set]} (get @sessions uuid)]
+    (when result-set
+      (swap! sessions update-in [uuid] dissoc :rset :result-set)
+      (.close result-set))))
+
 (defn exec-sql [uuid sql]
   (let [{:keys [conn]} (get @sessions uuid)
         statement (.createStatement conn)
-        result-set? (.execute statement sql)]
+        result-set? (.execute statement sql)
+        result-set (.getResultSet statement)
+        rset-seq (if result-set?  (jdbc/resultset-seq (.getResultSet statement)))]
+    (close-rset uuid)
     (swap! sessions assoc-in [uuid :text] sql)
+    (swap! sessions assoc-in [uuid :rset] rset-seq)
+    (swap! sessions assoc-in [uuid :result-set] result-set)
     (touch-session uuid)
     (if result-set?
-      {:result-set (jdbc/resultset-seq (.getResultSet statement)) :type :result-set}
+      {:type :result-set}
       {:update-count (.getUpdateCount statement) :type :update-count})))
 
+(defn stream-results [uuid size]
+  (let [{:keys [conn rset]} (get @sessions uuid)
+        current-rset (take size rset)
+        new-rset (drop size rset)]
+    (when (empty? new-rset)
+      (close-rset uuid))
+    (when-not (empty? new-rset)
+      (swap! sessions assoc-in [uuid :rset] new-rset))
+    {:result current-rset}))
 
 (defn commit-session [uuid]
   (let [{conn :conn} (get @sessions uuid)]
@@ -60,6 +80,7 @@
 
 (defn close-session [uuid]
   (let [{conn :conn} (get @sessions uuid)]
+    (close-rset uuid)
     (.close conn)
     (swap! sessions dissoc uuid)))
 

@@ -22,6 +22,11 @@
          :content {:uuid uuid
                    :sql sql}))
 
+(defn stream-results [uuid size]
+  (r/edn [:post "/api/v1/command/sql/stream-results.edn"]
+         :content {:uuid uuid
+                   :size size}))
+
 (defn destroy-session [uuid]
   (r/edn [:post "/api/v1/command/sql/destroy-session.edn"]
          :content {:uuid uuid}))
