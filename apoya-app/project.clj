@@ -55,6 +55,7 @@
                  [org.apache.activemq/activemq-broker "5.9.0"]
                  [net.sf.ehcache/ehcache "2.7.4"]
                  [clojurewerkz/quartzite "1.1.0"]
+                 [clj-time "0.6.0"]
                  ;;Clojurescript libs
                  [shoreleave/shoreleave-remote "0.3.0"]
                  [shoreleave/shoreleave-pubsub "0.3.0"]
