@@ -60,8 +60,6 @@
 
 (defn finished-loading [$location $rootScope]
   (let [location (.path $location)]
-    (log/info (str location " "
-                   (gstring/startsWith location "/error")))
     (when (and (nil? @auth/user)
                (not (public-urls location))
                (not (gstring/startsWith location "/error")))
