@@ -39,15 +39,15 @@
   (go
     (let [{body :body} (<! (command/commit uuid))]
       (if body
-        (oset! $scope :commit true :rollback nil)
-        (oset! $scope :commit false :rollback nil)))))
+        (oset! $scope :commit true :rollback nil :currentDate (js/Date.))
+        (oset! $scope :commit false :rollback nil :currentDate (js/Date.))))))
 
 (defn rollback [$scope uuid]
   (go
     (let [{body :body} (<! (command/rollback uuid))]
       (if body
-        (oset! $scope :rollback true :commit nil)
-        (oset! $scope :rollback false :commit nil)))))
+        (oset! $scope :rollback true :commit nil :currentDate (js/Date.))
+        (oset! $scope :rollback false :commit nil :currentDate (js/Date.))))))
 
 (defn load-cm [cm]
   (defn refresh-cm []
@@ -58,6 +58,8 @@
          :commit nil
          :rollback nil
          :session s
+         :resultSet nil
+         :currentDate nil
          :sqlCode (:text s))
   (refresh-cm))
 
