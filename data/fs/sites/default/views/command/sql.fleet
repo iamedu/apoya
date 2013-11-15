@@ -47,6 +47,9 @@
                         Rollback successful
                     </span>
                 </div>
+                <div ng-show="session && exception">
+                    <div style="white-space: pre" class="alert alert-danger">{{exception}}</div>
+                </div>
                 <div ng-show="updateCount && session">
                     There have been <strong>{{updateCount}}</strong> rows affected
                 </div>

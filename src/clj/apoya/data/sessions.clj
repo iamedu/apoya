@@ -1,18 +1,18 @@
 (ns apoya.data.sessions
   (:require [apoya.config :as cfg]
+            [apoya.errors :as errors]
             [fortress.util :as futil]
             [clojure.java.jdbc :as jdbc]
             [clojure.tools.logging :as log])
   (:import [java.sql DriverManager]
            [java.util Properties Date]
-           [org.postgresql.util PGobject]
-           ))
+           [org.postgresql.util PGobject]))
 
 (defonce sessions (atom {}))
 
 (defn- ^Properties as-properties
   "Convert any seq of pairs to a java.utils.Properties instance.
-   Uses sql/as-str to convert both keys and values into strings."
+  Uses sql/as-str to convert both keys and values into strings."
   [m]
   (let [p (Properties.)]
     (doseq [[k v] m]
@@ -46,19 +46,24 @@
       (.close result-set))))
 
 (defn exec-sql [uuid sql]
-  (let [{:keys [conn]} (get @sessions uuid)
-        statement (.createStatement conn)
-        result-set? (.execute statement sql)
-        result-set (.getResultSet statement)
-        rset-seq (if result-set? (jdbc/resultset-seq (.getResultSet statement)))]
-    (close-rset uuid)
-    (swap! sessions assoc-in [uuid :text] sql)
-    (swap! sessions assoc-in [uuid :rset] rset-seq)
-    (swap! sessions assoc-in [uuid :result-set] result-set)
-    (touch-session uuid)
-    (if result-set?
-      {:type :result-set}
-      {:update-count (.getUpdateCount statement) :type :update-count})))
+  (try 
+    (let [{:keys [conn]} (get @sessions uuid)
+          statement (.createStatement conn)
+          result-set? (.execute statement sql)
+          result-set (.getResultSet statement)
+          rset-seq (if result-set? (jdbc/resultset-seq (.getResultSet statement)))]
+      (close-rset uuid)
+      (swap! sessions assoc-in [uuid :text] sql)
+      (swap! sessions assoc-in [uuid :rset] rset-seq)
+      (swap! sessions assoc-in [uuid :result-set] result-set)
+      (touch-session uuid)
+      (if result-set?
+        {:type :result-set}
+        {:update-count (.getUpdateCount statement) :type :update-count}))
+    (catch Exception e
+      (let [{:keys [conn]} (get @sessions uuid)]
+        (.rollback conn)
+        {:type :exception :exception (errors/str-throwable e)}))))
 
 (defn secure-convert-results [results]
   (let [convert-cols (fn [[k v]]

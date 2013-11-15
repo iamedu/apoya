@@ -37,14 +37,14 @@
 
 (defn execute-sql [$scope uuid sql]
   (go
-    (let [{:keys [result-set type update-count error]} (:body (<! (command/exec-sql uuid sql)))]
+    (let [{:keys [result-set type update-count exception]} (:body (<! (command/exec-sql uuid sql)))]
       (oset! $scope :currentDate (js/Date.) :commit nil :rollback nil)
       (condp = type
         :result-set (do
-                      (oset! $scope :resultSet [])
+                      (oset! $scope :resultSet [] :exception nil)
                       (stream-results $scope uuid))
-        :update-count (oset! $scope :resultSet nil :updateCount update-count :error nil)
-        :error (oset! $scope :resultSet nil :updateCount nil :error error)))))
+        :update-count (oset! $scope :resultSet nil :updateCount update-count :exception nil)
+        :exception (oset! $scope :resultSet nil :updateCount nil :exception exception)))))
 
 (defn commit [$scope uuid]
   (go
