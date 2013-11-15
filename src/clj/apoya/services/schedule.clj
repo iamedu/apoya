@@ -1,5 +1,6 @@
 (ns apoya.services.schedule
-  (:require [clojurewerkz.quartzite.scheduler :as qs]
+  (:require [apoya.data.sessions :as sessions]
+            [clojurewerkz.quartzite.scheduler :as qs]
             [clojurewerkz.quartzite.triggers :as t]
             [clojurewerkz.quartzite.jobs :refer [defjob] :as j] 
             [clojurewerkz.quartzite.schedule.cron :refer [schedule cron-schedule]]
@@ -13,7 +14,7 @@
 (defjob CloseTransactionsJob
   [ctx]
   (log/info "Closing transactions not used in 30 minutes")
-  )
+  (sessions/close-old-sessions (java.util.Date.) (* 30 60)))
 
 (def job-types
   {:close-transactions CloseTransactionsJob})

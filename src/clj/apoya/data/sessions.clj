@@ -6,7 +6,7 @@
   (:import [java.sql DriverManager]
            [java.util Properties Date]))
 
-(def sessions (atom {}))
+(defonce sessions (atom {}))
 
 (defn- ^Properties as-properties
   "Convert any seq of pairs to a java.utils.Properties instance.
@@ -22,6 +22,7 @@
     (.setAutoCommit conn false)
     {:uuid uuid
      :creation-date (Date.)
+     :last-used (Date.)
      :conn conn}))
 
 (defn create-session []
@@ -33,4 +34,37 @@
       (swap! sessions assoc (:uuid session) session)
       session)))
 
+(defn exec-sql [uuid sql]
+  (let [{:keys [conn]} (get @sessions uuid)
+        statement (.createStatement conn)
+        result-set? (.execute statement sql)]
+    (touch-session uuid)
+    (if result-set?
+      {:result-set (jdbc/resultset-seq (.getResultSet statement)) :type :result-set}
+      {:update-count (.getUpdateCount statement) :type :update-count})))
+
+(defn touch-session [uuid]
+  (swap! sessions assoc-in [uuid :last-used] (Date.)))
+
+(defn commit-session [uuid]
+  (let [{conn :conn} (get @sessions uuid)]
+    (touch-session uuid)
+    (.commit conn)))
+
+(defn rollback-session [uuid]
+  (let [{conn :conn} (get @sessions uuid)]
+    (touch-session uuid)
+    (.rollback conn)))
+
+(defn close-old-sessions [date seconds]
+  (let [old-session? #(> (- (.getTime date) (.getTime (:last-used %))) (* seconds 1000))
+        sessions @sessions]
+    (doseq [[_ session] sessions]
+      (if (old-session? session)
+        (close-session (:uuid session))))))
+
+(defn close-session [uuid]
+  (let [{conn :conn} (get @sessions uuid)]
+    (.close conn)
+    (swap! sessions dissoc uuid)))
 
