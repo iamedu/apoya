@@ -4,7 +4,9 @@
             [clojure.java.jdbc :as jdbc]
             [clojure.tools.logging :as log])
   (:import [java.sql DriverManager]
-           [java.util Properties Date]))
+           [java.util Properties Date]
+           [org.postgresql.util PGobject]
+           ))
 
 (defonce sessions (atom {}))
 
@@ -58,6 +60,15 @@
       {:type :result-set}
       {:update-count (.getUpdateCount statement) :type :update-count})))
 
+(defn secure-convert-results [results]
+  (let [convert-cols (fn [[k v]]
+                       (cond 
+                         (instance? (clojure.lang.RT/classForName "[B") v) [k (String. v)]
+                         (instance? PGobject v) [k (.getValue v)]
+                         :else [k v]))]
+    (for [r results]
+      (apply hash-map (-> (map convert-cols r) flatten)))))
+
 (defn stream-results [uuid size]
   (let [{:keys [conn rset]} (get @sessions uuid)
         current-rset (take size rset)
@@ -66,7 +77,7 @@
       (close-rset uuid))
     (when-not (empty? new-rset)
       (swap! sessions assoc-in [uuid :rset] new-rset))
-    {:result current-rset}))
+    {:result (secure-convert-results current-rset)}))
 
 (defn commit-session [uuid]
   (let [{conn :conn} (get @sessions uuid)]

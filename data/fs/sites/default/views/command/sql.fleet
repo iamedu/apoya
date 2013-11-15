@@ -50,7 +50,7 @@
                 <div ng-show="updateCount && session">
                     There have been <strong>{{updateCount}}</strong> rows affected
                 </div>
-                <div ng-show="resultSet && session" style="overflow-x: auto">
+                <div ng-show="resultSet && session" style="overflow-x: auto" infinite-scroll="streamResults(session.uuid)">
                     <table class="table table-striped table-hover">
                         <thead>
                             <tr>

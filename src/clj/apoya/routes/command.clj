@@ -25,7 +25,7 @@
         (sess/close-session uuid)
         (r/edn-response true))
   (POST "/list-sessions.edn" request
-        (let [sessions (map #(dissoc % :conn) (vals @sess/sessions))]
+        (let [sessions (map #(dissoc % :conn :result-set :rset) (vals @sess/sessions))]
           (r/edn-response sessions))))
 
 (defroutes command-routes

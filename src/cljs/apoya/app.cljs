@@ -11,7 +11,7 @@
 ;; Global modals
 (def roles-opened (atom false))
 
-(def app (.module js/angular "apoyaApp" (array "ngRoute" "ui.bootstrap" "ui.codemirror")))
+(def app (.module js/angular "apoyaApp" (array "ngRoute" "ui.bootstrap" "ui.codemirror" "infinite-scroll")))
 (def public-urls #{"/", "/login", "/signup", "/error"})
 
 (defn config-app [$routeProvider $httpProvider]

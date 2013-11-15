@@ -88,6 +88,7 @@
          :rollbackSession (partial rollback $scope)
          :destroySession (partial destroy-session $scope)
          :selectSession (partial select-session $scope)
-         :createSession (partial create-session $scope))
+         :createSession (partial create-session $scope)
+         :streamResults (partial stream-results $scope))
   (list-sessions $scope))
 
