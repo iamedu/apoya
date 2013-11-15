@@ -10,21 +10,41 @@
 
 (def *size* 20)
 
+(defn read-local-sessions []
+  (let [local-sessions-str (or (.get js/store "sql-local-sessions") "nil")]
+    (set (cljs.reader/read-string local-sessions-str))))
+
+(defn write-local-sessions [sessions]
+  (.set js/store "sql-local-sessions" (pr-str sessions)))
+
+(defn filter-local-sessions [$scope sessions]
+  (let [local-sessions (read-local-sessions)
+        {showSessions :showSessions} $scope]
+    (if (= showSessions "mine")
+      (filter #(local-sessions (:uuid %)) sessions)
+      sessions)))
+
 (defn list-sessions [$scope]
   (go
-    (let [sessions (:body (<! (command/list-sessions)))]
+    (let [sessions (:body (<! (command/list-sessions)))
+          sessions (filter-local-sessions $scope sessions)]
       (oset! $scope
              :sessions sessions))))
 
 (defn create-session [$scope]
   (go
-    (if-not (nil? (<! (command/create-session)))
-      (list-sessions $scope)
-      (log/info "Cannot create session"))))
+    (let [uuid (get-in (<! (command/create-session)) [:body :uuid])
+          local-sessions (read-local-sessions)
+          new-local-sessions (conj local-sessions uuid)]
+      (write-local-sessions new-local-sessions)
+      (if-not (nil? uuid)
+        (list-sessions $scope)
+        (log/info "Cannot create session")))))
 
 (defn destroy-session [$scope s]
   (go
     (when-not (nil? (<! (command/destroy-session (:uuid s))))
+      (write-local-sessions (disj (read-local-sessions) (:uuid s)))
       (oset! $scope :session nil :commit nil :rollback nil)
       (list-sessions $scope))))
 
@@ -90,5 +110,6 @@
          :selectSession (partial select-session $scope)
          :createSession (partial create-session $scope)
          :streamResults (partial stream-results $scope))
+  (.$watch $scope "showSessions" #(list-sessions $scope))
   (list-sessions $scope))
 
