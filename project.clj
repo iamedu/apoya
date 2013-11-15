@@ -56,6 +56,7 @@
                  [net.sf.ehcache/ehcache "2.7.4"]
                  [clojurewerkz/quartzite "1.1.0"]
                  [clj-time "0.6.0"]
+                 [org.apache.poi/poi "3.9"]
                  ;;Clojurescript libs
                  [shoreleave/shoreleave-remote "0.3.0"]
                  [shoreleave/shoreleave-pubsub "0.3.0"]

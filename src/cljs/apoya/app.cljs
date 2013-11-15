@@ -53,15 +53,18 @@
 (defn handle-logout [$location $rootScope _]
   (reset! auth/user nil)
   (reset! auth/role nil)
-  (when-not (public-urls (.path $location))
+  (when-not (or (public-urls (.path $location))
+                (gstring/startsWith (.path $location) "/error"))
     (.path $location "/")
     (.$apply $rootScope)))
 
 (defn finished-loading [$location $rootScope]
   (let [location (.path $location)]
+    (log/info (str location " "
+                   (gstring/startsWith location "/error")))
     (when (and (nil? @auth/user)
-               (not (or (public-urls location)
-                        (gstring/startsWith location "/error"))))
+               (not (public-urls location))
+               (not (gstring/startsWith location "/error")))
       (.path $location "/")
       (.$apply $rootScope)))
   (.done js/NProgress))
