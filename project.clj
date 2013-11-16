@@ -42,7 +42,7 @@
                  [org.jclouds/jclouds-allblobstore "1.6.0"]
                  [org.postgresql/postgresql "9.3-1100-jdbc41"]
                  [com.asual.lesscss/lesscss-engine "1.4.2"] 
-                 [org.clojars.ato/clojure-jsr223 "1.5.1"]
+                 [org.clojars.iamedu/clj-jsr223 "0.1.0-SNAPSHOT"]
                  [org.codehaus.groovy/groovy "2.1.9"]
                  [org.codehaus.groovy/groovy-xml "2.1.9"]
                  [org.codehaus.groovy/groovy-sql "2.1.9"]

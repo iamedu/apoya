@@ -19,14 +19,14 @@
                 <div>
                     <textarea ui-codemirror="scriptingOptions" ng-model="code"></textarea>
                 </div>
-                <ul class="nav nav-tabs" ng-show="output || error-output || exception">
-                    <li ng-show="output" ng-class="{active:section=='output'}"><a href ng-click="section='output'">Output</a></li>
-                    <li ng-show="errorOutput" ng-class="{active:section=='errorOutput'}"><a href ng-click="section='errorOutput'">Error Output</a></li>
-                    <li ng-show="exception" ng-class="{active:section=='exception'}"><a href ng-click="section='exception'">Exception</a></li>
+                <ul class="nav nav-tabs" ng-show="output || errorOutput || exception">
+                    <li ng-show="output" ng-class="{active:innerSection=='output'}"><a href ng-click="innerSection='output'">Output</a></li>
+                    <li ng-show="errorOutput" ng-class="{active:innerSection=='errorOutput'}"><a href ng-click="innerSection='errorOutput'">Error Output</a></li>
+                    <li ng-show="exception" ng-class="{active:innerSection=='exception'}"><a href ng-click="innerSection='exception'">Exception</a></li>
                 </ul>
-                <div ng-show="output && section=='output'" style="white-space: pre; overflow-x: auto" class="alert alert-info">{{output}}</div>
-                <div ng-show="errorOutput && section=='errorOutput'" style="white-space: pre; overflow-x: auto" class="alert alert-warning">{{errorOutput}}</div>
-                <div ng-show="exception && section=='exception'" style="white-space: pre; overflow-x: auto" class="alert alert-danger">{{exception}}</div>
+                <div ng-show="output && innerSection=='output'" style="white-space: pre; overflow-x: auto" class="alert alert-info">{{output}}</div>
+                <div ng-show="errorOutput && innerSection=='errorOutput'" style="white-space: pre; overflow-x: auto" class="alert alert-warning">{{errorOutput}}</div>
+                <div ng-show="exception && innerSection=='exception'" style="white-space: pre; overflow-x: auto" class="alert alert-danger">{{exception}}</div>
             </div>
             <div class="col-sm-2">
                 <ng-include src="'views/command/menu.html'"></ng-include>

@@ -20,6 +20,7 @@
 <body ng-app="apoyaApp">
     <div class="container mainContainer" ng-view></div>
     <script src="bower_components/jquery/jquery.min.js"></script>
+    <script src="js/jquery.console.js"></script>
     <script src="bower_components/nprogress/nprogress.js"></script>
     <script>NProgress.start();</script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>

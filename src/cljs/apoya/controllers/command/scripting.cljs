@@ -38,12 +38,12 @@
   (go
     (let [{:keys [exception output error-output]} (:body (<! (command/eval-code engine code)))
           section (cond 
-                    output "output"
-                    error-output "error-output"
-                    exception "exception"
+                    (not-empty output) "output"
+                    (not-empty error-output) "error-output"
+                    (not-empty exception) "exception"
                     :else nil)]
       (oset! $scope
-             :section section
+             :innerSection section
              :output output
              :errorOutput error-output
              :exception exception))))

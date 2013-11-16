@@ -6,6 +6,22 @@
 (defn list-engines []
   (r/edn [:post "/api/v1/command/scripting/list-engines.edn"]))
 
+(defn create-scripting-session [engine-name]
+  (r/edn [:post "/api/v1/command/scripting/create-session.edn"]
+         :content {:engine-name engine-name}))
+
+(defn list-scripting-sessions []
+  (r/edn [:post "/api/v1/command/scripting/list-sessions.edn"]))
+
+(defn eval-line [uuid line]
+  (r/edn [:post "/api/v1/command/scripting/eval-line.edn"]
+         :content {:uuid uuid
+                   :line line}))
+
+(defn destroy-scripting-session [uuid]
+  (r/edn [:post "/api/v1/command/scripting/destroy-session.edn"]
+         :content {:uuid uuid}))
+
 (defn eval-code [engine code]
   (r/edn [:post "/api/v1/command/scripting/eval-code.edn"]
          :content {:engine engine

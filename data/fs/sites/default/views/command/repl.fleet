@@ -1,1 +1,50 @@
-Clojure REPL
+<div class="container" ng-show="ready">
+    <ng-include src="'views/menubar.html'"></ng-include>
+    <div class="section">
+        <div class="page-header">
+            <h1>Command Center</h1>
+        </div>
+        <div class="row">
+            <div class="col-sm-10">
+                <h4>REPL</h4>
+                <ul class="nav nav-pills">
+                    <li ng-repeat="s in sessions" ng-class="{active:s.uuid == session.uuid}">
+                        <a href ng-click="selectSession(s)">{{s.uuid}}</a>
+                    </li>
+                </ul>
+
+                <hr>
+
+                <div class="btn-toolbar" role="toolbar">
+                    <div class="btn-group">
+                        <a class="btn btn-primary" href ng-click="createSession(selectedEngine)" ng-disabled="!selectedEngine"><i class="fa fa-plus-circle"></i> Create session</a>
+                    </div>
+                    <div class="btn-group">
+                        <select class="form-control" ng-model="selectedEngine" ng-options="engine for engine in scriptingEngines">
+                        </select>
+                    </div>
+                    <div class="btn-group">
+                        <a class="btn btn-danger" href ng-click="destroySession(session)" ng-disabled="!session"><i class="fa fa-trash-o"></i> Delete current session</a>
+                    </div>
+                    <div class="btn-group">
+                        <select ng-init="showSessions='mine'" ng-model="showSessions" class="form-control">
+                            <option value="mine">Show only my sessions</option>
+                            <option value="all">Show all sessions</option>
+                        </select>
+                    </div>
+                </div>
+
+                <hr>
+
+                <div id="repl" ng-show="session">
+                </div>
+                <div class="alert alert-danger" style="white-space: pre" ng-show="exception">{{exception}}</div>
+            </div>
+            <div class="col-sm-2">
+                <ng-include src="'views/command/menu.html'"></ng-include>
+            </div>
+        </div>
+    </div>
+</div>
+
+

@@ -6,6 +6,17 @@
             [clojure.tools.logging :as log]))
 
 (defroutes scripting-routes
+  (POST "/create-session.edn" [engine-name]
+        (let [sess (scripting/create-session engine-name)]
+          (r/edn-response (dissoc sess :engine))))
+  (POST "/eval-line.edn" [uuid line]
+        (r/edn-response (scripting/eval-line uuid line)))
+  (POST "/destroy-session.edn" [uuid]
+        (scripting/close-session uuid)
+        (r/edn-response true))
+  (POST "/list-sessions.edn" request
+        (let [sessions (map #(dissoc % :engine) (vals @scripting/sessions))]
+          (r/edn-response sessions))) 
   (POST "/list-engines.edn" request
         (r/edn-response (scripting/list-engines)))
   (POST "/eval-code.edn" [engine code]
