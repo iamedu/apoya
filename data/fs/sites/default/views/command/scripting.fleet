@@ -6,7 +6,27 @@
         </div>
         <div class="row">
             <div class="col-sm-10">
-                Online Scripting
+                <h4>Scripting</h4>
+                <div class="btn-toolbar" role="toolbar">
+                    <div class="btn-group">
+                        <a class="btn btn-default" href ng-disabled="!selectedEngine" ng-click="execute(selectedEngine, code)"><i class="fa fa-play"></i> Execute</a>
+                    </div>
+                    <div class="btn-group">
+                        <select class="form-control" ng-model="selectedEngine" ng-options="engine for engine in scriptingEngines">
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <textarea ui-codemirror="scriptingOptions" ng-model="code"></textarea>
+                </div>
+                <ul class="nav nav-tabs" ng-show="output || error-output || exception">
+                    <li ng-show="output" ng-class="{active:section=='output'}"><a href ng-click="section='output'">Output</a></li>
+                    <li ng-show="errorOutput" ng-class="{active:section=='errorOutput'}"><a href ng-click="section='errorOutput'">Error Output</a></li>
+                    <li ng-show="exception" ng-class="{active:section=='exception'}"><a href ng-click="section='exception'">Exception</a></li>
+                </ul>
+                <div ng-show="output && section=='output'" style="white-space: pre; overflow-x: auto" class="alert alert-info">{{output}}</div>
+                <div ng-show="errorOutput && section=='errorOutput'" style="white-space: pre; overflow-x: auto" class="alert alert-warning">{{errorOutput}}</div>
+                <div ng-show="exception && section=='exception'" style="white-space: pre; overflow-x: auto" class="alert alert-danger">{{exception}}</div>
             </div>
             <div class="col-sm-2">
                 <ng-include src="'views/command/menu.html'"></ng-include>

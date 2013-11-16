@@ -2,7 +2,14 @@
   (:use compojure.core)
   (:require [apoya.response :as r]
             [apoya.data.sessions :as sess]
+            [apoya.services.scripting :as scripting]
             [clojure.tools.logging :as log]))
+
+(defroutes scripting-routes
+  (POST "/list-engines.edn" request
+        (r/edn-response (scripting/list-engines)))
+  (POST "/eval-code.edn" [engine code]
+        (r/edn-response (scripting/eval-code engine code))))
 
 ;;; Sql
 (defroutes sql-routes
@@ -29,4 +36,5 @@
           (r/edn-response sessions))))
 
 (defroutes command-routes
-  (context "/sql" [] sql-routes))
+  (context "/sql" [] sql-routes)
+  (context "/scripting" [] scripting-routes))

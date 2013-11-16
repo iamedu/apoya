@@ -6,8 +6,7 @@
     <li ng-class="{'active':section=='catalogs'}"><a href="#/command/catalogs">Catalogs</a></li>
     <li ng-class="{'active':section=='errors'}"><a href="#/command/errors">Errors</a></li>
     <li ng-class="{'active':section=='sql'}"><a href="#/command/sql">SQL Database</a></li>
-    <li ng-class="{'active':section=='repl'}"><a href="#/command/repl">Clojure REPL</a></li>
-    <li ng-class="{'active':section=='scripting'}"><a href="#/command/scripting">Online Scripting</a></li>
+    <li ng-class="{'active':section=='scripting'}"><a href="#/command/scripting">Scripting</a></li>
     <li ng-class="{'active':section=='scheduled'}"><a href="#/command/scheduled">Scheduled tasks</a></li>
 </ul>
 

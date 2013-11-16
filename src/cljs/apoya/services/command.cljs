@@ -2,6 +2,15 @@
   (:require-macros [cljs.core.async.macros :refer [go]])
   (:require [apoya.remote.request :as r]))
 
+;; Scripting
+(defn list-engines []
+  (r/edn [:post "/api/v1/command/scripting/list-engines.edn"]))
+
+(defn eval-code [engine code]
+  (r/edn [:post "/api/v1/command/scripting/eval-code.edn"]
+         :content {:engine engine
+                   :code code}))
+
 ;; SQL Sessions
 (defn create-session []
   (r/edn [:post "/api/v1/command/sql/create-session.edn"]))
