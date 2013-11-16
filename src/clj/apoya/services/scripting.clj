@@ -55,8 +55,6 @@
 
 (defn close-session [uuid]
   (let [{:keys [engine-name nspace]} (get @sessions uuid)]
-    (if (= engine-name "clojure")
-      (remove-ns (symbol nspace)))
     (swap! sessions dissoc uuid)))
 
 (defn close-old-sessions [date seconds]
