@@ -137,7 +137,7 @@
                          ["js/main.js" :subresource]))
   (context "/api/public/v1/auth" [] auth-routes)
   (context "/api/v1/auth" [] private-auth-routes)
-  (context "/api/v1/command" [] command-routes)
+  (context "/api/v1/command" [] (restricted command-routes))
   (context "/api/v1/error" [] error-routes)
   (find-more-routes)
   (route/not-found (fn [_] (fleet-resource {:uri "/404.html"}))))
