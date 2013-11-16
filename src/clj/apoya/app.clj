@@ -19,7 +19,7 @@
             [compojure.route :as route]
             [pantomime.mime :refer [mime-type-of]]
             [noir.util.middleware :as middleware]
-            [noir.util.route :refer [restricted]]
+            [noir.util.route :refer [wrap-restricted]]
             [ring.util.response :as response]
             [ring.middleware.gzip :as gzip]
             [ring.middleware.anti-forgery :as af]
@@ -137,7 +137,7 @@
                          ["js/main.js" :subresource]))
   (context "/api/public/v1/auth" [] auth-routes)
   (context "/api/v1/auth" [] private-auth-routes)
-  (context "/api/v1/command" [] (restricted command-routes))
+  (context "/api/v1/command" [] (wrap-restricted command-routes))
   (context "/api/v1/error" [] error-routes)
   (find-more-routes)
   (route/not-found (fn [_] (fleet-resource {:uri "/404.html"}))))

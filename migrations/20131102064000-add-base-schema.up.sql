@@ -243,8 +243,11 @@ INSERT INTO Role_Assignments(username, role_code) VALUES ('iamedu', 'admin');
 
 INSERT INTO Permissions(permission, description) VALUES ('*:*', 'Permission to do anything');
 INSERT INTO Permissions(permission, description) VALUES ('sample:*', 'Can do anything for the sample module');
+INSERT INTO Restricted_Urls(url, description) VALUES ('.*', 'Every url!');
+
 INSERT INTO Role_Permissions(role_code, permission) VALUES ('admin', '*:*');
 INSERT INTO Person_Permissions(username, permission) VALUES ('iamedu', 'sample:*');
+INSERT INTO Role_Urls(role_code, url) VALUES ('admin', '.*');
 
 INSERT INTO Languages(language) VALUES ('en');
 INSERT INTO Sites(domain, description) VALUES('default', 'Default website, when nobody else has entered!');
