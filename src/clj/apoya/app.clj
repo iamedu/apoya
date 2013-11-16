@@ -136,7 +136,7 @@
                          ["bower_components/angular-ui-select2/src/select2.js" :subresource]
                          ["js/main.js" :subresource]))
   (context "/api/public/v1/auth" [] auth-routes)
-  (context "/api/v1/auth" [] private-auth-routes)
+  (context "/api/v1/auth" [] (wrap-restricted private-auth-routes))
   (context "/api/v1/command" [] (wrap-restricted command-routes))
   (context "/api/v1/error" [] error-routes)
   (find-more-routes)
