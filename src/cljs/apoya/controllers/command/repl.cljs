@@ -66,20 +66,22 @@
   (start-repl $scope s))
 
 (defn handle-repl-command [line report]
-  (go
-    (let [{uuid :uuid} @session
-          {:keys [result exception exception-message output nspace error-output]}
-          (:body (<! (command/eval-line uuid line)))
-          res (if (not-empty output) [{:msg output :className "text-success"}])
-          res (if (not-empty error-output) (conj res {:msg error-output :className "text-warning"})
-                res)
-          res (if (not-empty exception-message) (conj res {:msg exception-message :className "text-danger"})
-                res)
-          res (if (not-empty result) (conj res {:msg result :className "text-info"})
-                res)]
-      (handle-exception exception)
-      ((get @controller "scrollToBottom"))
-      (report (clj->js res)))))
+  (if (and line (not-empty line))
+    (go
+      (let [{uuid :uuid} @session
+            {:keys [result exception exception-message output nspace error-output]}
+            (:body (<! (command/eval-line uuid line)))
+            res (if (not-empty output) [{:msg output :className "text-success"}])
+            res (if (not-empty error-output) (conj res {:msg error-output :className "text-warning"})
+                  res)
+            res (if (not-empty exception-message) (conj res {:msg exception-message :className "text-danger"})
+                  res)
+            res (if (not-empty result) (conj res {:msg result :className "text-info"})
+                  res)]
+        (handle-exception exception)
+        ((get @controller "scrollToBottom"))
+        (report (clj->js res))))
+    (report (clj->js []))))
 
 (defn stop-repl []
   (doto (js/jQuery "#repl")
