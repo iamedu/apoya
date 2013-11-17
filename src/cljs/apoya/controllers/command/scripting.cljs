@@ -44,6 +44,7 @@
                     :else nil)]
       (oset! $scope
              :innerSection section
+             :lastUpdated (js/Date.)
              :output output
              :errorOutput error-output
              :exception exception))))

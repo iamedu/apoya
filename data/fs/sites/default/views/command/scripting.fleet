@@ -24,6 +24,9 @@
                     <li ng-show="errorOutput" ng-class="{active:innerSection=='errorOutput'}"><a href ng-click="innerSection='errorOutput'">Error Output</a></li>
                     <li ng-show="exception" ng-class="{active:innerSection=='exception'}"><a href ng-click="innerSection='exception'">Exception</a></li>
                 </ul>
+                <div ng-show="lastUpdated">
+                    Last response {{lastUpdated}}
+                </div>
                 <div ng-show="output && innerSection=='output'" style="white-space: pre; overflow-x: auto" class="alert alert-info">{{output}}</div>
                 <div ng-show="errorOutput && innerSection=='errorOutput'" style="white-space: pre; overflow-x: auto" class="alert alert-warning">{{errorOutput}}</div>
                 <div ng-show="exception && innerSection=='exception'" style="white-space: pre; overflow-x: auto" class="alert alert-danger">{{exception}}</div>

@@ -55,6 +55,8 @@
 
 (defn close-session [uuid]
   (let [{:keys [engine-name nspace]} (get @sessions uuid)]
+    (if (= "clojure" engine-name)
+      (remove-ns (symbol nspace)))  
     (swap! sessions dissoc uuid)))
 
 (defn close-old-sessions [date seconds]
@@ -75,13 +77,17 @@
         err-output-str (StringWriter.)
         std-writer (PrintWriter. std-output-str)
         err-writer (PrintWriter. err-output-str)
+        nspace (get-nspace engine-name engine)
         exception (atom nil)]
     (-> engine (.getContext) (.setWriter std-writer))
     (-> engine (.getContext) (.setErrorWriter err-writer))
     (try
       (.eval engine code)
       (catch Exception e
-        (reset! exception (errors/str-throwable e))))
+        (reset! exception (errors/str-throwable e)))
+      (finally
+        (if (= "clojure" engine-name)
+          (remove-ns (symbol nspace)))))
     {:output (.toString std-output-str)
      :error-output (.toString err-output-str)
      :exception @exception}))

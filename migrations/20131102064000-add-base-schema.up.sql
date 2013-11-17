@@ -238,6 +238,7 @@ INSERT INTO Error_Sources(name, description) VALUES ('quartz', 'There was a prob
 INSERT INTO Error_Sources(name, description) VALUES ('netty', 'There was an error with fortress or the netty library');
 
 INSERT INTO Users(username, email, password) VALUES ('iamedu', 'iamedu@gmail.com', '$2a$10$I8IVBVBHmC.Yhn14kjbi0uL91J6YCv.lYG1/XrxHAKj/WyrQXXj3.');
+INSERT INTO Users(username, email, password) VALUES ('normal', 'normal@user.com', '$2a$10$I8IVBVBHmC.Yhn14kjbi0uL91J6YCv.lYG1/XrxHAKj/WyrQXXj3.');
 INSERT INTO Roles(role_code, description) VALUES ('admin', 'User that can do anything');
 INSERT INTO Role_Assignments(username, role_code) VALUES ('iamedu', 'admin');
 
