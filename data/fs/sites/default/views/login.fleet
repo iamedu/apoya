@@ -1,5 +1,5 @@
 <div class="container" ng-show="ready">
-    <ng-include src="'views/menubar.html'"></ng-include>
+    <div src="'views/menubar.html'"></div>
     <div class="row">
         <div class="page-header">
             <h1><(label :login-title :default "Login")> <small><(label :login-subtitle :default "Use your preferred method")></small></h1>

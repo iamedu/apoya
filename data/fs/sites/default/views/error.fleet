@@ -1,5 +1,5 @@
 <div class="container">
-    <ng-include src="'views/menubar.html'"></ng-include>
+    <div ng-include="'views/menubar.html'"></div>
     <div class="row" ng-show="!isAdmin">
         <div class="page-header">
             <h1><(label :something-failed-title :default "Sorry :( something failed ")> <small><(label :something-failed-subtitle :default "Please help us solve it!")></small></h1>

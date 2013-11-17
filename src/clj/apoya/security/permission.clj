@@ -1,6 +1,7 @@
 (ns apoya.security.permission
   (:require [apoya.data.auth :as auth]
-            [clojure.string :as s]))
+            [clojure.string :as s])
+  (:import [java.util Date]))
 
 (defn- permission-alternatives [permission]
   (let [parts (s/split permission #":")
@@ -21,3 +22,12 @@
 (defn has-any-permission? [permissions & {:as criteria}]
   (let [criteria (-> criteria seq flatten)]
     (boolean (some #(apply has-permission? % criteria) permissions))))
+
+(defn can-impersonate? [impersonate-username & {:keys [current-date]
+                                               :or {current-date (Date.)}
+                                               :as criteria}]
+  (let [criteria (-> (dissoc criteria :current-date) seq flatten)]
+    (or (and (apply has-permission? "user:impersonate-any" criteria)
+             (not (nil? (auth/find-user :username impersonate-username))))
+        (apply auth/impersonate-permission-exists? impersonate-username current-date criteria))))
+

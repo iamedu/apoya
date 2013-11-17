@@ -22,7 +22,8 @@
     "modernizr": "latest",
     "FileAPI": "latest",
     "H5F": "latest",
-    "tourist": "latest"
+    "tourist": "latest",
+    "console-polyfill": "latest"
   },
   "authors": [
     "Eduardo Díaz <iamedu@gmail.com>"

@@ -1,5 +1,5 @@
 <div class="container">
-    <ng-include src="'views/menubar.html'"></ng-include>
+    <div ng-include="'views/menubar.html'"></div>
     <div class="section">
         <div class="row">
             <div class="col-sm-8">

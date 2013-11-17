@@ -1,5 +1,5 @@
 <div class="container" ng-show="ready">
-    <ng-include src="'views/menubar.html'"></ng-include>
+    <div ng-include="'views/menubar.html'"></div>
     <div class="jumbotron" style="text-align: center">
         <p class="lead"><(label :apoya-headline :default "Apoya is a platform to get you up and running with your webapps, try it")></p>
     </div>

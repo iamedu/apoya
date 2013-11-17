@@ -1,0 +1,22 @@
+<div ng-controller="ContextCtrl">
+    <div id="userSupplantedNavbar" class="navbar navbar-inverse navbar-fixed-top" ng-show="userSupplanted">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href>{{currentUser}}</a>
+          <ul class="nav navbar-nav">
+            <li><a href ng-click="endImpersonation()"><(label :end-impersonation :default "End impersonation")></a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div id="siteChangedNavbar" class="navbar navbar-default navbar-fixed-top" ng-show="siteChanged">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href>default.site.com</a>
+          <ul class="nav navbar-nav">
+            <li><a href>Return to original site</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+</div>

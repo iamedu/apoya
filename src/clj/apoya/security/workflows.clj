@@ -2,6 +2,7 @@
   (:require [apoya.security.persona :as persona]
             [apoya.data.site :as site]
             [apoya.data.auth :as auth]
+            [apoya.security.permission :as permission]
             [cemerick.friend.workflows :as workflows]
             [cemerick.friend.util :refer (gets)]
             [cemerick.friend :as friend]
@@ -46,4 +47,21 @@
           (workflows/make-auth user-record {::friend/workflow :edn-request
                                             ::friend/redirect-on-auth? false}))))))
 
+(defn impersonate-find-user [username]
+  (if-let [user (auth/find-user :username username)]
+    (merge {:identity (:username user)}
+           (dissoc user :password))))
+
+(defn impersonate-workflow [& {:keys [login-uri] :as supplant-config}]
+  (fn [{:keys [request-method body-params] :as request}]
+    (when (and (= (gets :login-uri supplant-config (::friend/auth-config request)) (req/path-info request))
+               (= :post request-method))
+      (let [username (:username body-params)
+            id (get (friend/current-authentication request) :identity)
+            has-permission? (permission/can-impersonate? username :username id)]
+        (if-let [user-record (and has-permission?
+                                  (impersonate-find-user username))]
+          (workflows/make-auth (assoc user-record :original-user id)
+                               {::friend/workflow :impersonate
+                                ::friend/redirect-on-auth? false}))))))
 

@@ -14,6 +14,7 @@
             [apoya.security.csrf :as csrf]
             [apoya.security.rules :as rules]
             [apoya.routes.auth :refer [auth-routes private-auth-routes]]
+            [apoya.routes.site :refer [site-routes private-site-routes]]
             [apoya.routes.command :refer [command-routes]]
             [apoya.routes.error :refer [error-routes]]
             [compojure.route :as route]
@@ -136,7 +137,9 @@
                          ["bower_components/angular-ui-select2/src/select2.js" :subresource]
                          ["js/main.js" :subresource]))
   (context "/api/public/v1/auth" [] auth-routes)
+  (context "/api/public/v1/site" [] site-routes)
   (context "/api/v1/auth" [] (wrap-restricted private-auth-routes))
+  (context "/api/v1/site" [] (wrap-restricted private-site-routes))
   (context "/api/v1/command" [] (wrap-restricted command-routes))
   (context "/api/v1/error" [] error-routes)
   (find-more-routes)
@@ -147,7 +150,8 @@
       (friend/authenticate {:credential-fn (partial creds/bcrypt-credential-fn
                                                     (partial auth-data/find-user :username))
                             :workflows [(workflows/edn-workflow :login-uri "/api/public/v1/auth/login.edn")
-                                        (workflows/persona-workflow :login-uri "/api/public/v1/auth/persona-login.edn")]})))
+                                        (workflows/persona-workflow :login-uri "/api/public/v1/auth/persona-login.edn")
+                                        (workflows/impersonate-workflow :login-uri "/api/public/v1/site/impersonate.edn")]})))
 
 (defn read-csrf-token [request]
   (get-in request [:params :__anti-forgery-token]))

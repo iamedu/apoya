@@ -26,6 +26,17 @@
   (r/edn [:post "/api/public/v1/auth/has-permissions.edn"]
          :content {:permissions permissions}))
 
+(defn can-impersonate? [user]
+  (r/edn [:post "/api/v1/site/can-impersonate.edn"]
+         :content {:user user}))
+
+(defn impersonate [username]
+  (r/edn [:post "/api/public/v1/site/impersonate.edn"]
+          :content {:username username}))
+
+(defn end-impersonation []
+  (r/edn [:post "/api/public/v1/site/end-impersonation.edn"]))
+
 (defn logout []
   (r/edn [:post "/api/public/v1/auth/logout.edn"]))
 

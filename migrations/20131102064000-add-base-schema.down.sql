@@ -10,6 +10,7 @@ DROP TABLE Permissions;
 DROP TABLE Person_Urls;
 DROP TABLE Role_Urls;
 DROP TABLE Restricted_Urls;
+DROP TABLE Impersonate_Permissions;
 DROP TRIGGER Update_Role_Assignments_Timestamp on Role_Assignments;
 DROP TABLE Role_Assignments;
 DROP TRIGGER Update_Roles_Timestamp on Roles;

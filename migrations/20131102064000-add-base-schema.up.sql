@@ -124,6 +124,20 @@ CREATE TABLE Person_Urls (
     PRIMARY KEY (username, url)
 );
 
+CREATE TABLE Impersonate_Permissions (
+    permitted_username VARCHAR(64) NOT NULL
+        REFERENCES Users (username)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    impersonated_username VARCHAR(64) NOT NULL
+        REFERENCES Users (username)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    valid_from_date TIMESTAMP(2) NOT NULL,
+    valid_to_date TIMESTAMP(2) NOT NULL,
+    PRIMARY KEY (permitted_username, impersonated_username, valid_from_date, valid_to_date)
+);
+
 CREATE TABLE Permissions (
     permission VARCHAR(1024) NOT NULL,
     description TEXT,
@@ -252,4 +266,5 @@ INSERT INTO Role_Urls(role_code, url) VALUES ('admin', '.*');
 
 INSERT INTO Languages(language) VALUES ('en');
 INSERT INTO Sites(domain, description) VALUES('default', 'Default website, when nobody else has entered!');
+INSERT INTO Sites(domain, description) VALUES('default.site.com', 'Site for testing multisite');
 

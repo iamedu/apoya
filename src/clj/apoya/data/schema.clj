@@ -6,6 +6,8 @@
   (:use korma.db
         korma.core))
 
+(defentity impersonate_permissions)
+
 (defentity sites
   (pk :domain))
 

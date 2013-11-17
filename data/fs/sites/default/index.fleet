@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:ng="http://angularjs.org" id="ng-app" ng-app="apoyaApp">
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,10 +15,14 @@
     <!--[if lt IE 9]>
       <script src="bower_components/html5shiv/dist/html5shiv.js"></script>
       <script src="bower_components/respond/respond.min.js"></script>
+      <script src="bower_components/console-polyfill/index.js"></script>
     <![endif]-->
 </head>
-<body ng-app="apoyaApp">
-    <div class="container mainContainer" ng-view></div>
+<body>
+    <div ng-include="'views/navbars.html'"></div>
+    <div id="mainContainer">
+        <div class="container mainContainer" ng-view></div>
+    </div>
     <script src="bower_components/jquery/jquery.min.js"></script>
     <script src="js/jquery.console.js"></script>
     <script src="bower_components/nprogress/nprogress.js"></script>

@@ -1,5 +1,5 @@
 <div class="container" ng-show="ready">
-    <ng-include src="'views/menubar.html'"></ng-include>
+    <div ng-include="'views/menubar.html'"></div>
     <div class="section">
         <div class="page-header">
             <h1><(label :command-center :default "Command Center")></h1>
@@ -33,7 +33,7 @@
                     </div>
                 </div>
 
-                <hr>
+                <hr/>
 
                 <div ng-show="session">
                     <textarea ui-codemirror="sqlOptions" ng-model="sqlCode"></textarea>
@@ -41,10 +41,10 @@
                 <div ng-show="session && currentDate">
                     <(raw (label :sql-last-response :default "Last database response <strong>{{currentDate}}</strong>"))>
                     <span ng-show="session && commit">
-                        <label :sql-commit-success :default "Commit successful")>
+                        <(label :sql-commit-success :default "Commit successful")>
                     </span>
                     <span ng-show="session && rollback">
-                        <label :sql-rollback-success :default "Rollback successful")>
+                        <(label :sql-rollback-success :default "Rollback successful")>
                     </span>
                 </div>
                 <div ng-show="session && exception">
@@ -67,10 +67,10 @@
                         </tbody>
                     </table>
                 </div>
-                <br>
+                <br />
             </div>
             <div class="col-sm-2">
-                <ng-include src="'views/command/menu.html'"></ng-include>
+                <div ng-include="'views/command/menu.html'"></div>
             </div>
         </div>
     </div>

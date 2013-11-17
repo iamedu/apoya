@@ -3,6 +3,15 @@
   (:use korma.core
         apoya.data.schema))
 
+(defn find-user-any [criterion]
+  (first (select users
+                 (with roles
+                   (fields :role_code :description))
+                 (where (and (= :active true)
+                             (or {:username criterion}
+                                 {:email criterion})))
+                 (limit 1))))
+
 (defn find-user [& {:as criteria}]
   (first (select users
                  (with roles
@@ -75,5 +84,17 @@
                                                                               (where criteria))]
                                     :role_permissions.permission [in permissions]})))
         (exec)
+        (not-empty?))))
+
+(defn impersonate-permission-exists? [impersonate-username current-date & {:as criteria}]
+  (let [current-date (java.sql.Date. (.getTime current-date))
+        not-empty? (complement empty?)]
+    (-> (select impersonate_permissions
+                (where {:impersonated_username impersonate-username
+                        :valid_from_date [<= current-date]
+                        :valid_to_date [>= current-date]
+                        :permitted_username [in (subselect users
+                                                           (fields :username)
+                                                           (where criteria))]}))
         (not-empty?))))
 

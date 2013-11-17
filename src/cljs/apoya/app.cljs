@@ -38,10 +38,14 @@
 (defn handle-forbidden [m]
   (log/info (str "Forbidden request" m)))
 
+(defn handle-not-found [m]
+  (log/info (str "Not found request" m)))
+
 (defn handle-error [$location $rootScope {:keys [outcome status body] :as m}]
   (let [{error-id :error-id} body
         current-location (.path $location)]
     (cond
+      (= status 404) (handle-not-found m)
       (= status 403) (handle-forbidden m)   
       :else (when-not (gstring/startsWith current-location "/error")
               (log/info "Ocurrio un error")
@@ -63,7 +67,8 @@
   (when-not (or (public-urls (.path $location))
                 (gstring/startsWith (.path $location) "/error"))
     (.path $location "/")
-    (.$apply $rootScope)))
+    (.$apply $rootScope)
+    (.reload js/location)))
 
 (defn finished-loading [$location $rootScope]
   (let [location (.path $location)]
