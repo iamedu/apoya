@@ -6,6 +6,7 @@
             [goog.string :as gstring]))
 
 (def *default-output* (log/console-output))
+(def location-history (atom (list)))
 (log/start-display *default-output*)
 
 ;; Global modals
@@ -78,6 +79,7 @@
          (clj->js {:templateUrl "views/modals/changeUser.html"
                    :controller :SupplantModalCtrl})))
 
+
 (defn run-app [$location $rootScope $modal]
   (t/subscribe :error (partial handle-error $location $rootScope))
   (t/subscribe :ready (fn [_] (oset! $rootScope :ready true)))
@@ -91,7 +93,8 @@
             (if (and @auth/started
                      (nil? @auth/user)
                      (not (public-urls location)))
-              (.preventDefault event)))))
+              (.preventDefault event)
+              (swap! location-history conj current-location)))))
   (auth/check-user (partial finished-loading $location $rootScope)))
 
 (-> app

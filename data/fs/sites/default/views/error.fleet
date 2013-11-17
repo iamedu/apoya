@@ -8,7 +8,7 @@
     <div class="row" ng-show="!isAdmin">
         <div class="col-sm-6">
             <(raw (label :something-failed-explanation :default "<h3>We need your help</h3>\n<p>\nSomething unexpected just happened, and we have to apologize for it.\nWe are also going to ask for a little help, if it's alright with you.\nIf you fill the bug report on the right our engineers are going to be able\nto fix it faster.\n</p>\n<h4>You'd rather call for help?</h4>\n<p>\nIf you'd rather call for help, you can call <strong>1-800-HELP</strong> during office hours.\nTry to have your account details with you so we can give you a better service.\n</p>\n<h4>Thank you very much</h4>\n<p>\nYou can go back to what you were doing with this button.\n</p>\n"))>
-            <a class="btn btn-lg btn-default"><(label :something-failed-go-back :default "Go back")></a>
+            <a class="btn btn-lg btn-default" ng-click="back()"><(label :something-failed-go-back :default "Go back")></a>
         </div>
         <div class="col-sm-6">
             <h4><(label :bug-report :default "Bug Report")></h4>

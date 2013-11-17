@@ -2,6 +2,7 @@
   (:require-macros [apoya.angular :refer [defcontroller]]
                    [cljs.core.async.macros :refer [go]])
   (:require [apoya.main :refer [app]]
+            [apoya.topics :as t]
             [apoya.services.auth :as auth]
             [apoya.services.error :as error]
             [apoya.util.log :as log]
@@ -27,6 +28,7 @@
           is-admin (boolean (get permissions "admin:error"))]
       (oset! $scope
              :isAdmin is-admin
+             :back #(.back js/history)
              :errorId error-id)
       (if is-admin (handle-admin-error $scope error-id)))))
 

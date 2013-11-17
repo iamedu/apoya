@@ -28,12 +28,19 @@
 (defn supplant-user []
   (t/publish :supplant-user true))
 
+(defn check-permissions [$scope]
+  (go
+    (let [needed-permissions ["command-center:view" "user:supplant" "site:change" "user:edit-profile"]
+          permissions (:body (<! (auth/has-permissions needed-permissions)))]
+      (oset! $scope :permissions permissions))))
+
 (defcontroller app MenuBarCtrl [$scope $location]
   (.dropdown (js/jQuery ".dropdown-toggle"))
   (when-not @initialized
     (t/subscribe :identity (partial handle-identity $scope))
     (reset! initialized true))
   (handle-identity $scope @auth/user)
+  (check-permissions $scope)
 
   (let [not-empty? (complement empty?)
         location-parts (-> (.path $location) (.split "/"))

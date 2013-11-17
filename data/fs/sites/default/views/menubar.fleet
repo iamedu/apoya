@@ -5,13 +5,13 @@
     </ul>
     <ul class="nav nav-pills pull-right" ng-show="ready && identity">
         <li ng-class="{active:location == 'dashboard'}"><a href="#/dashboard"><(label :dashboard :default "Dashboard")></a></li>
-        <li ng-class="{active:location == 'command'}"><a href="#/command/main"><(label :command-center :default "Command center")></a></li>
+        <li ng-class="{active:location == 'command'}" ng-show="permissions['command-center:view']"><a href="#/command/main"><(label :command-center :default "Command center")></a></li>
         <li class="dropdown">
             <a class="dropdown-toggle" href="#">
                 {{username}} <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
-                <li>
+                <li ng-show="permissions['user:edit-profile']">
                     <a href>
                       <img ng-src="{{gravatar}}" />
                       <span>
@@ -19,10 +19,10 @@
                       </span>
                     </a>
                 </li>
-                <li class="divider"></li>
-                <li><a href ng-click="supplantUser()"><(label :supplant-user :default "Supplant user")></a></li>
-                <li><a href><(label :change-site :default "Change site")></a></li>
-                <li class="divider"></li>
+                <li ng-show="permissions['user:edit-profile']" class="divider"></li>
+                <li ng-show="permissions['user:supplant']"><a href ng-click="supplantUser()"><(label :supplant-user :default "Supplant user")></a></li>
+                <li ng-show="permissions['site:change']"><a href><(label :change-site :default "Change site")></a></li>
+                <li class="divider" ng-show="permissions['user:edit-profile'] || permissions['user:supplant'] || permissions['site:change']"></li>
                 <li><a href ng-click="logout()"><(label :logout :default "Logout")></a></li>
             </ul>
         </li>

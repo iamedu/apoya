@@ -23,7 +23,7 @@
          :content user))
 
 (defn has-permissions [permissions]
-  (r/edn [:post "/api/v1/auth/has-permissions.edn"]
+  (r/edn [:post "/api/public/v1/auth/has-permissions.edn"]
          :content {:permissions permissions}))
 
 (defn logout []
