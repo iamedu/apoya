@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>Server Error :(</title>
+        <title><(label :sever-error-title :default "Server Error :(")></title>
         <style>
             ::-moz-selection {
                 background: #b3d4fc;
@@ -141,8 +141,8 @@
     </head>
     <body>
         <div class="container">
-            <h1>Server error <span>:(</span></h1>
-            <p>Sorry, the action you were trying to do resulted in an error.</p>
+            <h1><(label :server-error :default "Server error")> <span><(label :sad-face :default ":(")></span></h1>
+            <p><(label :server-error-explanation :default "Sorry, the action you were trying to do resulted in an error.")></p>
         </div>
     </body>
 </html>

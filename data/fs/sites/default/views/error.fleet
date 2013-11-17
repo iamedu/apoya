@@ -2,67 +2,52 @@
     <ng-include src="'views/menubar.html'"></ng-include>
     <div class="row" ng-show="!isAdmin">
         <div class="page-header">
-            <h1>Sorry :( something failed <small>Please help us solve it!</small></h1>
+            <h1><(label :something-failed-title :default "Sorry :( something failed ")> <small><(label :something-failed-subtitle :default "Please help us solve it!")></small></h1>
         </div>
     </div>
     <div class="row" ng-show="!isAdmin">
         <div class="col-sm-6">
-            <h3>We need your help</h3>
-            <p>
-                Something unexpected just happened, and we have to apologize for it.
-                We are also going to ask for a little help, if it's alright with you.
-                If you fill the bug report on the right our engineers are going to be able
-                to fix it faster.
-            </p>
-            <h4>You'd rather call for help?</h4>
-            <p>
-                If you'd rather call for help, you can call <strong>1-800-HELP</strong> during office hours.
-                Try to have your account details with you so we can give you a better service.
-            </p>
-            <h4>Thank you very much</h4>
-            <p>
-                You can go back to what you were doing with this button.
-            </p>
-            <a class="btn btn-lg btn-default">Go back</a>
+            <(raw (label :something-failed-explanation :default "<h3>We need your help</h3>\n<p>\nSomething unexpected just happened, and we have to apologize for it.\nWe are also going to ask for a little help, if it's alright with you.\nIf you fill the bug report on the right our engineers are going to be able\nto fix it faster.\n</p>\n<h4>You'd rather call for help?</h4>\n<p>\nIf you'd rather call for help, you can call <strong>1-800-HELP</strong> during office hours.\nTry to have your account details with you so we can give you a better service.\n</p>\n<h4>Thank you very much</h4>\n<p>\nYou can go back to what you were doing with this button.\n</p>\n"))>
+            <a class="btn btn-lg btn-default"><(label :something-failed-go-back :default "Go back")></a>
         </div>
         <div class="col-sm-6">
-            <h4>Bug report</h4>
+            <h4><(label :bug-report :default "Bug Report")></h4>
             <dl ng-show="errorId">
-                <dt>Error Id</dt>
+                <dt><(label :error-id :default "Error Id")></dt>
                 <dd>{{errorId}}</dd>
             </dl>
         </div>
     </div>
     <div class="row" ng-show="isAdmin">
         <div class="page-header">
-            <h1>Something failed :'( <small>We are waiting for you to fix it</small></h1>
+            <h1><(label :something-failed-admin-title :default "Something failed :'(")> <small><(label :something-failed-admin-subtitle :default "We are waiting for you to fix it")></small></h1>
         </div>
     </div>
     <div class="row" ng-show="isAdmin">
         <div class="col-sm-8">
             <div>
-                <h3>Stacktrace</h3>
+                <h3><(label :stacktrace :default "Stacktrace")></h3>
                 <div style="white-space: pre">{{errorDetails.error_text}}</div>
             </div>
         </div>
         <div class="col-sm-4">
-            <h2>Summary</h2>
+            <h2><(label :something-failed-admin-summary :default "Summary")></h2>
             <dl>
-                <dt>Severity</dt>
+                <dt><(label :something-failed-severity :default "Severity")></dt>
                 <dd ng-switch="errorDetails.severity">
                     <div ng-switch-default>{{errorDetails.severity}}</div>
                 </dd>
-                <dt>Failure date</dt>
+                <dt><(label :something-failed-failure-date :default "Failure date")></dt>
                 <dd>{{errorDetails.event_date}}</dd>
-                <dt>First appearance</dt>
+                <dt><(label :something-failed-first-appearance :default "First appearance")></dt>
                 <dd>{{errorDetails.first_appearance}}</dd>
-                <dt>Source</dt>
+                <dt><(label :something-failed-source :default "Source")></dt>
                 <dd>{{errorDetails.error_source}} - {{errorDetails.description}}</dd>
-                <dt>Error event key</dt>
+                <dt><(label :something-failed-event-key :default "Error event key")></dt>
                 <dd>{{errorDetails.error_sha1}}</dd>
-                <dt ng-show="errorDetails.domain">Domain</dt>
+                <dt ng-show="errorDetails.domain"><(label :something-failed-domain :default "Domain")></dt>
                 <dd ng-show="errorDetails.domain">{{errorDetails.domain}}</dd>
-                <dt ng-show="errorDetails.username">User</dt>
+                <dt ng-show="errorDetails.username"><(label :something-failed-username :default "Username")></dt>
                 <dd ng-show="errorDetails.username">{{errorDetails.username}}</dd>
             </dl>
         </div>
@@ -70,13 +55,13 @@
     <div class="row" ng-show="isAdmin && errorDetails.error_source == 'webapp'">
         <div class="col-sm-12">
             <div>
-                <h3>Request metadata</h3>
-                <h4>General data</h4>
+                <h3><(label :something-failed-request-metadata :default "Request metadata")></h3>
+                <h4><(label :something-failed-general-data :default "General data")></h4>
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th>Parameter</th>
-                            <th>Value</th>
+                            <th><(label :something-failed-parameter :default "Parameter")></th>
+                            <th><(label :something-failed-value :default "Value")></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -86,12 +71,12 @@
                         </tr>
                     </tbody>
                 </table>
-                <h4>Headers</h4>
+                <h4><(label :something-failed-headers :default "Headers")></h4>
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th>Header</th>
-                            <th>Value</th>
+                            <th><(label :something-failed-header :default "Header")></th>
+                            <th><(label :something-failed-value :default "Value")></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -101,42 +86,12 @@
                         </tr>
                     </tbody>
                 </table>
-                <h4>Params</h4>
+                <h4><(label :something-failed-body-params :default "Body Params")></h4>
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th>Parameter</th>
-                            <th>Value</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="(k, v) in fullMetadata['params']">
-                            <td>{{k}}</td>
-                            <td>{{v}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <h4>Cookies</h4>
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Cookie
-                            <th>Value</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="(k, v) in fullMetadata['cookies']">
-                            <td>{{k}}</td>
-                            <td>{{v.value}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <h4>Body Params</h4>
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Parameter</th>
-                            <th>Value</th>
+                            <th><(label :something-failed-parameter :default "Parameter")></th>
+                            <th><(label :something-failed-value :default "Value")></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -146,12 +101,42 @@
                         </tr>
                     </tbody>
                 </table>
-                <h4>Multipart params</h4>
+                <h4><(label :something-failed-params :default "Params")></h4>
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th>Parameter</th>
-                            <th>Value</th>
+                            <th><(label :something-failed-parameter :default "Parameter")></th>
+                            <th><(label :something-failed-value :default "Value")></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="(k, v) in fullMetadata['params']">
+                            <td>{{k}}</td>
+                            <td>{{v}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h4><(label :something-failed-cookies :default "Cookies")></h4>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th><(label :something-failed-cookie :default "Cookie")></th>
+                            <th><(label :something-failed-value :default "Value")></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="(k, v) in fullMetadata['cookies']">
+                            <td>{{k}}</td>
+                            <td>{{v.value}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h4><(label :something-failed-multipart-params :default "Multipart params")></h4>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th><(label :something-failed-parameter :default "Parameter")></th>
+                            <th><(label :something-failed-value :default "Value")></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -161,12 +146,12 @@
                         </tr>
                     </tbody>
                 </table>
-                <h4>Query params</h4>
+                <h4><(label :something-failed-query-params :default "Query params")></h4>
                 <table class="table table-striped" ng-show="fullMetadata['query-params']">
                     <thead>
                         <tr>
-                            <th>Parameter</th>
-                            <th>Value</th>
+                            <th><(label :something-failed-parameter :default "Parameter")></th>
+                            <th><(label :something-failed-value :default "Value")></th>
                         </tr>
                     </thead>
                     <tbody>

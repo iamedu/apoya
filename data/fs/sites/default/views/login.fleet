@@ -2,12 +2,12 @@
     <ng-include src="'views/menubar.html'"></ng-include>
     <div class="row">
         <div class="page-header">
-            <h1>Login <small>Use your preferred method</small></h1>
+            <h1><(label :login-title :default "Login")> <small><(label :login-subtitle :default "Use your preferred method")></small></h1>
         </div>
     </div>
     <div class="row">
         <div class="col-md-12" ng-show="loginError">
-            <div class="alert alert-warning">Seems like you wrote your username or password incorrectly</div>
+            <div class="alert alert-warning"><(label :login-error :default "Seems like you wrote your username or password incorrectly")></div>
         </div>
     </div>
     <div class="row">
@@ -16,14 +16,14 @@
         <div class="col-md-4">
             <form role="form" class="text-right" name="loginForm" ng-init="tryingLogin=false">
                 <div class="form-group">
-                    <label for="username">Username</label>
+                    <label for="username"><(label :username :default "Username")></label>
                     <input type="text" class="form-control" name="username" ng-model="user.username" id="username" placeholder="Enter username" required>
                 </div>
                 <div class="form-group">
-                    <label for="password">Password</label>
+                    <label for="password"><(label :password :default "Password")></label>
                     <input type="password" class="form-control" name="password" ng-model="user.password" id="password" required>
                 </div>
-                <button ng-click="login(user)" type="submit" ng-disabled="loginForm.$invalid || tryingLogin" class="btn btn-success">Submit</button>
+                <button ng-click="login(user)" type="submit" ng-disabled="loginForm.$invalid || tryingLogin" class="btn btn-success"><(label :submit :default "Submit")></button>
             </form>
         </div>
     </div>

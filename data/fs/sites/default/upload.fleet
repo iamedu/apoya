@@ -8,7 +8,7 @@
 <meta name="author" content="">
 <!-- Bootstrap core CSS -->
 <link href="css/bootstrap.css" rel="stylesheet">
-<title>Fortress</title>
+<title><(label :apoya-title :default "Apoya")></title>
 <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!--[if lt IE 9]>
       <script src="bower_components/html5shiv/dist/html5shiv.js"></script>
@@ -20,7 +20,7 @@
         <h1><(label :hello :default "Hello world")></h1>
         <form class="form-signin" action="/upload" method="POST" enctype="multipart/form-data">
             <input name="archivin" type="file" class="form-control" required>
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Upload</button>
+            <button class="btn btn-lg btn-primary btn-block" type="submit"><(label :upload :default "Upload")></button>
         </form>
     </div>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>

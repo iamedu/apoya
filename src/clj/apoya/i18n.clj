@@ -29,6 +29,7 @@
         language (name cfg/*language*)
         str-k (name k)
         default-text (or (:default options) str-k) 
+        params (:params options)
         db-label (or (first (select labels
                                     (where {:label_key str-k
                                             :language language
@@ -38,4 +39,4 @@
                                       :language language
                                       :domain domain
                                       :label_text default-text})))]
-    (:label_text db-label)))
+    (apply format (:label_text db-label) params)))

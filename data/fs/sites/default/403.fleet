@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>Page forbidden :(</title>
+        <title><(label :page-forbiddden-title :default "Page forbidden :(")></title>
         <style>
             ::-moz-selection {
                 background: #b3d4fc;
@@ -141,8 +141,8 @@
     </head>
     <body>
         <div class="container">
-            <h1>Page forbidden <span>:(</span></h1>
-            <p>Sorry, you are not allowed to do what you were trying.</p>
+            <h1><(label :page-forbidden :default "Page forbidden")> <span><(label :sad-face :default ":(")></span></h1>
+            <p><(label :page-forbidden-explanation :default "Sorry, you are not allowed to do what you were trying.")></p>
         </div>
     </body>
 </html>

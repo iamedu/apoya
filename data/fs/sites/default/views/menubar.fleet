@@ -1,11 +1,11 @@
 <div class="header" style="margin-bottom: 30px" ng-controller="MenuBarCtrl">
     <ul class="nav nav-pills pull-right" ng-show="ready && !identity">
-        <li ng-class="{active:location==null}"><a href="#/">Home</a></li>
-        <li ng-class="{active:location=='login'}"><a href="#/login">Login</a></li>
+        <li ng-class="{active:location==null}"><a href="#/"><(label :home :default "Home")></a></li>
+        <li ng-class="{active:location=='login'}"><a href="#/login"><(label :login :default "Login")></a></li>
     </ul>
     <ul class="nav nav-pills pull-right" ng-show="ready && identity">
-        <li ng-class="{active:location == 'dashboard'}"><a href="#/dashboard">Dashboard</a></li>
-        <li ng-class="{active:location == 'command'}"><a href="#/command/main">Command center</a></li>
+        <li ng-class="{active:location == 'dashboard'}"><a href="#/dashboard"><(label :dashboard :default "Dashboard")></a></li>
+        <li ng-class="{active:location == 'command'}"><a href="#/command/main"><(label :command-center :default "Command center")></a></li>
         <li class="dropdown">
             <a class="dropdown-toggle" href="#">
                 {{username}} <span class="caret"></span>
@@ -15,18 +15,18 @@
                     <a href>
                       <img ng-src="{{gravatar}}" />
                       <span>
-                          Edit profile
+                          <(label :edit-profile :default "Edit profile")>
                       </span>
                     </a>
                 </li>
                 <li class="divider"></li>
-                <li><a href ng-click="supplantUser()">Supplant user</a></li>
-                <li><a href>Change site</a></li>
+                <li><a href ng-click="supplantUser()"><(label :supplant-user :default "Supplant user")></a></li>
+                <li><a href><(label :change-site :default "Change site")></a></li>
                 <li class="divider"></li>
-                <li><a href ng-click="logout()">Logout</a></li>
+                <li><a href ng-click="logout()"><(label :logout :default "Logout")></a></li>
             </ul>
         </li>
     </ul>
-    <h3 class="text-muted">Apoya</h3>
+    <h3 class="text-muted"><(label :apoya :default "Apoya")></h3>
 </div>
 

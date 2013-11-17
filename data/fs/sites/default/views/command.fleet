@@ -2,7 +2,7 @@
     <ng-include src="'views/menubar.html'"></ng-include>
     <div class="section">
         <div class="page-header">
-            <h1>Command Center</h1>
+            <h1><(label :command-center :default "Command Center")></h1>
         </div>
         <div class="row">
             <div class="col-sm-10">

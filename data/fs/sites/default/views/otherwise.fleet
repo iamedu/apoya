@@ -2,10 +2,10 @@
     <ng-include src="'views/menubar.html'"></ng-include>
     <div class="section">
         <div class="page-header">
-            <h1>Page not found</h1>
+            <h1><(label :angular-not-found-title :default "Page not found")></h1>
         </div>
         <p>
-            We were not able to find that page :(
+            <label :angular-not-found-explanation :default "We were not able to find that page :(")>
         </p>
     </div>
 </div>
