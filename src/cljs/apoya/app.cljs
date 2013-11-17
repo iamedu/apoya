@@ -84,6 +84,11 @@
          (clj->js {:templateUrl "views/modals/changeUser.html"
                    :controller :SupplantModalCtrl})))
 
+(defn change-site [$rootScope $modal]
+  (.open $modal
+         (clj->js {:templateUrl "views/modals/changeSite.html"
+                   :controller :ChangeSiteCtrl})))
+
 
 (defn run-app [$location $rootScope $modal]
   (t/subscribe :error (partial handle-error $location $rootScope))
@@ -91,6 +96,7 @@
   (t/subscribe :identity (partial handle-identity $location $rootScope $modal))
   (t/subscribe :logout (partial handle-logout $location $rootScope))
   (t/subscribe :supplant-user (partial supplant-user $rootScope $modal))
+  (t/subscribe :change-site (partial change-site $rootScope $modal))
   (.$on $rootScope "$locationChangeStart"
         (fn [event next-location current-location]
           (let [reg #"https?://[\w\.:\-]+/#(/[\w\.\-\#\/]*)"

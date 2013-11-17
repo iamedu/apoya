@@ -22,3 +22,7 @@
 (defn create-url [data]
   (insert restricted_urls (values data)))
 
+(defn list-sites []
+  (select sites
+          (fields :domain :description)))
+

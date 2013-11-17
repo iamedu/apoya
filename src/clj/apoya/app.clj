@@ -90,7 +90,9 @@
 
 (defn site-chooser [handler]
   (fn [request]
-    (let [prospected-site (keyword (get-in request [:headers "host"]))
+    (let [prospected-site (-> (get-in request [:session :changed-site])
+                              (or (get-in request [:headers "host"]))
+                              (keyword))
           correct-site (if (site/site-exists? prospected-site)
                          prospected-site
                          :default)]

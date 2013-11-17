@@ -24,6 +24,6 @@
           (r/edn-response (zipmap permissions has-permissions)))) 
   (friend/logout (ANY "/logout.edn" request
                       (assoc (r/edn-response nil)
-                             :session nil))))
+                             :session {}))))
 
 (defroutes private-auth-routes)

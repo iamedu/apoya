@@ -11,7 +11,7 @@
                 {{username}} <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
-                <li ng-show="permissions['user:edit-profile']">
+                <li>
                     <a href>
                       <img ng-src="{{gravatar}}" />
                       <span>
@@ -19,9 +19,9 @@
                       </span>
                     </a>
                 </li>
-                <li ng-show="permissions['user:edit-profile']" class="divider"></li>
+                <li class="divider"></li>
                 <li ng-show="permissions['user:supplant']"><a href ng-click="supplantUser()"><(label :supplant-user :default "Supplant user")></a></li>
-                <li ng-show="permissions['site:change']"><a href><(label :change-site :default "Change site")></a></li>
+                <li ng-show="permissions['site:change']"><a href ng-click="changeSite()"><(label :change-site :default "Change site")></a></li>
                 <li class="divider" ng-show="permissions['user:edit-profile'] || permissions['user:supplant'] || permissions['site:change']"></li>
                 <li><a href ng-click="logout()"><(label :logout :default "Logout")></a></li>
             </ul>

@@ -28,6 +28,9 @@
 (defn supplant-user []
   (t/publish :supplant-user true))
 
+(defn change-site []
+  (t/publish :change-site true))
+
 (defn check-permissions [$scope]
   (go
     (let [needed-permissions ["command-center:view" "user:supplant" "site:change" "user:edit-profile"]
@@ -48,6 +51,7 @@
         location (first location-parts)]
     (oset! $scope
            :location location
-           :supplantUser (partial supplant-user)
+           :supplantUser supplant-user
+           :changeSite change-site
            :logout (partial logout $scope))))
 

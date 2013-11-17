@@ -23,7 +23,7 @@
                       0)]
     (oset! $scope
            :userSupplanted (check-context :impersonate)
-           :siteChanged (check-context "site"))
+           :siteChanged (check-context :site))
     (.css main-container "margin-top" (str main-offset "px"))
     (.css site-navbar "margin-top" (str site-offset "px"))))
 
@@ -46,9 +46,15 @@
       (.$apply $scope)
       (.reload js/location))))
 
+(defn end-change-site []
+  (go
+    (when (:body (<! (site/end-change-site)))
+      (.reload js/location))))
+
 (defcontroller app ContextCtrl [$scope $location]
   (oset! $scope
-         :endImpersonation (partial end-impersonation $scope $location))
+         :endImpersonation (partial end-impersonation $scope $location)
+         :endChangeSite end-change-site)
   (check-changes $scope))
 
 
