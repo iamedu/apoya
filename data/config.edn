@@ -14,8 +14,8 @@
          :watch "data/fs/sites/default/less"
          :source "/less/bootstrap.less"
          :target "/css/bootstrap.css"}
-        {:site :localhost:3443
-         :watch "data/fs/sites/localhost:3443/less"
+        {:site :default.site.com
+         :watch "data/fs/sites/default.site.com/less"
          :source "/less/bootstrap.less"
          :target "/css/bootstrap.css"}]
  :db {:make-pool? true
