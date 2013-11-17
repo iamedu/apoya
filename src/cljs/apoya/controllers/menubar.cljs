@@ -25,6 +25,9 @@
     (<! (auth/logout))
     (t/publish :logout true)))
 
+(defn supplant-user []
+  (t/publish :supplant-user true))
+
 (defcontroller app MenuBarCtrl [$scope $location]
   (.dropdown (js/jQuery ".dropdown-toggle"))
   (when-not @initialized
@@ -38,5 +41,6 @@
         location (first location-parts)]
     (oset! $scope
            :location location
+           :supplantUser (partial supplant-user)
            :logout (partial logout $scope))))
 

@@ -25,9 +25,9 @@
     (.when "/signup" (clj->js {:templateUrl "views/signup.html"}))
     (.when "/dashboard" (clj->js {:templateUrl "views/dashboard.html"}))
     (.when "/command/scripting" (clj->js {:templateUrl "views/command/scripting.html"
-                                    :controller :CommandScriptingCtrl}))
+                                          :controller :CommandScriptingCtrl}))
     (.when "/command/repl" (clj->js {:templateUrl "views/command/repl.html"
-                                    :controller :CommandReplCtrl}))
+                                     :controller :CommandReplCtrl}))
     (.when "/command/sql" (clj->js {:templateUrl "views/command/sql.html"
                                     :controller :CommandSqlCtrl}))
     (.when "/command/:section" (clj->js {:templateUrl "views/command.html"
@@ -40,12 +40,12 @@
 (defn handle-error [$location $rootScope {:keys [outcome status body] :as m}]
   (let [{error-id :error-id} body
         current-location (.path $location)]
-    (if (not= status 403)
-      (when-not (gstring/startsWith current-location "/error")
-        (log/info "Ocurrio un error")
-        (.path $location (str "/error/" error-id))
-        (.$apply $rootScope))
-      (handle-forbidden m))))
+    (cond
+      (= status 403) (handle-forbidden m)   
+      :else (when-not (gstring/startsWith current-location "/error")
+              (log/info "Ocurrio un error")
+              (.path $location (str "/error/" error-id))
+              (.$apply $rootScope)))))
 
 (defn handle-identity [$location $rootScope $modal id]
   (let [was-nil? (nil? @auth/user)
@@ -73,11 +73,17 @@
       (.$apply $rootScope)))
   (.done js/NProgress))
 
+(defn supplant-user [$rootScope $modal]
+  (.open $modal
+         (clj->js {:templateUrl "views/modals/changeUser.html"
+                   :controller :SupplantModalCtrl})))
+
 (defn run-app [$location $rootScope $modal]
   (t/subscribe :error (partial handle-error $location $rootScope))
   (t/subscribe :ready (fn [_] (oset! $rootScope :ready true)))
   (t/subscribe :identity (partial handle-identity $location $rootScope $modal))
   (t/subscribe :logout (partial handle-logout $location $rootScope))
+  (t/subscribe :supplant-user (partial supplant-user $rootScope $modal))
   (.$on $rootScope "$locationChangeStart"
         (fn [event next-location current-location]
           (let [reg #"https?://[\w\.:\-]+/#(/[\w\.\-\#\/]*)"

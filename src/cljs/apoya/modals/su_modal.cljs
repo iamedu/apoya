@@ -1,4 +1,4 @@
-(ns apoya.modals.role-modal
+(ns apoya.modals.su-modal
   (:require-macros [apoya.angular :refer [defcontroller]]
                    [cljs.core.async.macros :refer [go]])
   (:require [apoya.util.log :as log]
@@ -8,10 +8,5 @@
             [apoya.services.auth :as auth]
             [cljs.core.async :refer [<!]]))
 
-(defcontroller app RoleModalCtrl [$scope $modalInstance roles]
-  (oset! $scope
-         :roles roles
-         :ok (fn [item]
-               (go
-                 (<! (auth/select-role item))
-                 (.close $modalInstance item)))))
+(defcontroller app SupplantModalCtrl [$scope $modalInstance]
+  (oset! $scope))

@@ -20,7 +20,7 @@
                     </a>
                 </li>
                 <li class="divider"></li>
-                <li><a href>Convert to user</a></li>
+                <li><a href ng-click="supplantUser()">Supplant user</a></li>
                 <li><a href>Change site</a></li>
                 <li class="divider"></li>
                 <li><a href ng-click="logout()">Logout</a></li>
