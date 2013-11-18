@@ -120,7 +120,8 @@
   jclouds-resource
   fleet-resource
   (GET "/" [] (opt/links (fleet-resource {:uri "/index.html"})
-                         ["views/menubar.html" :subresource]))
+                         ["views/menubar.html" :subresource]  
+                         ["views/mainContent.html" :subresource]))
   (context "/api/public/v1/auth" [] auth-routes)
   (context "/api/public/v1/site" [] site-routes)
   (context "/api/v1/auth" [] (wrap-restricted private-auth-routes))
