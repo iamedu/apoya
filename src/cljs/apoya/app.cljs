@@ -76,8 +76,7 @@
                (not (public-urls location))
                (not (gstring/startsWith location "/error")))
       (.path $location "/")
-      (.$apply $rootScope)))
-  (.done js/NProgress))
+      (.$apply $rootScope))))
 
 (defn supplant-user [$rootScope $modal]
   (.open $modal

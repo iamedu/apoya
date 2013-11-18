@@ -6,10 +6,6 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.css" rel="stylesheet">
-    <link href="bower_components/nprogress/nprogress.css" rel="stylesheet">
-    <link href="bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-    <link href="bower_components/codemirror/lib/codemirror.css" rel="stylesheet">
     <title><(label :apoya-title :default "Apoya")></title>
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -20,37 +16,10 @@
 </head>
 <body>
     <div ng-include="'views/navbars.html'"></div>
-    <div id="mainContainer">
+    <div id="mainContainer" ng-show="ready">
         <div class="container mainContainer" ng-view></div>
     </div>
-    <script src="bower_components/jquery/jquery.min.js"></script>
-    <script src="js/jquery.console.js"></script>
-    <script src="bower_components/nprogress/nprogress.js"></script>
-    <script>NProgress.start();</script>
-    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
-    <script src="bower_components/store.js/store.min.js"></script>
-    <!-- Angular -->
-    <script src="bower_components/angular/angular.min.js"></script>
-    <script src="<(label :angular-i18n :default "bower_components/angular-i18n/angular-locale_en.js")>"></script>
-    <script src="bower_components/angular-route/angular-route.min.js"></script>
-    <script src="bower_components/angular-ui-bootstrap-bower/ui-bootstrap.min.js"></script>
-    <script src="bower_components/select2/select2.min.js"></script>
-    <script src="<(label :select2-i18n :default "js/select2_locale_en.js")>"></script>
-    <script src="bower_components/angular-ui-select2/src/select2.js"></script>
-    <script src="bower_components/spin.js/dist/spin.min.js"></script>
-    <script src="bower_components/angular-spinner/angular-spinner.min.js"></script>
-    <!-- Codemirror -->
-    <script src="bower_components/codemirror/lib/codemirror.js"></script>
-    <script src="bower_components/codemirror/mode/sql/sql.js"></script>
-    <script src="bower_components/codemirror/mode/clojure/clojure.js"></script>
-    <script src="bower_components/codemirror/addon/edit/matchbrackets.js"></script>
-    <script src="bower_components/angular-ui-codemirror/ui-codemirror.js"></script>
-    <!-- Sir trevor -->
-    <script src="bower_components/underscore/underscore-min.js"></script>
-    <script src="bower_components/Eventable/eventable.js"></script>
-    <script src="bower_components/sir-trevor-js/sir-trevor.min.js"></script>
-    <script src="bower_components/nginfinitescroll/build/ng-infinite-scroll.min.js"></script>
-    <script src="js/main.js"></script>
+    <script src="js/head.min.js" data-headjs-load="js/init.js"></script>
     <script>
         var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];                                                                               
         (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];                                                                               g.src='//www.google-analytics.com/ga.js';                                                                                                 

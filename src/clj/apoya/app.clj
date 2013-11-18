@@ -120,35 +120,7 @@
   jclouds-resource
   fleet-resource
   (GET "/" [] (opt/links (fleet-resource {:uri "/index.html"})
-                         ["css/bootstrap.css" :subresource]
-                         ["bower_components/nprogress/nprogress.css" :subresource]
-                         ["bower_components/font-awesome/css/font-awesome.min.css" :subresource]
-                         ["bower_components/codemirror/lib/codemirror.css" :subresource]
-                         ["bower_components/jquery/jquery.min.js" :subresource]
-                         ["js/jquery.console.js" :subresource]
-                         ["bower_components/nprogress/nprogress.js" :subresource]
-                         ["bower_components/bootstrap/dist/js/bootstrap.js" :subresource]
-                         ["bower_components/store.js/store.min.js" :subresource]
-                         ["bower_components/angular/angular.min.js" :subresource]
-                         ["bower_components/angular-i18n/angular-locale_en.js" :subresource]
-                         ["bower_components/angular-route/angular-route.min.js" :subresource]
-                         ["bower_components/angular-ui-bootstrap-bower/ui-bootstrap.min.js" :subresource]
-                         ["bower_components/select2/select2.min.js" :subresource]
-                         ["js/select2_locale_en.js" :subresource]
-                         ["bower_components/angular-ui-select2/src/select2.js" :subresource]
-                         ["bower_components/spin.js/dist/spin.min.js" :subresource]
-                         ["bower_components/angular-spinner/angular-spinner.min.js" :subresource]
-                         ["bower_components/codemirror/lib/codemirror.js" :subresource]
-                         ["bower_components/codemirror/mode/sql/sql.js" :subresource]
-                         ["bower_components/codemirror/mode/clojure/clojure.js" :subresource]
-                         ["bower_components/codemirror/addon/edit/matchbrackets.js" :subresource]
-                         ["bower_components/angular-ui-codemirror/ui-codemirror.js" :subresource]
-                         ["bower_components/underscore/underscore-min.js" :subresource]
-                         ["bower_components/Eventable/eventable.js" :subresource]
-                         ["/bower_components/sir-trevor-js/sir-trevor.min.js" :subresource]
-                         ["bower_components/sir-trevor-js/sir-trevor.min.js" :subresource]
-                         ["bower_components/nginfinitescroll/build/ng-infinite-scroll.min.js" :subresource]
-                         ["js/main.js" :subresource]))
+                         ["views/menubar.html" :subresource]))
   (context "/api/public/v1/auth" [] auth-routes)
   (context "/api/public/v1/site" [] site-routes)
   (context "/api/v1/auth" [] (wrap-restricted private-auth-routes))
