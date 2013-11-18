@@ -62,7 +62,7 @@
       (if (or (nil? etag) (not= etag if-none-match))
         (response/content-type {:body body
                                 :headers {"etag" etag
-                                          "cache-control" (str "max-age=" max-age)}
+                                          "cache-control" (str "public,max-age=" max-age)}
                                 :status 200}
                                mime-type)
         {:status 304 :body "" :headers {"etag" etag
@@ -120,23 +120,34 @@
   jclouds-resource
   fleet-resource
   (GET "/" [] (opt/links (fleet-resource {:uri "/index.html"})
-                         ["bower_components/jquery/jquery.min.js" :subresource]
-                         ["bower_components/jquery/jquery.min.map" :subresource]
-                         ["bower_components/nprogress/nprogress.js" :subresource]
-                         ["bower_components/nprogress/nprogress.css" :subresource]
                          ["css/bootstrap.css" :subresource]
+                         ["bower_components/nprogress/nprogress.css" :subresource]
+                         ["bower_components/font-awesome/css/font-awesome.min.css" :subresource]
+                         ["bower_components/codemirror/lib/codemirror.css" :subresource]
+                         ["bower_components/jquery/jquery.min.js" :subresource]
+                         ["js/jquery.console.js" :subresource]
+                         ["bower_components/nprogress/nprogress.js" :subresource]
+                         ["bower_components/bootstrap/dist/js/bootstrap.js" :subresource]
                          ["bower_components/store.js/store.min.js" :subresource]
-                         ["bower_components/spin.js/spin.js" :subresource]
+                         ["bower_components/angular/angular.min.js" :subresource]
+                         ["bower_components/angular-i18n/angular-locale_en.js" :subresource]
+                         ["bower_components/angular-route/angular-route.min.js" :subresource]
+                         ["bower_components/angular-ui-bootstrap-bower/ui-bootstrap.min.js" :subresource]
                          ["bower_components/select2/select2.min.js" :subresource]
+                         ["js/select2_locale_en.js" :subresource]
+                         ["bower_components/angular-ui-select2/src/select2.js" :subresource]
+                         ["bower_components/spin.js/dist/spin.min.js" :subresource]
+                         ["bower_components/angular-spinner/angular-spinner.min.js" :subresource]
                          ["bower_components/codemirror/lib/codemirror.js" :subresource]
+                         ["bower_components/codemirror/mode/sql/sql.js" :subresource]
+                         ["bower_components/codemirror/mode/clojure/clojure.js" :subresource]
+                         ["bower_components/codemirror/addon/edit/matchbrackets.js" :subresource]
+                         ["bower_components/angular-ui-codemirror/ui-codemirror.js" :subresource]
                          ["bower_components/underscore/underscore-min.js" :subresource]
                          ["bower_components/Eventable/eventable.js" :subresource]
+                         ["/bower_components/sir-trevor-js/sir-trevor.min.js" :subresource]
                          ["bower_components/sir-trevor-js/sir-trevor.min.js" :subresource]
-                         ["bower_components/angular/angular.min.js" :subresource]
-                         ["bower_components/angular-route/angular-route.min.js" :subresource]
-                         ["bower_components/angular-spinner/angular-spinner.min.js" :subresource]
-                         ["bower_components/angular-ui-bootstrap-bower/ui-bootstrap-tpls.min.js" :subresource]
-                         ["bower_components/angular-ui-select2/src/select2.js" :subresource]
+                         ["bower_components/nginfinitescroll/build/ng-infinite-scroll.min.js" :subresource]
                          ["js/main.js" :subresource]))
   (context "/api/public/v1/auth" [] auth-routes)
   (context "/api/public/v1/site" [] site-routes)
