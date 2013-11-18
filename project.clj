@@ -36,6 +36,9 @@
                  [clojurewerkz/elastisch "1.3.0-beta5"]
                  [com.draines/postal "1.11.1"]
                  [pallet-fsm "0.2.0"]
+                 [xmpp-clj "0.3.1"]
+                 [org.clojure/tools.reader "0.7.10"]
+                 [com.novemberain/langohr "1.6.0"]
                  ;; Java libs
                  [ch.qos.logback/logback-core "1.0.13"]
                  [ch.qos.logback/logback-classic "1.0.13"]
@@ -51,8 +54,6 @@
                  [org.bouncycastle/bcprov-jdk15on "1.49"]
                  [com.google.inject/guice "3.0"]
                  [commons-codec "1.8"]
-                 [org.clojure/tools.reader "0.7.10"]
-                 [org.apache.activemq/activemq-broker "5.9.0"]
                  [net.sf.ehcache/ehcache "2.7.4"]
                  [clojurewerkz/quartzite "1.1.0"]
                  [clj-time "0.6.0"]
