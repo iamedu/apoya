@@ -21,8 +21,8 @@
  :db {:make-pool? true
       :classname "org.postgresql.Driver"
       :subprotocol "postgresql"
-      :user "iamedu"
-      :password ""
+      :user "apoya"
+      :password "apoya"
       :subname "//localhost:5432/apoya"
       :quartz-delegate "org.quartz.impl.jdbcjobstore.PostgreSQLDelegate"}
  :nrepl-port 7888}

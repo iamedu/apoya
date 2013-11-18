@@ -6,21 +6,24 @@
   },
   "override_attributes": {
     "java": {
-      "install_flavor": "oracle",
-      "oracle": {
-        "accept_oracle_download_terms": true
-      },
       "jdk_version": "7"
     },
     "leiningen": {
       "version": "2.3.2",
       "install_script": "https://raw.github.com/technomancy/leiningen/2.3.2/bin/lein",
       "jar_url": "https://leiningen.s3.amazonaws.com/downloads/leiningen-2.3.2-standalone.jar"
+    },
+    "supervisor": {
+      "inet_port": "9001"
     }
   },
   "chef_type": "role",
   "run_list": [
-    "recipe[java]"
+    "recipe[java]",
+    "recipe[leiningen]",
+    "recipe[rabbitmq]",
+    "recipe[supervisor]",
+    "recipe[apoya]"
   ],
   "env_run_lists": {
   }

@@ -7,6 +7,7 @@ cookbook 'ntp'
 cookbook 'timezone'
 cookbook 'leiningen'
 cookbook 'rabbitmq'
+cookbook 'supervisor'
 cookbook 'postgresql',
   :git => 'git@github.com:phlipper/chef-postgresql.git'
 

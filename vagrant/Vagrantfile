@@ -17,6 +17,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box_url = "https://dl.dropboxusercontent.com/u/4586016/debian-7.0-amd64.box"
 
   config.vm.network :forwarded_port, guest: 5432, host: 5432 # PostgreSQL
+  config.vm.network :forwarded_port, guest: 9001, host: 9001 # Supervisor
   config.vm.network :forwarded_port, guest: 7888, host: 7888 # nRepl
   config.vm.network :forwarded_port, guest: 3000, host: 3000 # HTTP
   config.vm.network :forwarded_port, guest: 3443, host: 3443 # Http-Kit
@@ -38,10 +39,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # the path on the host to the actual folder. The second argument is
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
-  # config.vm.synced_folder "../apoya-config/resources/public", "/vagrant_data/apoya-fs/apoya-sites/config"
-  # config.vm.synced_folder "../apoya-front/resources/public", "/vagrant_data/apoya-fs/apoya-sites/default"
-  # config.vm.synced_folder "..", "/vagrant_data/apoya"
-  # config.vm.synced_folder "logs", "/var/log/supervisor"
+  config.vm.synced_folder "..", "/vagrant_data/apoya"
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
@@ -64,6 +62,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     chef.data_bags_path = "data_bags"
 
     chef.add_role "database"
+    chef.add_role "application"
   
     # # You may also specify custom JSON attributes:
     # chef.json = { :mysql_password => "foo" }

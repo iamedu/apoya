@@ -79,7 +79,7 @@
                                          :optimizations :advanced
                                          :pretty-print false}}}}
   :ragtime  {:migrations ragtime.sql.files/migrations
-             :database "jdbc:postgresql:apoya"}
+             :database "jdbc:postgresql://localhost:5432/apoya?user=apoya&password=apoya"}
   :aot [sun.net.www.protocol.jclouds.connection 
         sun.net.www.protocol.jclouds.handler
         apoya.util.classloader
