@@ -29,7 +29,7 @@
                  [cheshire "5.2.0"]
                  [ragtime "0.3.4"]
                  [clj-time "0.6.0"]
-                 [clojure-watch "0.1.9"]
+                 [clojure-watch "LATEST"]
                  [fleet "0.10.1"]
                  [clj-pdf "1.11.6"
                   :exclusions [org.bouncycastle/bctsp-jdk14]]
@@ -89,4 +89,5 @@
   :main ^:skip-aot apoya.core
   :target-path "target/%s"
   :jvm-opts ["-Xbootclasspath/p:lib/npn-boot-1.1.6.v20130911.jar"]
-  :profiles {:uberjar {:aot :all}})
+  :profiles {:uberjar {:aot :all}}
+  :min-lein-version "2.0.0")
