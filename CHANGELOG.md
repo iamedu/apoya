@@ -5,10 +5,12 @@
 ### General
 
 * Adding travis ci integration
+* Using morecss lein plugin for less compilation
 
 ### App
 
 * WORKING IN FS MANAGEMENT
+* Removed less compilation from the application
 
 ### Service
 
