@@ -18,7 +18,7 @@ execute "load database" do
 end
 
 supervisor_service "lein-apoya" do
-  command "lein trampoline run"
+  command "lein with-profile production trampoline run"
   directory "/vagrant_data/apoya"
   stopsignal :INT
   action :enable

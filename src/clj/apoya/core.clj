@@ -5,7 +5,6 @@
             [apoya.app :refer [app]]
             [apoya.errors :as errors]
             [apoya.data.schema :as schema]
-            [apoya.resources.less :as less]
             [apoya.resources.fs :as fs]
             [apoya.monitor.files :as files]
             [apoya.services.schedule :as schedule]
@@ -80,8 +79,7 @@
       (nrepl/start-server :port nrepl-port
                           :handler (nrepl/default-handler #'pback/wrap-cljs-repl))
       (.mkdirs (java.io.File. "target/repl"))
-      (spit "target/repl/repl-port" nrepl-port))
-    (less/watch-folders (get (cfg/apoya-config) :less))))
+      (spit "target/repl/repl-port" nrepl-port))))
 
 (defn -main [& args]
   (let [[options args banner] (cli args
