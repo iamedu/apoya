@@ -30,7 +30,7 @@ supervisor_service "lein-cljsbuild" do
   command "lein trampoline cljsbuild auto"
   directory "/vagrant_data/apoya"
   stopsignal :INT
-  action :enable
+  action :disable
   autostart true
   user "vagrant"
 end

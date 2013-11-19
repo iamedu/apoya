@@ -4,7 +4,7 @@
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.5.1"]
-                 [org.clojure/clojurescript "0.0-2030"]
+                 [org.clojure/clojurescript "0.0-2014"]
                  [org.clojure/core.cache "0.6.3"]
                  [org.clojure/core.async "0.1.242.0-44b1e3-alpha"]
                  [org.clojure/tools.cli "0.2.4"]
@@ -20,6 +20,7 @@
                  [bk/ring-gzip "0.1.1"]
                  [ring-anti-forgery "0.3.0"]
                  [com.cemerick/friend "0.2.0"]
+                 [com.cemerick/drawbridge "0.0.6" :exclusions [ring/ring-core]]
                  [liberator "0.9.0"]
                  ;; Clojure libs
                  [com.novemberain/pantomime "2.0.0"]
@@ -65,7 +66,7 @@
                  [clavatar-js "0.1.0-SNAPSHOT"]]
   :source-paths ["src/clj"]
   :libdir-path "deps"
-  :plugins [[lein-cljsbuild "1.0.0-alpha2"]
+  :plugins [[lein-cljsbuild "1.0.0"]
             [lein-libdir "0.1.1"]
             [ragtime/ragtime.lein "0.3.4"]]
   :cljsbuild {:crossovers [apoya.angular]

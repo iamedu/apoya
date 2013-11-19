@@ -1,13 +1,14 @@
 <ul class="nav nav-pills nav-stacked">
     <li ng-class="{'active':section=='main'}"><a href="#/command/main"><(label :command-main :default "Main")></a></li>
-    <li ng-class="{'active':section=='auth'}"><a href="#/command/auth"><(label :command-auth :default "Users, roles and permissions")></a></li>
+    <!-- li ng-class="{'active':section=='auth'}"><a href="#/command/auth"><(label :command-auth :default "Users, roles and permissions")></a></li>
     <li ng-class="{'active':section=='app'}"><a href="#/command/app"><(label :command-app :default "Application")>
     <li ng-class="{'active':section=='run'}"><a href="#/command/run"><(label :command-run :default "Run Scripts")></a></li>
     <li ng-class="{'active':section=='catalogs'}"><a href="#/command/catalogs"><(label :command-catalogs :default "Catalogs")></a></li>
-    <li ng-class="{'active':section=='errors'}"><a href="#/command/errors"><(label :command-errors :default "Errors")></a></li>
+    <li ng-class="{'active':section=='errors'}"><a href="#/command/errors"><(label :command-errors :default "Errors")></a></li -->
+    <li ng-class="{'active':section=='filesystem'}"><a href="#/command/filesystem"><(label :command-filesystem :default "Filesystem")></a></li>
     <li ng-class="{'active':section=='sql'}"><a href="#/command/sql"><(label :command-sql :default "SQL Database")></a></li>
     <li ng-class="{'active':section=='scripting'}"><a href="#/command/scripting"><(label :command-scripting :default "Scripting")></a></li>
     <li ng-class="{'active':section=='repl'}"><a href="#/command/repl"><(label :command-repl :default "REPL")></a></li>
-    <li ng-class="{'active':section=='scheduled'}"><a href="#/command/scheduled"><(label :command-scheduled :default "Scheduled task")></a></li>
+    <!-- li ng-class="{'active':section=='scheduled'}"><a href="#/command/scheduled"><(label :command-scheduled :default "Scheduled task")></a></li -->
 </ul>
 

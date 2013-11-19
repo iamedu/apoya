@@ -27,6 +27,8 @@
     (.when "/dashboard" (clj->js {:templateUrl "views/dashboard.html"}))
     (.when "/command/scripting" (clj->js {:templateUrl "views/command/scripting.html"
                                           :controller :CommandScriptingCtrl}))
+    (.when "/command/filesystem" (clj->js {:templateUrl "views/command/filesystem.html"
+                                     :controller :CommandFilesystemCtrl}))
     (.when "/command/repl" (clj->js {:templateUrl "views/command/repl.html"
                                      :controller :CommandReplCtrl}))
     (.when "/command/sql" (clj->js {:templateUrl "views/command/sql.html"
