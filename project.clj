@@ -57,6 +57,7 @@
                  [clojurewerkz/quartzite "1.1.0"]
                  [clj-time "0.6.0"]
                  [org.apache.poi/poi "3.9"]
+                 [org.mortbay.jetty.npn/npn-boot "1.1.6.v20130911"]
                  ;;Clojurescript libs
                  [shoreleave/shoreleave-remote "0.3.0"]
                  [shoreleave/shoreleave-pubsub "0.3.0"]
