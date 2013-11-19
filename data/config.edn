@@ -1,6 +1,8 @@
-{:http {:port 3000
+{:http {:ssl? true
+        :port 3000
         :ssl-port 3443
-        :ssl? true
+        ;; :env-port "PORT"
+        ;; :env-ssl-port "SSL_PORT"
         :host "0.0.0.0"}
  :temp-path "tmp"
  :logback-file "data/logback.xml"

@@ -1,5 +1,6 @@
 (ns apoya.core
-  (:use compojure.core)
+  (:use compojure.core
+        environ.core)
   (:require [apoya.config :as cfg]
             [apoya.app :refer [app]]
             [apoya.errors :as errors]
@@ -42,9 +43,26 @@
       (catch Exception _
         (log/info "App (apoya/routes.clj) not found yet in classloader")))))
 
+(defn load-env-ports [{:keys [env-port env-ssl-port] :as http}]
+  (let [read-var #(-> %
+                      (clojure.string/lower-case)
+                      (clojure.string/replace #"_" "-")
+                      (keyword)
+                      (env)
+                      (Integer.))
+        http (dissoc http :env-port :env-ssl-port)
+        http (if env-port
+                 (assoc http :port (read-var env-port))
+                 http)
+        http (if env-ssl-port
+                 (assoc http :ssl-port (read-var env-ssl-port))
+                 http)]
+    http))
+
 (defn start-system []
   (let [{:keys [nrepl-port cljs-nrepl-port http logback-file ssl temp-path]} (cfg/apoya-config)
         {:keys [key-file crt-file]} ssl
+        http (load-env-ports http)
         fortress-config (assoc http
                                :listener-builder files/build-upload-listener
                                :temp-path temp-path
