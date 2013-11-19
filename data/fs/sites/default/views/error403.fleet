@@ -1,0 +1,7 @@
+<div class="container">
+    <div ng-include="'views/menubar.html'"></div>
+    YOU STILL NEED TO IMPLEMENT A 403 ERROR PAGE
+</div>
+
+
+

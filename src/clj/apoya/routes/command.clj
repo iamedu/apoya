@@ -2,8 +2,13 @@
   (:use compojure.core)
   (:require [apoya.response :as r]
             [apoya.data.sessions :as sess]
+            [apoya.resources.fs :as fs]
             [apoya.services.scripting :as scripting]
             [clojure.tools.logging :as log]))
+
+(defroutes fs-routes
+  (POST "/list-contents.edn" [folder]
+        (r/edn-response (fs/list-contents folder))))
 
 (defroutes scripting-routes
   (POST "/create-session.edn" [engine-name]
@@ -47,5 +52,6 @@
           (r/edn-response sessions))))
 
 (defroutes command-routes
+  (context "/fs" [] fs-routes)
   (context "/sql" [] sql-routes)
   (context "/scripting" [] scripting-routes))

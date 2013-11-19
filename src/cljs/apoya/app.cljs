@@ -19,6 +19,10 @@
   (doto $routeProvider
     (.when "/" (clj->js {:templateUrl "views/main.html"
                          :controller :MainCtrl}))
+    (.when "/error404" (clj->js {:templateUrl "views/error404.html"
+                                 :controller :Error404Ctrl}))
+    (.when "/error403" (clj->js {:templateUrl "views/error403.html"
+                                 :controller :Error403Ctrl}))
     (.when "/error/:errorId" (clj->js {:templateUrl "views/error.html"
                                        :controller :ErrorCtrl}))
     (.when "/login" (clj->js {:templateUrl "views/login.html"
@@ -28,7 +32,7 @@
     (.when "/command/scripting" (clj->js {:templateUrl "views/command/scripting.html"
                                           :controller :CommandScriptingCtrl}))
     (.when "/command/filesystem" (clj->js {:templateUrl "views/command/filesystem.html"
-                                     :controller :CommandFilesystemCtrl}))
+                                           :controller :CommandFilesystemCtrl}))
     (.when "/command/repl" (clj->js {:templateUrl "views/command/repl.html"
                                      :controller :CommandReplCtrl}))
     (.when "/command/sql" (clj->js {:templateUrl "views/command/sql.html"
@@ -43,16 +47,18 @@
 (defn handle-not-found [m]
   (log/info (str "Not found request" m)))
 
-(defn handle-error [$location $rootScope {:keys [outcome status body] :as m}]
-  (let [{error-id :error-id} body
-        current-location (.path $location)]
-    (cond
-      (= status 404) (handle-not-found m)
-      (= status 403) (handle-forbidden m)   
-      :else (when-not (gstring/startsWith current-location "/error")
-              (log/info "Ocurrio un error")
-              (.path $location (str "/error/" error-id))
-              (.$apply $rootScope)))))
+(defn handle-error [$location $rootScope {:keys [outcome status body route] :as m}]
+  (let [{:keys [error-id]} body
+        current-location (.path $location)
+        [redirect-location redirect-search] (condp = status
+                                              500 [(str "/error/" error-id) {}]
+                                              [(str "/error" status) route])]
+    (when-not (gstring/startsWith current-location "/error")
+      (log/info (str "Ocurrio un error " status))
+      (.path $location redirect-location)
+      (if (seq route)
+        (.search $location (clj->js route)))
+      (.$apply $rootScope))))
 
 (defn handle-identity [$location $rootScope $modal id]
   (let [was-nil? (nil? @auth/user)

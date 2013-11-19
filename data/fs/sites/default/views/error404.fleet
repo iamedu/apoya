@@ -1,0 +1,33 @@
+<div class="container">
+    <div ng-include="'views/menubar.html'"></div>
+    <div class="row" ng-show="!isAdmin">
+        <div class="page-header">
+            <h1><(label :missing-service-user :default "Oops, you found a bug ")> <small><(label :something-failed-subtitle :default "Please help us solve it!")></small></h1>
+        </div>
+    </div>
+    <div class="row" ng-show="isAdmin">
+        <div class="page-header">
+            <h1><(label :missing-service-admin :default "Missing service ")> <small><(label :missing-service-subtitle :default "This is very likely a bug")></small></h1>
+        </div>
+        <p>
+            <(label :missing-service-admin-explanation :default "You were trying to access a service that does not exist, check your routes (specially the method, it is a common source of bugs)")>
+        </p>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th><(label :missing-service-uri :default "Uri")></th>
+                    <th><(label :missing-service-method :default "Method")></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{uri}}</td>
+                    <td>{{method}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <a class="btn btn-lg btn-default" ng-click="back()"><(label :something-failed-go-back :default "Go back")></a>
+    </div>
+</div>
+
+

@@ -4,12 +4,20 @@
   (:require [apoya.main :refer [app]]
             [apoya.services.auth :as auth]
             [apoya.services.command :as command]
+            [apoya.services.fs :as fs]
             [apoya.util.log :as log]
             [apoya.util.angular :refer [oset!]]
             [cljs.core.async :refer [<!]]))
 
+(defn load-files [$scope path]
+  (go
+    (let [files (:body (<! (fs/list-contents path)))]
+      (log/info files))))
+
 (defcontroller app CommandFilesystemCtrl [$scope $routeParams]
-  (let [{:keys [path] :or {path "/"}} $routeParams]
+  (let [{:keys [path] :or {path ""}} $routeParams]
     (oset! $scope
-           :section "filesystem")))
+           :loadFiles (partial load-files $scope)
+           :section "filesystem")
+    (load-files $scope path)))
 

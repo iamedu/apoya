@@ -34,16 +34,16 @@
   [route & {:keys [id content headers priority retries]
             :or   {id (common/rand-id-str), retries 0}}]
   (let [rc (chan 1)
+        [method uri] (common/parse-route route) 
         on-success (fn [result]
                      (put! rc
                            (update-in result [:body] cljs.reader/read-string)
                            #(close! rc)))
         on-error (fn [error]
                    (let [error (update-in error [:body] cljs.reader/read-string)]
-                     (t/publish :error error)
+                     (t/publish :error (assoc error :route {:method method :uri uri}))
                      (put! rc
-                           #(close! rc))))
-        [method uri] (common/parse-route route)]
+                           #(close! rc))))]
     (try
       (add-responders id on-success on-error)
       (.send *xhr-manager*

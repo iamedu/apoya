@@ -45,6 +45,7 @@
   (handle-identity $scope @auth/user)
   (check-permissions $scope)
 
+
   (let [not-empty? (complement empty?)
         location-parts (-> (.path $location) (.split "/"))
         location-parts (filter not-empty? location-parts)
