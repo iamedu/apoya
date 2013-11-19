@@ -8,7 +8,7 @@
     "bootstrap": "latest",
     "store.js": "latest",
     "codemirror": "latest",
-    "angular": "1.2.0",
+    "angular": "latest",
     "angular-i18n": "latest",
     "angular-route": "latest",
     "angular-spinner": "latest",
