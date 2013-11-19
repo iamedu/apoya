@@ -86,6 +86,7 @@
         sun.net.www.protocol.jclouds.handler
         apoya.util.classloader
         apoya.services.schedule]
+  :repositories [["clojars" "http://clojars.org/repo"]]
   :main ^:skip-aot apoya.core
   :target-path "target/%s"
   :jvm-opts ["-Xbootclasspath/p:lib/npn-boot-1.1.6.v20130911.jar"]
