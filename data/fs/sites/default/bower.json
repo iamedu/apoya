@@ -40,6 +40,6 @@
   ],
   "resolutions": {
     "jquery": "~1.10",
-    "angular": "1.2.0"
+    "angular": "1.2.1"
   }
 }
