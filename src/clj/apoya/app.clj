@@ -25,7 +25,6 @@
             [ring.middleware.gzip :as gzip]
             [ring.middleware.anti-forgery :as af]
             [ring.middleware.head :as head]
-            [cemerick.drawbridge :as drawbridge]
             [cemerick.friend :as friend]
             [cemerick.friend.credentials :as creds]
             [clojure.tools.logging :as log]
@@ -157,12 +156,8 @@
     (with-classloader (JCloudsClassLoader.)
       (handler request))))
 
-(def nrepl-routes
-  (let [nrepl-handler (drawbridge/ring-handler)]
-    (ANY "/repl" request (nrepl-handler request))))
-
 (def app (middleware/app-handler
-           [nrepl-routes secured-routes]
+           [secured-routes]
            :middleware [handle-errors
                         language-chooser
                         site-chooser

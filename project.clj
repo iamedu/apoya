@@ -20,7 +20,6 @@
                  [bk/ring-gzip "0.1.1"]
                  [ring-anti-forgery "0.3.0"]
                  [com.cemerick/friend "0.2.0"]
-                 [com.cemerick/drawbridge "0.0.6" :exclusions [ring/ring-core]]
                  [liberator "0.9.0"]
                  ;; Clojure libs
                  [com.novemberain/pantomime "2.0.0"]
