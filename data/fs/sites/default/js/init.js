@@ -7,8 +7,7 @@
     });
   }
   loadRest = function () {
-    head.load("css/bootstrap.css",
-              "bower_components/nprogress/nprogress.css",
+    head.load("bower_components/nprogress/nprogress.css",
               "bower_components/font-awesome/css/font-awesome.min.css",
               "bower_components/codemirror/lib/codemirror.css",
               "js/jquery.console.js",
