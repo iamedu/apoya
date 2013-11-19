@@ -1,5 +1,11 @@
 # Apoya Changelog
 
+## 0.0.2 - In Progress
+
+### General
+
+* Adding travis ci integration
+
 ## 0.0.1 - November 18, 2013
 
 ### General

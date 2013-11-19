@@ -1,5 +1,7 @@
 # apoya
 
+[![Build Status](https://travis-ci.org/iamedu/apoya.png)](https://travis-ci.org/iamedu/apoya)
+
 Apoya is a very opinionated server and webapp, it has every part of a webapp that I end up writing again and again.
 
 Apoya comes from a series of projects where the following has always been true:
