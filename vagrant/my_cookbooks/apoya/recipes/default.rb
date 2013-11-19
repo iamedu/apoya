@@ -12,6 +12,7 @@ include_recipe "supervisor::default"
 execute "load database" do
   cwd "/vagrant_data/apoya"
   command "lein ragtime migrate"
+  timeout 7200
   action :run
   user "vagrant"
 end
