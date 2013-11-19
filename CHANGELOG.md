@@ -6,6 +6,10 @@
 
 * Adding travis ci integration
 
+### Service
+
+* Add support for deployin on heroku
+
 ## 0.0.1 - November 18, 2013
 
 ### General

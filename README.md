@@ -84,6 +84,15 @@ And most important:
 
 And then wait a long time :(, Maybe an hour or two depends a lot on your internet connection.
 
+## Demo
+
+Sites running in:
+
+* http://apoya.ediaz.me
+* http://apoya.herokuapp.com
+
+I'll post a user that isn't admin sometime
+
 ## License
 
 Copyright © 2013 Eduardo Díaz
