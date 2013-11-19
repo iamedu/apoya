@@ -72,9 +72,9 @@
       (load-logback logback-file))
     (fs/setup-blobstore (get (cfg/apoya-config) :blobstore))
     (schema/setup-database (get (cfg/apoya-config) :db))
-    (schedule/setup-scheduler (get (cfg/apoya-config) :db))
     (preload-app)
     (fortress/run-fortress #'app fortress-config)
+    (schedule/setup-scheduler (get (cfg/apoya-config) :db))
     (when nrepl-port
       (log/info "Starting nrepl server at port" nrepl-port)
       (nrepl/start-server :port nrepl-port
