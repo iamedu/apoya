@@ -28,7 +28,10 @@
      :conn conn}))
 
 (defn create-session []
-  (let [{:keys [subprotocol subname classname] :as db-spec} (:db (cfg/apoya-config))
+  (let [db-config (:db (cfg/apoya-config))
+        db-config (or (cfg/db-env-config db-config)
+                      db-config)
+        {:keys [subprotocol subname classname] :as db-spec} db-config
         url  (format "jdbc:%s:%s" subprotocol subname)
         etc  (dissoc db-spec :classname :subprotocol :subname)]
     (clojure.lang.RT/loadClassForName classname)
