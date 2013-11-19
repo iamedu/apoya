@@ -45,13 +45,13 @@ Apoya's stack uses:
 
 Management tools:
 
-| Responsability                 | Tool                |
-|--------------------------------+---------------------|
-| Manage source code             | Git                 |
-| Manage dependencies            | Leiningen           |
-| Manage javascript dependencies | Bower               |
-| Database Migrations            | Ragtime (leiningen) |
-| Replicate environment          | Vagrant             |
+| Responsability                   | Tool                  |
+| -------------------------------- | --------------------- |
+| Manage source code               | Git                   |
+| Manage dependencies              | Leiningen             |
+| Manage javascript dependencies   | Bower                 |
+| Database Migrations              | Ragtime (leiningen)   |
+| Replicate environment            | Vagrant               |
 
 ## Contributing
 
