@@ -53,9 +53,34 @@ Management tools:
 | Database Migrations              | Ragtime (leiningen)   |
 | Replicate environment            | Vagrant               |
 
-## Contributing
+## Gettings started
 
+In order to get started you need:
 
+This software:
+
+* VirtualBox
+* Vagrant (http://www.vagrantup.com/)
+* Ruby (possibly with rvm)
+* Rubygems (rvm also takes care of this)
+* Librarian Chef Gem (gem install librarian chef)
+* Node.js and NPM (http://nodejs.org/download/)
+* Bower (npm install -g bower)
+
+And most important:
+
+* An internet connection
+* Patience
+
+### Install apoya
+
+1. Go to 'apoya/data/fs/sites/default'
+2. $ bower install
+3. Go to 'apoya/vagrant'
+4. $ librarian-chef install
+5. $ vagrant up
+
+And then wait a long time :(, Maybe an hour or two depends a lot on your internet connection.
 
 ## License
 
