@@ -1,5 +1,6 @@
 (ns apoya.services.schedule
   (:require [apoya.data.sessions :as sessions]
+            [apoya.config :as cfg]
             [clojurewerkz.quartzite.scheduler :as qs]
             [clojurewerkz.quartzite.triggers :as t]
             [clojurewerkz.quartzite.jobs :refer [defjob] :as j] 
@@ -36,9 +37,10 @@
 (defn unschedule-job [k]
   (qs/unschedule-job (t/key k)))
 
-(defn setup-scheduler [cfg]
+(defn setup-scheduler [c]
   (log/info "Setting up quartz scheduler")
-  (let [{:keys [classname subprotocol subname user password quartz-delegate]} cfg
+  (let [{:keys [classname subprotocol subname user password quartz-delegate]} (or (cfg/db-env-config c)
+                                                                                  c)
         user (or user "")
         password (or password "")
         url (str "jdbc:" subprotocol ":" subname)

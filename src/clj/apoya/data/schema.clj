@@ -79,7 +79,9 @@
     (raw (format "'%s'::json" (.replaceAll x "'" "''")))))
 
 (defn setup-database [config]
-  (log/info "Loading database config" (:subname config))
-  (let [db (create-db config)]
+  (let [config (or (cfg/db-env-config config)
+                   config)
+        db (create-db config)]
+    (log/info "Connecting to database" (:subname config))
     (reset! cfg/database db)
     (default-connection db)))

@@ -24,6 +24,7 @@
                  ;; Clojure libs
                  [com.novemberain/pantomime "2.0.0"]
                  [jarohen/nomad "0.5.1"]
+                 [environ "0.4.0"]
                  [korma "0.3.0-RC6"]
                  [cheshire "5.2.0"]
                  [ragtime "0.3.4"]

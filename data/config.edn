@@ -20,6 +20,7 @@
          :target "/css/bootstrap.css"}]
  :db {:make-pool? true
       :classname "org.postgresql.Driver"
+      ;; :env-variable "HEROKU_POSTGRESQL_GRAY_URL"
       :subprotocol "postgresql"
       :user "apoya"
       :password "apoya"
