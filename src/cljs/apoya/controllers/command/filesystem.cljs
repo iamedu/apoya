@@ -11,8 +11,11 @@
 
 (defn load-files [$scope path]
   (go
-    (let [files (:body (<! (fs/list-contents path)))]
-      (log/info files))))
+    (let [files (->> (<! (fs/list-contents path))
+                     :body
+                     (sort-by :type >))]
+      (oset! $scope
+             :files files))))
 
 (defcontroller app CommandFilesystemCtrl [$scope $routeParams]
   (let [{:keys [path] :or {path ""}} $routeParams]

@@ -1,4 +1,5 @@
-{:http {:ssl? true
+{:nomad/private-file #nomad/file ".config.edn"
+ :http {:ssl? true
         :port 3000
         :ssl-port 3443
         ;; :env-port "PORT"

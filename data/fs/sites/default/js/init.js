@@ -29,6 +29,7 @@
               "bower_components/underscore/underscore-min.js",
               "bower_components/Eventable/eventable.js",
               "bower_components/sir-trevor-js/sir-trevor.min.js",
+              "bower_components/keymaster/keymaster.min.js",
               finishedLoading);
   };
   finishedLoading = function () {

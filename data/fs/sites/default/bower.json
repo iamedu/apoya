@@ -23,7 +23,8 @@
     "FileAPI": "latest",
     "H5F": "latest",
     "tourist": "latest",
-    "console-polyfill": "latest"
+    "console-polyfill": "latest",
+    "keymaster": "latest"
   },
   "authors": [
     "Eduardo Díaz <iamedu@gmail.com>"
