@@ -16,3 +16,4 @@ meta.edn
 bin
 .lein-env
 .config.edn
+dist

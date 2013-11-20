@@ -7,6 +7,7 @@
 * Adding travis ci integration
 * Using morecss lein plugin for less compilation
 * Improved script to release platform
+* Script to create a UNIX service
 
 ### App
 
