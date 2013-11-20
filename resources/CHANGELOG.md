@@ -6,11 +6,13 @@
 
 * Adding travis ci integration
 * Using morecss lein plugin for less compilation
+* Improved script to release platform
 
 ### App
 
 * WORKING IN FS MANAGEMENT
 * Removed less compilation from the application
+* Shows Platform version, uptime and changelog
 
 ### Service
 
