@@ -17,3 +17,5 @@ bin
 .lein-env
 .config.edn
 dist
+app-dist
+*.far
