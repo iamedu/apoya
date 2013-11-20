@@ -8,9 +8,12 @@
             [apoya.util.angular :refer [oset!]]
             [cljs.core.async :refer [<! take!]]))
 
-(defcontroller app CommandMainCtrl [$scope]
+(defcontroller app CommandMainCtrl [$scope $sce]
   (go
-    (let [platform-meta (:body (<! (command/platform-meta)))]
-      (oset! $scope :platformMeta platform-meta)))
+    (let [{changelog :changelog :as platform-meta} (:body (<! (command/platform-meta)))
+          changelog (.trustAsHtml $sce changelog)]
+      (oset! $scope
+             :platformMeta platform-meta
+             :changelog changelog)))
   (oset! $scope :section "main"))
 

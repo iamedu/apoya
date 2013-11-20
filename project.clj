@@ -28,6 +28,7 @@
                  [korma "0.3.0-RC6"]
                  [cheshire "5.2.0"]
                  [ragtime "0.3.4"]
+                 [markdown-clj "0.9.35"]
                  [clj-time "0.6.0"]
                  [clojure-watch "LATEST"]
                  [fleet "0.10.1"]
@@ -38,6 +39,8 @@
                  [com.draines/postal "1.11.1"]
                  [pallet-fsm "0.2.0"]
                  [xmpp-clj "0.3.1"]
+                 [clojurewerkz/quartzite "1.1.0"]
+                 [clj-time "0.6.0"]
                  [org.clojure/tools.reader "0.7.10"]
                  [com.novemberain/langohr "1.6.0"]
                  ;; Java libs
@@ -54,8 +57,7 @@
                  [org.bouncycastle/bcprov-jdk15on "1.49"]
                  [com.google.inject/guice "3.0"]
                  [commons-codec "1.8"]
-                 [clojurewerkz/quartzite "1.1.0"]
-                 [clj-time "0.6.0"]
+                 [org.ocpsoft.prettytime/prettytime "3.2.1.Final"]
                  [org.apache.poi/poi "3.9"]
                  [org.mortbay.jetty.npn/npn-boot "1.1.6.v20130911"]
                  ;;Clojurescript libs

@@ -6,12 +6,9 @@
         </div>
         <div class="row">
             <div class="col-sm-10">
+                <h3>Platform</h3>
                 <table class="table table-striped">
                     <tbody>
-                        <tr>
-                            <td>System uptime</td>
-                            <td>{{platformMeta['system-millis']}}</td>
-                        </tr>
                         <tr>
                             <td>Current Platform Version</td>
                             <td>{{platformMeta['platform-version']}}</td>
@@ -20,8 +17,14 @@
                             <td>Current Platform Commit</td>
                             <td>{{platformMeta['platform-commit']}}</td>
                         </tr>
+                        <tr>
+                            <td>Platform Started</td>
+                            <td>{{platformMeta['platform-millis']}}</td>
+                        </tr>
                     </tbody>
                 </table>
+                <hr />
+                <div ng-bind-html="changelog"></div>
             </div>
             <div class="col-sm-2">
                 <div ng-include="'views/command/menu.html'"></div>

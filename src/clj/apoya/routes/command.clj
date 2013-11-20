@@ -1,12 +1,15 @@
 (ns apoya.routes.command
   (:use compojure.core)
   (:require [apoya.response :as r]
+            [apoya.util :as util]
             [apoya.data.sessions :as sess]
             [apoya.resources.fs :as fs]
             [apoya.services.scripting :as scripting]
+            [markdown.core :as md]
             [clojure.edn :as e]
             [clojure.java.io :as io]
-            [clojure.tools.logging :as log]))
+            [clojure.tools.logging :as log])
+  (:import [java.lang.management ManagementFactory]))
 
 (defroutes fs-routes
   (POST "/list-contents.edn" [folder]
@@ -53,13 +56,18 @@
         (let [sessions (map #(dissoc % :conn :result-set :rset) (vals @sess/sessions))]
           (r/edn-response sessions))))
 
+(defn jvm-start-time []
+  (-> (ManagementFactory/getRuntimeMXBean) (.getStartTime)))
+
 (defroutes main-routes
   (POST "/list-platform-meta.edn" _
-        (let [{:keys [commit version]} (-> (io/resource "platform-meta.edn") slurp e/read-string)]
+        (let [{:keys [commit version]} (-> (io/resource "platform-meta.edn") slurp e/read-string)
+              changelog (-> (io/resource "CHANGELOG.md") slurp md/md-to-html-string)]
           (r/edn-response
             {:platform-version commit
              :platform-commit version
-             :system-millis (System/currentTimeMillis)}))))
+             :changelog changelog
+             :platform-millis (util/pretty-from-millis (jvm-start-time))}))))
 
 (defroutes command-routes
   (context "/main" [] main-routes)
