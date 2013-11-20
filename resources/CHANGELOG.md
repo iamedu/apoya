@@ -6,11 +6,15 @@
 
 * Adding travis ci integration
 * Using morecss lein plugin for less compilation
+* Improved script to release platform
+* Script to create a UNIX service
+* Script to create the far archive
 
 ### App
 
 * WORKING IN FS MANAGEMENT
 * Removed less compilation from the application
+* Shows Platform version, uptime and changelog
 
 ### Service
 

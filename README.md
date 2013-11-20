@@ -65,7 +65,7 @@ This software:
 * Vagrant (http://www.vagrantup.com/)
 * Ruby (possibly with rvm)
 * Rubygems (rvm also takes care of this)
-* Librarian Chef Gem (gem install librarian chef)
+* Librarian Chef Gem (gem install librarian-chef)
 * Node.js and NPM (http://nodejs.org/download/)
 * Bower (npm install -g bower)
 
