@@ -13,7 +13,8 @@
   (go
     (let [files (->> (<! (fs/list-contents path))
                      :body
-                     (sort-by :type >))]
+                     (sort-by :type >)
+                     distinct)]
       (oset! $scope
              :files files))))
 
