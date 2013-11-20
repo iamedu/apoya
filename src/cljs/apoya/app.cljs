@@ -29,6 +29,8 @@
                               :controller :LoginCtrl}))
     (.when "/signup" (clj->js {:templateUrl "views/signup.html"}))
     (.when "/dashboard" (clj->js {:templateUrl "views/dashboard.html"}))
+    (.when "/command/main" (clj->js {:templateUrl "views/command/main.html"
+                                     :controller :CommandMainCtrl}))
     (.when "/command/scripting" (clj->js {:templateUrl "views/command/scripting.html"
                                           :controller :CommandScriptingCtrl}))
     (.when "/command/filesystem" (clj->js {:templateUrl "views/command/filesystem.html"

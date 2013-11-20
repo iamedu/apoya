@@ -4,6 +4,8 @@
             [apoya.data.sessions :as sess]
             [apoya.resources.fs :as fs]
             [apoya.services.scripting :as scripting]
+            [clojure.edn :as e]
+            [clojure.java.io :as io]
             [clojure.tools.logging :as log]))
 
 (defroutes fs-routes
@@ -19,17 +21,17 @@
   (POST "/destroy-session.edn" [uuid]
         (scripting/close-session uuid)
         (r/edn-response true))
-  (POST "/list-sessions.edn" request
+  (POST "/list-sessions.edn" _
         (let [sessions (map #(dissoc % :engine) (vals @scripting/sessions))]
           (r/edn-response sessions))) 
-  (POST "/list-engines.edn" request
+  (POST "/list-engines.edn" _
         (r/edn-response (scripting/list-engines)))
   (POST "/eval-code.edn" [engine code]
         (r/edn-response (scripting/eval-code engine code))))
 
 ;;; Sql
 (defroutes sql-routes
-  (POST "/create-session.edn" request
+  (POST "/create-session.edn" _
         (let [sess (sess/create-session)]
           (r/edn-response (dissoc sess :conn))))
   (POST "/exec-sql.edn" [uuid sql]
@@ -47,11 +49,20 @@
   (POST "/destroy-session.edn" [uuid]
         (sess/close-session uuid)
         (r/edn-response true))
-  (POST "/list-sessions.edn" request
+  (POST "/list-sessions.edn" _
         (let [sessions (map #(dissoc % :conn :result-set :rset) (vals @sess/sessions))]
           (r/edn-response sessions))))
 
+(defroutes main-routes
+  (POST "/list-platform-meta.edn" _
+        (let [{:keys [commit version]} (-> (io/resource "platform-meta.edn") slurp e/read-string)]
+          (r/edn-response
+            {:platform-version commit
+             :platform-commit version
+             :system-millis (System/currentTimeMillis)}))))
+
 (defroutes command-routes
+  (context "/main" [] main-routes)
   (context "/fs" [] fs-routes)
   (context "/sql" [] sql-routes)
   (context "/scripting" [] scripting-routes))

@@ -2,6 +2,10 @@
   (:require-macros [cljs.core.async.macros :refer [go]])
   (:require [apoya.remote.request :as r]))
 
+;; Main
+(defn platform-meta []
+  (r/edn [:post "/api/v1/command/main/list-platform-meta.edn"]))
+
 ;; Scripting
 (defn list-engines []
   (r/edn [:post "/api/v1/command/scripting/list-engines.edn"]))

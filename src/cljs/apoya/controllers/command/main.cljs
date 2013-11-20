@@ -1,0 +1,16 @@
+(ns apoya.controllers.command.main
+  (:require-macros [apoya.angular :refer [defcontroller]]
+                   [cljs.core.async.macros :refer [go]])
+  (:require [apoya.main :refer [app]]
+            [apoya.services.auth :as auth]
+            [apoya.services.command :as command]
+            [apoya.util.log :as log]
+            [apoya.util.angular :refer [oset!]]
+            [cljs.core.async :refer [<! take!]]))
+
+(defcontroller app CommandMainCtrl [$scope]
+  (go
+    (let [platform-meta (:body (<! (command/platform-meta)))]
+      (oset! $scope :platformMeta platform-meta)))
+  (oset! $scope :section "main"))
+
