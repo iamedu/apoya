@@ -6,6 +6,8 @@ pom.xml.asc
 *.jar
 *.class
 /.lein-*
+.idea/
+apoya.iml
 /.nrepl-port
 bootstrap.css
 deps
