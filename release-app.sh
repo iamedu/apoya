@@ -11,7 +11,7 @@ cp APP_CHANGELOG.md app-dist
 echo ${meta_file} > app-dist/platform-meta.edn
 
 cp -r data/fs/* app-dist
-rm -rf app-dist/fs/sites/*/bower_components
+rm -rf app-dist/sites/*/bower_components
 
 jar cfv app-${current_version}.far -C app-dist .
 

@@ -37,8 +37,8 @@
                folder
                (str "/" folder))
         base-path (name cfg/*current-site*)
-        path (str base-path)
-        bs (container-seq sites-base "sites" "default/")]
+        path (str base-path path)
+        bs (container-seq sites-base "sites" path)]
     (map convert-jclouds-file bs)))
 
 (defn put-site-blob [path source]
