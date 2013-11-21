@@ -14,7 +14,7 @@ cp -r data/fs/* app-dist
 rm -rf app-dist/sites/*/bower_components
 
 lein apoya-minify
-cp -r data/fs/sites/default/bower_components/font-awesome/fonts app-dist/sites/default/bower_components/font-awesome/fonts
+cp -r data/fs/sites/default/bower_components/font-awesome/fonts app-dist/sites/default/bower_components/font-awesome
 
 jar cfv app-${current_version}.far -C app-dist .
 

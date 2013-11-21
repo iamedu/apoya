@@ -30,8 +30,9 @@ chmod +x dist/bin/apoya
 
 rm -rf dist/data/fs/sites/*/bower_components
 lein apoya-minify
-cp -r data/fs/sites/default/bower_components/font-awesome/fonts dist/data/fs/sites/default/bower_components/font-awesome/fonts
 
 mv app-dist/sites/default/bower_components dist/data/fs/sites/default/
 rm -rf app-dist
+
+cp -r data/fs/sites/default/bower_components/font-awesome/fonts dist/data/fs/sites/default/bower_components/font-awesome
 
