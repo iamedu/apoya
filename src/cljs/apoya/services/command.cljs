@@ -6,6 +6,14 @@
 (defn platform-meta []
   (r/edn [:post "/api/v1/command/main/list-platform-meta.edn"]))
 
+(defn restart-fortress []
+  (r/edn [:post "/api/v1/command/main/restart-fortress.edn"]))
+
+;; App
+
+(defn app-meta []
+  (r/edn [:post "/api/v1/command/app/list-app-meta.edn"]))
+
 ;; Scripting
 (defn list-engines []
   (r/edn [:post "/api/v1/command/scripting/list-engines.edn"]))

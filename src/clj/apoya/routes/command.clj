@@ -9,7 +9,8 @@
             [clojure.edn :as e]
             [clojure.java.io :as io]
             [clojure.tools.logging :as log])
-  (:import [java.lang.management ManagementFactory]))
+  (:import [java.lang.management ManagementFactory]
+           [java.util Date]))
 
 (defroutes fs-routes
   (POST "/list-contents.edn" [folder]
@@ -69,8 +70,18 @@
              :changelog changelog
              :platform-millis (util/pretty-from-millis (jvm-start-time))}))))
 
+(defroutes app-routes
+  (POST "/list-app-meta.edn" _
+        (let [{:keys [commit version]} (-> (io/resource "app-meta.edn") slurp e/read-string)
+              changelog (-> (io/resource "APP_CHANGELOG.md") slurp md/md-to-html-string)]
+          (r/edn-response
+            {:app-version version
+             :app-commit commit
+             :changelog changelog}))))
+
 (defroutes command-routes
   (context "/main" [] main-routes)
+  (context "/app" [] app-routes)
   (context "/fs" [] fs-routes)
   (context "/sql" [] sql-routes)
   (context "/scripting" [] scripting-routes))

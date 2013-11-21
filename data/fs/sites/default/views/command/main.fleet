@@ -6,19 +6,19 @@
         </div>
         <div class="row">
             <div class="col-sm-10">
-                <h3>Platform</h3>
+                <h3><(label :platform-title :default "Platform")></h3>
                 <table class="table table-striped">
                     <tbody>
                         <tr>
-                            <td>Current Platform Version</td>
+                            <td><(label :platform-version :default "Current Platform Version")></td>
                             <td>{{platformMeta['platform-version']}}</td>
                         </tr>
                         <tr>
-                            <td>Current Platform Commit</td>
+                            <td><(label :platform-commit :default "Current Platform Commit")></td>
                             <td>{{platformMeta['platform-commit']}}</td>
                         </tr>
                         <tr>
-                            <td>Platform Started</td>
+                            <td><(label :platform-started :default "Platform Started")></td>
                             <td>{{platformMeta['platform-millis']}}</td>
                         </tr>
                     </tbody>
