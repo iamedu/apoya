@@ -69,10 +69,15 @@
   :plugins [[lein-cljsbuild "1.0.0"]
             [lein-libdir "0.1.1"]
             [ragtime/ragtime.lein "0.3.4"]
-            [lein-morecss "0.1.0-SNAPSHOT"]]
+            [lein-morecss "0.1.0-SNAPSHOT"]
+            [apoya-minify "0.1.0-SNAPSHOT"]]
   :morecss {:default {:less-file "data/fs/sites/default/less/bootstrap.less"
                       :css-file "data/fs/sites/default/css/bootstrap.css"
                       :directories ["data/fs/sites/default/less"]}}
+  :minify {:init-file "data/fs/sites/default/js/init.js"
+           :html-file "data/fs/sites/default/index.fleet"
+           :source-dir "data/fs/sites/default"
+           :output-dir "app-dist/sites/default"}
   :cljsbuild {:crossovers [apoya.angular]
               :crossover-path "src/crossover-cljs"
               :builds {:main {:source-paths ["src/cljs"]
