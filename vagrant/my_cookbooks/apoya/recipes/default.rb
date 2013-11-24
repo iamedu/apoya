@@ -17,6 +17,20 @@ execute "load database" do
   user "vagrant"
 end
 
+execute "compile less" do
+  cwd "/vagrant_data/apoya"
+  command "lein morecss once"
+  action :run
+  user "vagrant"
+end
+
+execute "compile cljs" do
+  cwd "/vagrant_data/apoya"
+  command "lein cljsbuild once"
+  action :run
+  user "vagrant"
+end
+
 supervisor_service "lein-apoya" do
   command "lein with-profile production trampoline run"
   directory "/vagrant_data/apoya"
