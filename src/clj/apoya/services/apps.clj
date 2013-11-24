@@ -30,6 +30,7 @@
     (if (.isDirectory entry)
       (fs/create-dir container path)
       (with-open [is (.getInputStream jar-file entry)]
+        (log/info container path)
         (fs/put-any-blob container path is)))))
 
 (defn copy-contents [path]
