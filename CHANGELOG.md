@@ -15,6 +15,7 @@
 * WORKING IN FS MANAGEMENT
 * Removed less compilation from the application
 * Shows Platform version, uptime and changelog
+* Far files deployable from within the app
 
 ### Service
 
