@@ -1,6 +1,7 @@
 (function () {
   var startLoading, loadRest, finishedLoading;
   startLoading = function () {
+    window.FileAPI = { staticPath: 'bower_components/FileAPI/' };
     head.load("bower_components/jquery/jquery.min.js", "bower_components/nprogress/nprogress.js", function () {
       NProgress.start();
       loadRest();
@@ -30,6 +31,7 @@
               "bower_components/Eventable/eventable.js",
               "bower_components/sir-trevor-js/sir-trevor.min.js",
               "bower_components/keymaster/keymaster.js",
+              "bower_components/FileAPI/FileAPI.min.js",
               finishedLoading);
   };
   finishedLoading = function () {

@@ -9,18 +9,55 @@
                 <h3><(label :app-title :default "App")></h3>
                 <table class="table table-striped">
                     <tbody>
-                        <tr>
-                            <td><(label :app-version :default "Current App Version")></td>
-                            <td>{{appMeta['app-version']}}</td>
-                        </tr>
-                        <tr>
-                            <td><(label :app-commit :default "Current App Commit")></td>
-                            <td>{{appMeta['app-commit']}}</td>
-                        </tr>
+                    <tr>
+                        <td><(label :app-version :default "Current App Version")></td>
+                        <td>{{appMeta['app-version']}}</td>
+                    </tr>
+                    <tr>
+                        <td><(label :app-commit :default "Current App Commit")></td>
+                        <td>{{appMeta['app-commit']}}</td>
+                    </tr>
                     </tbody>
                 </table>
                 <hr />
-                <div ng-bind-html="changelog"></div>
+                <ul class="nav nav-tabs" ng-init="versionSection='current'">
+                    <li ng-class="{active: versionSection=='current'}"><a href ng-click="versionSection='current'"><(label :app-current-version :default "Current version")></a></li>
+                    <li ng-class="{active: versionSection=='manage'}"><a href ng-click="versionSection='manage'"><(label :app-manager-version :default "Manage versions")></a></li>
+                </ul>
+                <div ng-show="versionSection=='current'" ng-bind-html="changelog"></div>
+                <div ng-show="versionSection=='manage'" class="section">
+                    <h4><(label :upload-app :default "Upload app")></h4>
+                    <form role="form">
+                        <div class="form-group js-fileapi-wrapper" id="appFileUpload">
+                            <label for="appFile">Application File</label>
+                            <input type="file" id="appFile">
+                            <p class="help-block">Upload a .far file.</p>
+                        </div>
+                    </form>
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="{{uploadPercent}}" aria-valuemin="0" aria-valuemax="100" ng-style="{width: uploadPercent + '%'}">
+                            <span class="sr-only"><(label :app-upload-percent :default "{{uploadPercent}} completed")></span>
+                        </div>
+                    </div>
+                    <div>
+                        <table class="table table-hover table-striped">
+                            <thead>
+                                <tr>
+                                    <th><(label :app-filename :default "Filename")></th>
+                                    <th><(label :app-last-modified :default "Upload date")></th>
+                                    <th><(label :app-details :default "Show details")></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="app in appVersions">
+                                    <td>{{app.name}}</td>
+                                    <td>{{app['last-modified']}}</td>
+                                    <td><a href class="btn btn-info" ng-click="showAppDetails(app.name)"><(label :app-details)></a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
             <div class="col-sm-2">
                 <div ng-include="'views/command/menu.html'"></div>

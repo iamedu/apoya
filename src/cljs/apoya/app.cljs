@@ -51,7 +51,7 @@
 (defn handle-not-found [m]
   (log/info (str "Not found request" m)))
 
-(defn handle-error [$location $rootScope {:keys [outcome status body route] :as m}]
+(defn handle-error [$location $rootScope {:keys [status body route] :as m}]
   (let [{:keys [error-id]} body
         current-location (.path $location)
         [redirect-location redirect-search] (condp = status
@@ -100,8 +100,19 @@
          (clj->js {:templateUrl "views/modals/changeSite.html"
                    :controller :ChangeSiteCtrl})))
 
+(defn setup-cache [$templateCache]
+  (.put $templateCache
+        "template/messageBox/message.html",
+        "<div class='modal-dialog'>
+         <div class='modal-content'>
+         <div class='modal-header'><h3>{{title}}</h3></div>
+         <div class='modal-body'><p>{{message}}</p></div>
+         <div class='modal-footer'><button ng-repeat='btn in buttons' ng-click='close(btn.result)' class='btn' ng-class='btn.cssClass'>{{btn.label}}</button></div>
+         </div>
+         </div>"))
 
-(defn run-app [$location $rootScope $modal]
+(defn run-app [$location $rootScope $modal $templateCache]
+  (setup-cache $templateCache)
   (t/subscribe :error (partial handle-error $location $rootScope))
   (t/subscribe :ready (fn [_] (oset! $rootScope :ready true)))
   (t/subscribe :identity (partial handle-identity $location $rootScope $modal))
@@ -121,7 +132,7 @@
 
 (-> app
     (.config (array "$routeProvider" "$httpProvider" config-app))
-    (.run (array "$location" "$rootScope" "$modal" run-app)))
+    (.run (array "$location" "$rootScope" "$modal" "$templateCache" run-app)))
 
 (defn app-started []
   (log/info "Resources have been loaded"))

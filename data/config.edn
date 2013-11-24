@@ -6,6 +6,7 @@
         ;; :env-ssl-port "SSL_PORT"
         :host "0.0.0.0"}
  :temp-path "tmp"
+ :apps-path "data/apps"
  :logback-file "data/logback.xml"
  :ssl {:crt-file "ssl/server.crt"
        :key-file "ssl/server.key"}
@@ -13,14 +14,6 @@
  :blobstore {:blob-type "filesystem"
              :account ""
              :encoded-key ""}
- :less [{:site :default
-         :watch "data/fs/sites/default/less"
-         :source "/less/bootstrap.less"
-         :target "/css/bootstrap.css"}
-        {:site :default.site.com
-         :watch "data/fs/sites/default.site.com/less"
-         :source "/less/bootstrap.less"
-         :target "/css/bootstrap.css"}]
  :db {:make-pool? true
       :classname "org.postgresql.Driver"
       ;; :env-variable "HEROKU_POSTGRESQL_GRAY_URL"

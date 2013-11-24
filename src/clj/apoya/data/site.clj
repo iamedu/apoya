@@ -22,6 +22,10 @@
 (defn create-url [data]
   (insert restricted_urls (values data)))
 
+(defn list-migrations []
+  (select :ragtime_migrations
+          (order :created_at :DESC)))
+
 (defn list-sites []
   (select sites
           (fields :domain :description)))

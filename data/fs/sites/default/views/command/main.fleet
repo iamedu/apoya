@@ -24,6 +24,22 @@
                     </tbody>
                 </table>
                 <hr />
+                <h3><(label :migrations-title :default "Database")></h3>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th><(label :migration-name :default "migration")></th>
+                            <th><(label :migration-created :default "created at")></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="migration in platformMeta.migrations">
+                            <td>{{migration.id}}</td>
+                            <td>{{migration.created_at}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <hr />
                 <div ng-bind-html="changelog"></div>
             </div>
             <div class="col-sm-2">
