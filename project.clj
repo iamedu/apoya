@@ -37,6 +37,7 @@
                  [clj-http "0.7.7"]
                  [clojurewerkz/elastisch "1.3.0-beta5"]
                  [com.draines/postal "1.11.1"]
+                 [de.ubercode.clostache/clostache "1.3.1"]
                  [pallet-fsm "0.2.0"]
                  [xmpp-clj "0.3.1"]
                  [clojurewerkz/quartzite "1.1.0"]
