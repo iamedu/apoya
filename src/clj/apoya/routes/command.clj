@@ -3,7 +3,10 @@
   (:require [apoya.response :as r]
             [apoya.util :as util]
             [apoya.data.sessions :as sess]
+            [apoya.data.site :as site]
+            [apoya.config :as cfg]
             [apoya.resources.fs :as fs]
+            [apoya.services.apps :as apps]
             [apoya.services.scripting :as scripting]
             [markdown.core :as md]
             [clojure.edn :as e]
@@ -68,9 +71,34 @@
             {:platform-version commit
              :platform-commit version
              :changelog changelog
+             :migrations (site/list-migrations)
              :platform-millis (util/pretty-from-millis (jvm-start-time))}))))
 
 (defroutes app-routes
+  (POST "/upload.edn" [files]
+        (let [{:keys [tempfile filename]} files
+              apps-path (:apps-path (cfg/apoya-config))
+              output-file (io/file (str apps-path "/" filename))]
+          (io/make-parents output-file)
+          (io/copy tempfile output-file)
+          (r/edn-response true)))
+  (POST "/list-apps.edn" _
+        (let [apps-path (:apps-path (cfg/apoya-config))
+              files (->> (io/file apps-path)
+                         (file-seq)
+                         (filter #(.isFile %)))
+              file-data (fn [f]
+                          {:name (.getName f)
+                           :last-modified (java.util.Date. (.lastModified f))})
+              files (map file-data files)]
+          (r/edn-response files)))
+  (POST "/deploy.edn" [path]
+        (let [deploy (apps/deploy path)]
+          (r/edn-response deploy)))
+  (POST "/show-app-detail.edn" [path]
+        (let [details (apps/read-details path)
+              details (assoc details :path path)]
+          (r/edn-response details)))
   (POST "/list-app-meta.edn" _
         (let [{:keys [commit version]} (-> (io/resource "app-meta.edn") slurp e/read-string)
               changelog (-> (io/resource "APP_CHANGELOG.md") slurp md/md-to-html-string)]

@@ -43,6 +43,7 @@
                  [clj-time "0.6.0"]
                  [org.clojure/tools.reader "0.7.10"]
                  [com.novemberain/langohr "1.6.0"]
+                 [clj-stacktrace "0.2.7"]
                  ;; Java libs
                  [ch.qos.logback/logback-core "1.0.13"]
                  [ch.qos.logback/logback-classic "1.0.13"]
@@ -87,7 +88,8 @@
                                                     "externs/jquery.js"
                                                     "externs/store.js"
                                                     "externs/codemirror.js"
-                                                    "externs/nprogress.js"]
+                                                    "externs/nprogress.js"
+                                                    "externs/fileapi.js"]
                                          :optimizations :advanced
                                          :pretty-print false}}}}
   :ragtime  {:migrations ragtime.sql.files/migrations

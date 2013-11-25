@@ -1717,3 +1717,11 @@ angular.$timeout_.cancel = function(promise) {};
 angular.$sce;
 
 angular.$sce.trustAsHtml = function(value) {};
+
+angular.$dialog;
+
+angular.$dialog.messageBox = function (title, message, buttons, fn) {};
+
+angular.$modal;
+
+angular.$modal.open = function (opts) {};

@@ -3,6 +3,7 @@
             [fortress.util :as util]
             [cemerick.friend :as friend]
             [cheshire.core :as json]
+            [clj-stacktrace.repl :as st]
             [clojure.stacktrace :as sta]
             [clojure.tools.logging :as log])
   (:use korma.core
@@ -10,10 +11,7 @@
   (:import [java.io PrintStream ByteArrayOutputStream]))
 
 (defn str-throwable [cause]
-  (with-open [output-stream (ByteArrayOutputStream.)
-              print-stream (PrintStream. output-stream true "UTF-8")]
-    (.printStackTrace cause print-stream)
-    (.toString output-stream)))
+  (st/pst-str cause))
 
 (defmulti write-error (fn [database _]
                         (get-in database [:options :subprotocol])))

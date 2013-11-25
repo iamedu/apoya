@@ -1,0 +1,31 @@
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title"><(label :app-details-title :default "Application {{version}} Details")></h4>
+        </div>
+        <div class="modal-body">
+            <table class="table table-striped">
+                <tbody>
+                    <tr>
+                        <td>Name</td>
+                        <td>{{name}}</td>
+                    </tr>
+                    <tr>
+                        <td>Version</td>
+                        <td>{{version}}</td>
+                    </tr>
+                    <tr>
+                        <td>Commit</td>
+                        <td>{{commit}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div ng-bind-html="changelog" style="max-height: 200px; overflow: auto">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-success" ng-click="deploy(path)">Deploy version</button>
+        </div>
+    </div>        
+</div>
+

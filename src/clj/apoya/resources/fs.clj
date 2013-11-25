@@ -49,3 +49,10 @@
         new-blob (blob path :payload (payload source))]
     (put-blob sites-base "sites" new-blob)))
 
+(defn create-dir [container path]
+  (create-directory sites-base container path))
+
+(defn put-any-blob [container path source]
+  (log/info container path)
+  (let [new-blob (blob path :payload (payload source))]
+    (put-blob sites-base container new-blob)))

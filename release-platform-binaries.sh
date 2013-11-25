@@ -35,4 +35,5 @@ mv app-dist/sites/default/bower_components dist/data/fs/sites/default/
 rm -rf app-dist
 
 cp -r data/fs/sites/default/bower_components/font-awesome/fonts dist/data/fs/sites/default/bower_components/font-awesome
+cp -r data/fs/sites/default/bower_components/FileAPI dist/sites/default/bower_components
 

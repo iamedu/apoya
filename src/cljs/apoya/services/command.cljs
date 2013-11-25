@@ -10,9 +10,19 @@
   (r/edn [:post "/api/v1/command/main/restart-fortress.edn"]))
 
 ;; App
+(defn deploy [path]
+  (r/edn [:post "/api/v1/command/app/deploy.edn"]
+         :content {:path path}))
+
+(defn show-app-detail [path]
+  (r/edn [:post "/api/v1/command/app/show-app-detail.edn"]
+         :content {:path path}))
 
 (defn app-meta []
   (r/edn [:post "/api/v1/command/app/list-app-meta.edn"]))
+
+(defn list-apps []
+  (r/edn [:post "/api/v1/command/app/list-apps.edn"]))
 
 ;; Scripting
 (defn list-engines []

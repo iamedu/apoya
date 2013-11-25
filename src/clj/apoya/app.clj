@@ -140,7 +140,8 @@
                                         (workflows/impersonate-workflow :login-uri "/api/public/v1/site/impersonate.edn")]})))
 
 (defn read-csrf-token [request]
-  (get-in request [:params :__anti-forgery-token]))
+  (or (get-in request [:params :__anti-forgery-token])
+      (-> request :headers  (get "x-csrf-token"))))
 
 (def invalid-csrf-response
   (assoc (r/edn-response {:error :forbidden :cause :invalid-csrf-token})
