@@ -15,7 +15,6 @@
             [fortress.ring.server :as fortress]
             [fortress.ssl.context :as ssl-ctx]
             [fortress.util :as util]
-            [cemerick.piggieback :as pback]
             [nomad :refer [defconfig]])
   (:import [apoya.classloader JCloudsClassLoader]
            [ch.qos.logback.classic.joran JoranConfigurator]
@@ -76,8 +75,7 @@
     (schedule/setup-scheduler (get (cfg/apoya-config) :db))
     (when nrepl-port
       (log/info "Starting nrepl server at port" nrepl-port)
-      (nrepl/start-server :port nrepl-port
-                          :handler (nrepl/default-handler #'pback/wrap-cljs-repl))
+      (nrepl/start-server :port nrepl-port)
       (.mkdirs (java.io.File. "target/repl"))
       (spit "target/repl/repl-port" nrepl-port))))
 
