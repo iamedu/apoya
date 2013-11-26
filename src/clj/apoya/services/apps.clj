@@ -31,15 +31,18 @@
       (fs/create-dir container path)
       (with-open [is (.getInputStream jar-file entry)]
         (log/info container path)
-        (fs/put-any-blob container path is)))
+        (fs/put-any-blob container path is)))))
+
+(defn reload-entry [jar-file entry]
+  (let [parts (s/split (.getName entry) #"/")
+        [container & parts] parts
+        path (s/join "/" parts)]
     (if (and (= "classpath" container)
              (.endsWith path ".clj"))
       (let [nspace (-> path
                        (s/replace #".clj$" "")
                        (s/replace #"/" ".")
                        (symbol))]
-        (log/info "Removing namespace" nspace)
-        (remove-ns nspace)
         (log/info "Restoring namespace" nspace)
         (with-open [is (.getInputStream jar-file entry)]
           (eval (slurp is)))))))
@@ -55,9 +58,21 @@
         (catch Exception e
           (log/fatal e "Cannot load entry" full-path))))))
 
+(defn refresh-classpath [path]
+  (let [apps-path (:apps-path (cfg/apoya-config))
+        full-path (str apps-path "/" path)
+        file (-> full-path (io/file) (JarFile.))
+        file-entries (enumeration-seq (.entries file))]
+    (doseq [entry file-entries]
+      (try
+        (reload-entry file entry)
+        (catch Exception e
+          (log/fatal e "Cannot load entry" full-path))))))
+
 (defn deploy [path]
   (let [containers ["classpath" "sites"]]
     (doseq [c containers]
       (bstore/clear-container fs/sites-base c))
     (copy-contents path)
+    (refresh-classpath path)
     true))
