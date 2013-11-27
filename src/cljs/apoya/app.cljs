@@ -37,6 +37,8 @@
                                           :controller :CommandScriptingCtrl}))
     (.when "/command/filesystem" (clj->js {:templateUrl "views/command/filesystem.html"
                                            :controller :CommandFilesystemCtrl}))
+    (.when "/command/filesystem/find" (clj->js {:templateUrl "views/command/finder.html"
+                                           :controller :CommandFinderCtrl}))
     (.when "/command/repl" (clj->js {:templateUrl "views/command/repl.html"
                                      :controller :CommandReplCtrl}))
     (.when "/command/sql" (clj->js {:templateUrl "views/command/sql.html"

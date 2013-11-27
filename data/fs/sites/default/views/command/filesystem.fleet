@@ -18,7 +18,8 @@
                             <td>
                                 <i class="fa fa-folder-o" ng-show="f.type == 'RELATIVE_PATH'"></i>
                                 <i class="fa fa-file-o" ng-show="f.type == 'BLOB'"></i>
-                                <a href>{{f.name}}</a>
+                                <a ng-show="f.type == 'RELATIVE_PATH'" ng-href="/#/command/filesystem?path={{path}}/{{f.name}}">{{f.name}}</a>
+                                <a ng-show="f.type == 'BLOB'" href>{{f.name}}</a>
                             </td>
                         </tr>
                     </tbody>
