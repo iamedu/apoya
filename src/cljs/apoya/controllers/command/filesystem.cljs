@@ -20,9 +20,30 @@
              :files files))))
 
 (defn backspace-shortcut [$scope path]
-  (log/info path)
   (js/key "backspace" #(if-not (empty? path)
                         (.back js/history))))
+
+(defn load-breadcumb [$scope path]
+  (let [directories (concat '("Home") (rest (cstr/split path #"/")))]
+    (oset! $scope
+           :directories directories)))
+
+(defn breadcrumb-click [$location path name]
+  (let [search (if (= name "Home")
+                 nil
+                 (let [directories (cstr/split path #"/")]
+                   (str "/"
+                        (cstr/join "/"
+                                   (loop [dirs (next directories)]
+                                     (cond
+                                       (zero? (count dirs)) '()
+                                       (= name (last dirs))  dirs
+                                       :else (recur (drop-last dirs))))))))]
+
+    (-> $location
+        (.path "/command/filesystem")
+        (.search (clj->js (if (nil? search) {} {:path search}) ))))
+  )
 
 (defcontroller app CommandFilesystemCtrl [$scope $routeParams $location $rootScope]
   ;FileSystem finder
@@ -34,7 +55,9 @@
     (oset! $scope
            :path path
            :loadFiles (partial load-files $scope)
+           :breadcrumbClick (partial breadcrumb-click $location path)
            :section "filesystem")
     (load-files $scope path)
+    (load-breadcumb $scope path)
     (backspace-shortcut $scope path)))
 
