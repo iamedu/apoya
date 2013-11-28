@@ -1,6 +1,6 @@
-<div class="row">
+<div ng-init="baseSection='main'" class="row" ng-show="baseSection=='main'">
     <div class="col-sm-3">
-        <a class="btn btn-primary" href ng-click="createBaseTemplate()"><i class="fa fa-plus-circle"></i> <(label :mail-create-base :default "Create base template")></a>
+        <a class="btn btn-primary" href ng-click="baseSection='create'"><i class="fa fa-plus-circle"></i> <(label :mail-create-base :default "Create base template")></a>
     </div>
     <div class="col-sm-9">
         <div class="input-group" style="width: 100%">
@@ -8,37 +8,42 @@
         </div><!-- /input-group -->
     </div>
 </div>
-<table class="table table-hover table-striped">
-    <thead>
-        <tr>
-            <th>Language</th>
-            <th>Base key</th>
-            <th>Description</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>en</td>
-            <td>Test</td>
-            <td>Test</td>
-            <td style="width: 10%">
-                <div class="btn-group">
+<div class="row" ng-show="baseSection=='main'">
+    <table class="table table-hover table-striped">
+        <thead>
+            <tr>
+                <th>Language</th>
+                <th>Base key</th>
+                <th>Description</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>en</td>
+                <td>Test</td>
+                <td>Test</td>
+                <td style="width: 10%">
                     <div class="btn-group">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                            Actions
-                            <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Preview</a></li>
-                            <li><a href="#">Edit</a></li>
-                            <li><a href="#">Delete</a></li>
-                            <li><a href="#">Clone</a></li>
-                        </ul>
-                      </div>
-                </div>
-            </td>
-        </tr>
-    </tbody>
-</table>
-<div pagination total-items="100" page="4"></div>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                Actions
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Preview</a></li>
+                                <li><a href="#">Edit</a></li>
+                                <li><a href="#">Delete</a></li>
+                                <li><a href="#">Clone</a></li>
+                            </ul>
+                          </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div pagination total-items="100" page="4"></div>
+</div>
+<div class="row" ng-show="baseSection=='create'">
+    <h5>Create base mail</h5>
+</div>
