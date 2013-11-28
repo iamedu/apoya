@@ -39,6 +39,8 @@
                                            :controller :CommandFilesystemCtrl}))
     (.when "/command/repl" (clj->js {:templateUrl "views/command/repl.html"
                                      :controller :CommandReplCtrl}))
+    (.when "/command/mail" (clj->js {:templateUrl "views/command/mail.html"
+                                     :controller :CommandMailCtrl}))
     (.when "/command/sql" (clj->js {:templateUrl "views/command/sql.html"
                                     :controller :CommandSqlCtrl}))
     (.when "/command/:section" (clj->js {:templateUrl "views/command.html"
