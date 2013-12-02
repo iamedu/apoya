@@ -10,9 +10,10 @@
 
 (defcontroller app CommandMainCtrl [$scope $sce]
   (go
-    (let [{changelog :changelog :as platform-meta} (:body (<! (command/platform-meta)))
+    (let [{:keys [changelog clojure-version] :as platform-meta} (:body (<! (command/platform-meta)))
           changelog (.trustAsHtml $sce changelog)]
       (oset! $scope
+             :clojureVersion clojure-version
              :platformMeta platform-meta
              :changelog changelog)))
   (oset! $scope :section "main"))

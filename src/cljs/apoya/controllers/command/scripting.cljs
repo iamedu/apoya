@@ -29,13 +29,15 @@
 (defn execute [$scope engine code]
   (store-last-script engine code)
   (go
-    (let [{:keys [exception output error-output]} (:body (<! (command/eval-code engine code)))
+    (let [{:keys [exception output error-output value]} (:body (<! (command/eval-code engine code)))
           section (cond 
+                    (not (nil? value)) "value"
                     (not-empty output) "output"
                     (not-empty error-output) "error-output"
                     (not-empty exception) "exception"
                     :else nil)]
       (oset! $scope
+             :value value
              :innerSection section
              :lastUpdated (js/Date.)
              :output output

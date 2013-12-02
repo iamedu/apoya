@@ -19,7 +19,8 @@
                 <div>
                     <div id="scriptingEditor" ui-ace="scriptingOptions" ng-model="code"></div>
                 </div>
-                <ul class="nav nav-tabs" ng-show="output || errorOutput || exception">
+                <ul class="nav nav-tabs" ng-show="value || output || errorOutput || exception">
+                    <li ng-show="value" ng-class="{active:innerSection=='value'}"><a href ng-click="innerSection='value'"><(label :value-output :default "Value")></a></li>
                     <li ng-show="output" ng-class="{active:innerSection=='output'}"><a href ng-click="innerSection='output'"><(label :scripting-output :default "Output")></a></li>
                     <li ng-show="errorOutput" ng-class="{active:innerSection=='errorOutput'}"><a href ng-click="innerSection='errorOutput'"><(label :scripting-error-output :default "Error output")></a></li>
                     <li ng-show="exception" ng-class="{active:innerSection=='exception'}"><a href ng-click="innerSection='exception'"><(label :scripting-exception :default "Exception")></a></li>
@@ -27,6 +28,7 @@
                 <div ng-show="lastUpdated">
                     <(label :scripting-last-response :default "Last response")> {{lastUpdated}}
                 </div>
+                <div ng-show="value && innerSection=='value'" style="white-space: pre; overflow-x: auto" class="alert alert-info">{{value}}</div>
                 <div ng-show="output && innerSection=='output'" style="white-space: pre; overflow-x: auto" class="alert alert-info">{{output}}</div>
                 <div ng-show="errorOutput && innerSection=='errorOutput'" style="white-space: pre; overflow-x: auto" class="alert alert-warning">{{errorOutput}}</div>
                 <div ng-show="exception && innerSection=='exception'" style="white-space: pre; overflow-x: auto" class="alert alert-danger">{{exception}}</div>

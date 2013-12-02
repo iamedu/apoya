@@ -70,6 +70,8 @@
               changelog (-> (io/resource "CHANGELOG.md") slurp md/md-to-html-string)]
           (r/edn-response
             {:platform-version commit
+             :clojure-version *clojure-version*
+             :java-version (System/getProperty "java.version")
              :platform-commit version
              :changelog changelog
              :migrations (site/list-migrations)

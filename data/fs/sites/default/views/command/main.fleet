@@ -21,6 +21,14 @@
                             <td><(label :platform-started :default "Platform Started")></td>
                             <td>{{platformMeta['platform-millis']}}</td>
                         </tr>
+                        <tr>
+                            <td><(label :clojure-version :default "Clojure Version")></td>
+                            <td>{{clojureVersion.major}}.{{clojureVersion.minor}}.{{clojureVersion.incremental}} {{clojureVersion.qualifier}}</td>
+                        </tr>
+                        <tr>
+                            <td><(label :java-version :default "Java Version")></td>
+                            <td>{{platformMeta['java-version']}}</td>
+                        </tr>
                     </tbody>
                 </table>
                 <hr />
