@@ -48,7 +48,7 @@
                  ;; Java libs
                  [ch.qos.logback/logback-core "1.0.13"]
                  [ch.qos.logback/logback-classic "1.0.13"]
-                 [org.jclouds/jclouds-allblobstore "1.6.0"]
+                 [org.apache.jclouds/jclouds-allblobstore "1.6.3"]
                  [org.postgresql/postgresql "9.3-1100-jdbc41"]
                  [org.clojars.iamedu/clojure-jsr223 "1.5.1-SNAPSHOT"]
                  [org.codehaus.groovy/groovy "2.1.9"]
