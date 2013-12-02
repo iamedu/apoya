@@ -4,6 +4,7 @@
         :ssl-port 3443
         ;; :env-port "PORT"
         ;; :env-ssl-port "SSL_PORT"
+        :threads 32
         :host "0.0.0.0"}
  :temp-path "tmp"
  :apps-path "data/apps"
