@@ -88,7 +88,7 @@
                                                     "externs/persona.js"
                                                     "externs/jquery.js"
                                                     "externs/store.js"
-                                                    "externs/codemirror.js"
+                                                    "externs/ace.js"
                                                     "externs/nprogress.js"
                                                     "externs/fileapi.js"]
                                          :optimizations :advanced

@@ -17,7 +17,7 @@
                     </div>
                 </div>
                 <div>
-                    <textarea ui-codemirror="scriptingOptions" ng-model="code"></textarea>
+                    <div id="scriptingEditor" ui-ace="scriptingOptions" ng-model="code"></div>
                 </div>
                 <ul class="nav nav-tabs" ng-show="output || errorOutput || exception">
                     <li ng-show="output" ng-class="{active:innerSection=='output'}"><a href ng-click="innerSection='output'"><(label :scripting-output :default "Output")></a></li>

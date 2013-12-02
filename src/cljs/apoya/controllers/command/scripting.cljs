@@ -8,15 +8,11 @@
             [apoya.util.angular :refer [oset!]]
             [cljs.core.async :refer [<!]]))
 
-(declare refresh-cm)
-
-(defn load-cm [cm]
-  (js/setTimeout #(.refresh cm) 200))
-
 (def modes
-  {"clojure" "text/x-clojure"
-   "groovy" "text/x-groovy"
-   "js" "text/x-js"})
+  {"clojure" "clojure"
+   "groovy" "groovy"
+   "js" "javascript"
+   "nashorn" "javascript"})
 
 (defn store-last-script [engine code]
   (.set js/store "last-script-code" code)
@@ -27,11 +23,8 @@
    :engine (.get js/store "last-script-engine")})
 
 (defn change-engine [$scope engine]
-  (let [mode (get modes engine)
-        scripting-options (js->clj (:scriptingOptions $scope))
-        scripting-options (assoc scripting-options
-                                 :mode mode)]
-    (oset! $scope :scriptingOptions scripting-options)))
+  (let [mode (get modes engine)]
+    (-> js/ace (.edit "scriptingEditor") (.getSession) (.setMode (str "ace/mode/" mode)))))
 
 (defn execute [$scope engine code]
   (store-last-script engine code)
@@ -52,11 +45,9 @@
 (defcontroller app CommandScriptingCtrl [$scope]
   (let [{:keys [code engine]} (read-last-script)]
     (oset! $scope
-           :scriptingOptions {:matchBrackets true
-                              :autofocus true
-                              :lineWrapping true
-                              :lineNumbers true
-                              :onLoad load-cm}
+           :scriptingOptions {:useWrapMode true
+                              :theme "solarized_dark"
+                              :showGutter true}
            :code code
            :selectedEngine engine
            :section "scripting"
