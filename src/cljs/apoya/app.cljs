@@ -12,7 +12,7 @@
 ;; Global modals
 (def roles-opened (atom false))
 
-(def app (.module js/angular "apoyaApp" (array "ngRoute" "ui.bootstrap" "ui.codemirror" "infinite-scroll")))
+(def app (.module js/angular "apoyaApp" (array "ngRoute" "ui.bootstrap" "ui.ace" "infinite-scroll")))
 (def public-urls #{"/", "/login", "/signup", "/error"})
 
 (defn config-app [$routeProvider $httpProvider]
@@ -41,6 +41,8 @@
                                            :controller :CommandFinderCtrl}))
     (.when "/command/repl" (clj->js {:templateUrl "views/command/repl.html"
                                      :controller :CommandReplCtrl}))
+    (.when "/command/mail" (clj->js {:templateUrl "views/command/mail.html"
+                                     :controller :CommandMailCtrl}))
     (.when "/command/sql" (clj->js {:templateUrl "views/command/sql.html"
                                     :controller :CommandSqlCtrl}))
     (.when "/command/:section" (clj->js {:templateUrl "views/command.html"

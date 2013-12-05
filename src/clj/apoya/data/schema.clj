@@ -68,6 +68,9 @@
                 {:lfk "person_urls.username"
                  :rfk "person_urls.url"}))
 
+(defentity base_mail_templates)
+
+(defentity mail_templates)
 
 (defn pred-tilde [k v] (infix k "~" v))
 

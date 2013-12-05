@@ -47,10 +47,15 @@
     (-> engine (.getContext) (.setWriter std-writer))
     (-> engine (.getContext) (.setErrorWriter err-writer))
     (try
-      {:result (prepare-result (.eval engine line)) :output (.toString std-output-str) :nspace nspace :error-output (.toString err-output-str)}
+      {:result (prepare-result (.eval engine line))
+       :output (.toString std-output-str)
+       :nspace nspace
+       :error-output (.toString err-output-str)}
       (catch Exception e
-        {:exception (errors/str-throwable e) :exception-message (.getMessage e)
-         :output (.toString std-output-str) :nspace nspace
+        {:exception (errors/str-throwable e)
+         :exception-message (.getMessage e)
+         :output (.toString std-output-str)
+         :nspace nspace
          :error-output (.toString err-output-str)}))))
 
 (defn close-session [uuid]
@@ -81,14 +86,16 @@
         exception (atom nil)]
     (-> engine (.getContext) (.setWriter std-writer))
     (-> engine (.getContext) (.setErrorWriter err-writer))
-    (try
-      (.eval engine code)
-      (catch Exception e
-        (reset! exception (errors/str-throwable e)))
-      (finally
-        (if (= "clojure" engine-name)
-          (remove-ns (symbol nspace)))))
-    {:output (.toString std-output-str)
-     :error-output (.toString err-output-str)
-     :exception @exception}))
+    (let [value (try
+                  (.eval engine code)
+                  (catch Exception e
+                    (reset! exception (errors/str-throwable e))
+                    nil)
+                  (finally
+                    (if (= "clojure" engine-name)
+                      (remove-ns (symbol nspace)))))]
+      {:value value
+       :output (.toString std-output-str)
+       :error-output (.toString err-output-str)
+       :exception @exception})))
 

@@ -9,6 +9,15 @@
 (defn restart-fortress []
   (r/edn [:post "/api/v1/command/main/restart-fortress.edn"]))
 
+;; Mail
+(defn list-base-mails [limit offset]
+  (r/edn [:post "/api/v1/command/mail/list-base-mails.edn"]
+         :content {:limit limit
+                   :offset offset}))
+
+(defn restart-fortress []
+  (r/edn [:post "/api/v1/command/main/restart-fortress.edn"]))
+
 ;; App
 (defn deploy [path]
   (r/edn [:post "/api/v1/command/app/deploy.edn"]

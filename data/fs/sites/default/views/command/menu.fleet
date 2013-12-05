@@ -6,6 +6,7 @@
     <li ng-class="{'active':section=='catalogs'}"><a href="#/command/catalogs"><(label :command-catalogs :default "Catalogs")></a></li>
     <li ng-class="{'active':section=='errors'}"><a href="#/command/errors"><(label :command-errors :default "Errors")></a></li -->
     <li ng-class="{'active':section=='filesystem'}"><a href="#/command/filesystem"><(label :command-filesystem :default "Filesystem")></a></li>
+    <li ng-class="{'active':section=='mail'}"><a href="#/command/mail"><(label :command-mail :default "Mail")></a></li>
     <li ng-class="{'active':section=='sql'}"><a href="#/command/sql"><(label :command-sql :default "SQL Database")></a></li>
     <li ng-class="{'active':section=='scripting'}"><a href="#/command/scripting"><(label :command-scripting :default "Scripting")></a></li>
     <li ng-class="{'active':section=='repl'}"><a href="#/command/repl"><(label :command-repl :default "REPL")></a></li>

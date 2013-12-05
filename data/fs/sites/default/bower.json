@@ -7,14 +7,13 @@
     "jquery": "~1.10",
     "bootstrap": "latest",
     "store.js": "latest",
-    "codemirror": "latest",
     "angular": "latest",
     "angular-i18n": "latest",
     "angular-route": "latest",
     "angular-spinner": "latest",
     "angular-ui-bootstrap-bower": "latest",
     "angular-ui-select2": "latest",
-    "angular-ui-codemirror": "latest",
+    "angular-ui-ace": "latest",
     "nginfinitescroll": "latest",
     "sir-trevor-js": "latest",
     "nprogress": "latest",
@@ -40,6 +39,7 @@
     "tests"
   ],
   "resolutions": {
-    "jquery": "~1.10"
+    "jquery": "~1.10",
+    "angular": "1.2.3"
   }
 }

@@ -4,6 +4,7 @@
             [apoya.util :as util]
             [apoya.data.sessions :as sess]
             [apoya.data.site :as site]
+            [apoya.data.mail :as mail]
             [apoya.config :as cfg]
             [apoya.resources.fs :as fs]
             [apoya.services.apps :as apps]
@@ -69,6 +70,8 @@
               changelog (-> (io/resource "CHANGELOG.md") slurp md/md-to-html-string)]
           (r/edn-response
             {:platform-version commit
+             :clojure-version *clojure-version*
+             :java-version (System/getProperty "java.version")
              :platform-commit version
              :changelog changelog
              :migrations (site/list-migrations)
@@ -107,9 +110,14 @@
              :app-commit commit
              :changelog changelog}))))
 
+(defroutes mail-routes
+  (POST "/list-base-mails.edn" [limit offset]
+        (r/edn-response (mail/list-base-mails limit offset cfg/*current-site* cfg/*language*))))
+
 (defroutes command-routes
   (context "/main" [] main-routes)
   (context "/app" [] app-routes)
   (context "/fs" [] fs-routes)
+  (context "/mail" [] mail-routes)
   (context "/sql" [] sql-routes)
   (context "/scripting" [] scripting-routes))

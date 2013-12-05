@@ -36,7 +36,7 @@
                 <hr/>
 
                 <div ng-show="session">
-                    <textarea ui-codemirror="sqlOptions" ng-model="sqlCode"></textarea>
+                    <div ui-ace="sqlOptions" ng-model="sqlCode"></div>
                 </div>
                 <div ng-show="session && currentDate">
                     <(raw (label :sql-last-response :default "Last database response <strong>{{currentDate}}</strong>"))>

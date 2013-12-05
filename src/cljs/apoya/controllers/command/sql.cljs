@@ -80,10 +80,6 @@
         (oset! $scope :rollback true :commit nil :currentDate (js/Date.))
         (oset! $scope :rollback false :commit nil :currentDate (js/Date.))))))
 
-(defn load-cm [cm]
-  (defn refresh-cm []
-    (js/setTimeout #(.refresh cm) 100)))
-
 (defn select-session [$scope s]
   (oset! $scope
          :commit nil
@@ -91,18 +87,15 @@
          :session s
          :resultSet nil
          :currentDate nil
-         :sqlCode (:text s))
-  (refresh-cm))
+         :sqlCode (:text s)))
 
 (defcontroller app CommandSqlCtrl [$scope]
   (oset! $scope
          :section "sql"
-         :sqlOptions {:mode "text/x-plsql"
-                      :matchBrackets true
-                      :autofocus true
-                      :lineWrapping true
-                      :lineNumbers true
-                      :onLoad load-cm}
+         :sqlOptions {:useWrapMode true
+                      :theme "solarized_dark"
+                      :showGutter true
+                      :mode "sql"}
          :executeSql (partial execute-sql $scope)
          :commitSession (partial commit $scope)
          :rollbackSession (partial rollback $scope)

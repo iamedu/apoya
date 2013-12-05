@@ -3,7 +3,7 @@
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :dependencies [[org.clojure/clojure "1.5.1"]
+  :dependencies [[org.clojure/clojure "1.6.0-alpha3"]
                  [org.clojure/clojurescript "0.0-2014"]
                  [org.clojure/core.cache "0.6.3"]
                  [org.clojure/core.async "0.1.242.0-44b1e3-alpha"]
@@ -13,10 +13,10 @@
                  [org.clojure/java.jmx "0.2.0"]
                  [com.cemerick/piggieback "0.1.2"]
                  ;; Ring libs
-                 [ring/ring-core "1.2.0"]
+                 [ring/ring-core "1.2.1"]
                  [org.clojars.iamedu/fortress-ring-adapter "0.1.0-SNAPSHOT"]
                  [compojure "1.1.6"]
-                 [lib-noir "0.7.5"]
+                 [lib-noir "0.7.6"]
                  [bk/ring-gzip "0.1.1"]
                  [ring-anti-forgery "0.3.0"]
                  [com.cemerick/friend "0.2.0"]
@@ -43,7 +43,7 @@
                  [clojurewerkz/quartzite "1.1.0"]
                  [clj-time "0.6.0"]
                  [org.clojure/tools.reader "0.7.10"]
-                 [com.novemberain/langohr "1.6.0"]
+                 [com.novemberain/langohr "1.7.0"]
                  [clj-stacktrace "0.2.7"]
                  ;; Java libs
                  [ch.qos.logback/logback-core "1.0.13"]
@@ -88,7 +88,7 @@
                                                     "externs/persona.js"
                                                     "externs/jquery.js"
                                                     "externs/store.js"
-                                                    "externs/codemirror.js"
+                                                    "externs/ace.js"
                                                     "externs/nprogress.js"
                                                     "externs/fileapi.js"]
                                          :optimizations :advanced
